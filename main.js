@@ -1,5 +1,5 @@
 const ctx = document.getElementById('analyticsChart').getContext('2d');
-let myChart;
+let myChart; 
 
 function calculate() {
     const initial = parseFloat(document.getElementById('initialCapital').value) || 0;
