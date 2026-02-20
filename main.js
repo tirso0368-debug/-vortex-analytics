@@ -1,18 +1,21 @@
 let chart;
 
 function calcular() {
+    // Get values from the UI
     const capInicial = parseFloat(document.getElementById('capitalInicial').value);
     const interes = parseFloat(document.getElementById('interesAnual').value) / 100;
     const inflacion = parseFloat(document.getElementById('inflacionAnual').value) / 100;
     const comision = parseFloat(document.getElementById('comision').value) / 100;
     const years = parseInt(document.getElementById('tiempo').value);
     
+    // Update year label
     document.getElementById('tiempoValor').innerText = years + " years";
 
     let labels = [];
     let dataBruto = [];
     let dataReal = [];
 
+    // Calculation Loop
     for (let i = 0; i <= years; i++) {
         labels.push("Year " + i);
         let bruto = capInicial * Math.pow(1 + (interes - comision), i);
@@ -21,28 +24,60 @@ function calcular() {
         dataReal.push(real.toFixed(2));
     }
 
-    document.getElementById('capFinalBruto').innerText = new Intl.NumberFormat('de-DE').format(dataBruto[years]) + "€";
-    document.getElementById('poderCompraReal').innerText = new Intl.NumberFormat('de-DE').format(dataReal[years]) + "€";
-    document.getElementById('perdidaAdquisitiva').innerText = new Intl.NumberFormat('de-DE').format((dataBruto[years] - dataReal[years]).toFixed(2)) + "€";
+    // Update Cards with formatted numbers
+    const formatter = new Intl.NumberFormat('de-DE');
+    document.getElementById('capFinalBruto').innerText = formatter.format(dataBruto[years]) + "€";
+    document.getElementById('poderCompraReal').innerText = formatter.format(dataReal[years]) + "€";
+    document.getElementById('perdidaAdquisitiva').innerText = formatter.format((dataBruto[years] - dataReal[years]).toFixed(2)) + "€";
 
     updateChart(labels, dataBruto, dataReal);
 }
 
 function updateChart(labels, dataBruto, dataReal) {
     const ctx = document.getElementById('graficoEvolucion').getContext('2d');
-    if (chart) chart.destroy();
+    
+    if (chart) {
+        chart.destroy();
+    }
+
     chart = new Chart(ctx, {
         type: 'line',
         data: {
             labels: labels,
             datasets: [
-                { label: 'Gross Capital', data: dataBruto, borderColor: '#007aff', backgroundColor: 'rgba(0, 122, 255, 0.1)', fill: true },
-                { label: 'Real Power', data: dataReal, borderColor: '#00ff88', backgroundColor: 'rgba(0, 255, 136, 0.1)', fill: true }
+                {
+                    label: 'Gross Capital',
+                    data: dataBruto,
+                    borderColor: '#007aff',
+                    backgroundColor: 'rgba(0, 122, 255, 0.1)',
+                    fill: true,
+                    tension: 0.4
+                },
+                {
+                    label: 'Real Power',
+                    data: dataReal,
+                    borderColor: '#00ff88',
+                    backgroundColor: 'rgba(0, 255, 136, 0.1)',
+                    fill: true,
+                    tension: 0.4
+                }
             ]
         },
-        options: { responsive: true, maintainAspectRatio: false, scales: { y: { ticks: { color: '#94a3b8' } }, x: { ticks: { color: '#94a3b8' } } } }
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { labels: { color: '#94a3b8' } }
+            },
+            scales: {
+                y: { grid: { color: '#1f2937' }, ticks: { color: '#94a3b8' } },
+                x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+            }
+        }
     });
 }
 
+// Initial calculation on load
 window.onload = calcular;
+
 
