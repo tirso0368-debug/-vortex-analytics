@@ -1,18 +1,77 @@
-:root { --bg-dark: #05070a; --sidebar: #0f1218; --accent: #007aff; --border: #1f2937; --text-dim: #94a3b8; }
-body { background: var(--bg-dark); color: white; font-family: 'Inter', sans-serif; margin: 0; }
-.app-container { display: flex; min-height: 100vh; }  
-.sidebar { width: 340px; background: var(--sidebar); border-right: 1px solid var(--border); padding: 30px; display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; box-sizing: border-box; }
-h2 { font-weight: 800; font-size: 1.3rem; letter-spacing: -1px; margin-bottom: 35px; }
-h2 span { color: var(--accent); }
-.input-box { margin-bottom: 22px; }
-label { display: block; color: var(--text-dim); font-size: 0.7rem; margin-bottom: 8px; text-transform: uppercase; font-weight: 700; }
-input[type="number"], select { width: 100%; background: #1a1f26; border: 1px solid var(--border); padding: 12px; border-radius: 8px; color: white; font-family: 'JetBrains Mono', monospace; outline: none; }
-select { color: var(--accent); font-weight: bold; }
-.dashboard { flex: 1; padding: 40px; }
-.metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
-.metric-card { background: #11151c; padding: 25px; border-radius: 12px; border: 1px solid var(--border); }
-.metric-card h3 { margin: 10px 0 0; font-family: 'JetBrains Mono'; font-size: 1.6rem; }
-.chart-wrapper { background: #11151c; padding: 25px; border-radius: 16px; border: 1px solid var(--border); height: 450px; }
-.sidebar-footer { margin-top: auto; border-top: 1px solid var(--border); padding-top: 20px; }
-.specs { color: var(--text-dim); font-size: 0.65rem; text-transform: uppercase; }
-@media (max-width: 900px) { .app-container { flex-direction: column; } .sidebar { width: 100%; height: auto; position: relative; } }
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vortex Analytics | Artiles Elite</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <meta name="google-site-verification" content="Eg-002DBSd2kvHCfS_Et81OCYwJoIN1Yzui8osQTD2Q" />
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <h2>VORTEX<span>ANALYTICS</span></h2>
+            <div class="input-section">
+                <div class="input-box">
+                    <label>Tipo de Activo</label>
+                    <select id="tipoActivo" onchange="calcular()">
+                        <option value="fondo">Fondo de Inversión (Variable)</option>
+                        <option value="deposito_fijo">Depósito Plazo Fijo</option>
+                        <option value="variable_deposito">Depósito Variable (Euríbor + Diff)</option>
+                    </select>
+                </div>
+                <div class="input-box">
+                    <label>Capital Inicial (€)</label>
+                    <input type="number" id="capitalInicial" value="5000" oninput="calcular()">
+                </div>
+                <div class="input-box">
+                    <label>Interés / TAE Anual (%)</label>
+                    <input type="number" id="interesAnual" value="8" oninput="calcular()">
+                </div>
+                <div class="input-box">
+                    <label>Inflación Anual (%)</label>
+                    <input type="number" id="inflacionAnual" value="3" oninput="calcular()">
+                </div>
+                <div class="input-box">
+                    <label>Comisión de Gestión (%)</label>
+                    <input type="number" id="comision" value="1.2" step="0.1" oninput="calcular()">
+                </div>
+                <div class="input-box">
+                    <label>Tiempo (Años)</label>
+                    <input type="range" id="tiempo" min="1" max="40" value="16" oninput="calcular()">
+                    <span id="tiempoValor" style="color: white;">16 años</span>
+                </div>
+            </div>
+            <div class="sidebar-footer">
+                <p class="specs">VORTEXANALYTICS V1.0</p>
+                <p style="font-size: 0.7rem; color: var(--text-dim);">Propiedad de Artiles</p>
+            </div>
+        </aside>
+
+        <main class="dashboard">
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <label>CAPITAL FINAL BRUTO</label>
+                    <h3 id="capFinalBruto">0€</h3>
+                </div>
+                <div class="metric-card">
+                    <label>PODER COMPRA REAL</label>
+                    <h3 id="poderCompraReal" style="color: #00ff88;">0€</h3>
+                </div>
+                <div class="metric-card">
+                    <label>PÉRDIDA ADQUISITIVA</label>
+                    <h3 id="perdidaAdquisitiva" style="color: #ff4444;">0€</h3>
+                </div>
+            </div>
+
+            <div class="chart-wrapper">
+                <canvas id="graficoEvolucion"></canvas>
+            </div>
+        </main>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>
+
