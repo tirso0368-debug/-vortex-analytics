@@ -3,15 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <title>Investment Fund Simulator | Real Profit & Inflation Calc</title>
-    <meta name="description" content="Free Investment Fund Simulator. Calculate real profit, inflation impact, and management fees with Vortex Analytics. Check your real buying power.">
-    <meta name="keywords" content="Investment Simulator, Fund Calculator, Inflation Calculator, Real Interest, Finance Tool, Vortex Analytics">
-    <meta name="author" content="Artiles">
-
+    <meta name="description" content="Calculate real investment profit and inflation impact.">
     <link rel="stylesheet" href="style.css">
-    
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2245%22 fill=%22none%22 stroke=%22%23007aff%22 stroke-width=%222%22/><path d=%22M30 35 L50 65 L70 35%22 fill=%22none%22 stroke=%22%2334c759%22 stroke-width=%226%22 stroke-linecap=%22round%22/><circle cx=%2250%22 cy=%2250%22 r=%228%22 fill=%22%23007aff%22/></svg>">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="dashboard">
@@ -23,31 +18,87 @@
                     <circle cx="50" cy="50" r="8" fill="#007aff"/>
                 </svg>
             </div>
-            
             <h2>VORTEX<span>ANALYTICS</span></h2>
             
-            <div class="help-box">
-                <p><strong>Pro Tip:</strong> Most banks don't show you the "Real Power". Use this tool to see how inflation affects your future savings.</p>
-            </div>
-
             <div class="controls">
-                <div class="input-group">
-                    <label>Asset Type</label>
-                    <select id="assetType">
-                        <option value="fund">Investment Fund</option>
-                        <option value="bank">Bank Deposit</option>
-                        <option value="crypto">Crypto Staking</option>
-                    </select>
-                </div>
-
                 <div class="input-group">
                     <label>Initial Capital (€)</label>
                     <input type="number" id="initialCapital" value="5000">
                 </div>
-
                 <div class="input-group">
                     <label>Annual Interest (%)</label>
-                    <input type="number" id="interestRate"
+                    <input type="number" id="interestRate" value="8">
+                </div>
+                <div class="input-group">
+                    <label>Annual Inflation (%)</label>
+                    <input type="number" id="inflationRate" value="3">
+                </div>
+                <div class="input-group">
+                    <label>Management Fee (%)</label>
+                    <input type="number" id="feeRate" value="1.2">
+                </div>
+                <div class="input-group">
+                    <label>Time: <span id="yearDisplay">17</span> years</label>
+                    <input type="range" id="timePeriod" min="1" max="40" value="17">
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <h3>GROSS CAPITAL</h3>
+                    <p id="grossCapital">0.00€</p>
+                </div>
+                <div class="metric-card">
+                    <h3>REAL BUYING POWER</h3>
+                    <p id="realPower" class="positive">0.00€</p>
+                </div>
+                <div class="metric-card">
+                    <h3>PURCHASING LOSS</h3>
+                    <p id="lossAmount" class="negative">0.00€</p>
+                </div>
+            </div>
+
+            <div class="chart-container" style="position: relative; height:40vh; width:100%">
+                <canvas id="analyticsChart"></canvas>
+            </div>
+        </main>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        let myChart;
+        const ctx = document.getElementById('analyticsChart').getContext('2d');
+
+        function calculate() {
+            const initial = parseFloat(document.getElementById('initialCapital').value) || 0;
+            const interest = (parseFloat(document.getElementById('interestRate').value) || 0) / 100;
+            const inflation = (parseFloat(document.getElementById('inflationRate').value) || 0) / 100;
+            const fee = (parseFloat(document.getElementById('feeRate').value) || 0) / 100;
+            const years = parseInt(document.getElementById('timePeriod').value) || 1;
+
+            document.getElementById('yearDisplay').innerText = years;
+
+            let labels = [];
+            let grossData = [];
+            let realData = [];
+
+            for (let i = 0; i <= years; i++) {
+                labels.push('Year ' + i);
+                const gross = initial * Math.pow(1 + (interest - fee), i);
+                const real = initial * Math.pow(1 + (interest - fee - inflation), i);
+                grossData.push(gross.toFixed(2));
+                realData.push(real.toFixed(2));
+            }
+
+            const formatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'EUR' });
+            document.getElementById('grossCapital').innerText = formatter.format(grossData[years]);
+            document.getElementById('realPower').innerText = formatter.format(realData[years]);
+            document.getElementById('lossAmount').innerText = formatter.format(grossData[years] - realData[years]);
+
+            if (myChart) myChart.destroy();
+
 
 
 
