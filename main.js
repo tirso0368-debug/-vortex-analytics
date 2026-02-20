@@ -1,78 +1,109 @@
-// Esperamos a que el navegador esté listo
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("Vortex Analytics: Sistema iniciado");
+    // Referencias a los elementos del DOM
+    const initialInput = document.getElementById('initial-capital');
+    const interestInput = document.getElementById('annual-interest');
+    const inflationInput = document.getElementById('annual-inflation');
+    const feeInput = document.getElementById('management-fee');
+    const timeRange = document.getElementById('time-range');
+    const timeDisplay = document.getElementById('time-display');
 
-    const ctx = document.getElementById('analyticsChart');
-    if (!ctx) {
-        console.error("Error: No se encontró el lienzo de la gráfica");
-        return;
-    }
+    const grossCapitalText = document.getElementById('gross-capital');
+    const realPowerText = document.getElementById('real-power');
+    const purchasingLossText = document.getElementById('purchasing-loss');
 
-    let myChart;
+    const ctx = document.getElementById('analyticsChart').getContext('2d');
+    let analyticsChart;
 
     function calculate() {
-        try {
-            // Captura de datos de los recuadritos
-            const initial = parseFloat(document.getElementById('initialCapital').value) || 0;
-            const interest = (parseFloat(document.getElementById('interestRate').value) || 0) / 100;
-            const inflation = (parseFloat(document.getElementById('inflationRate').value) || 0) / 100;
-            const fee = (parseFloat(document.getElementById('feeRate').value) || 0) / 100;
-            const years = parseInt(document.getElementById('timePeriod').value) || 1;
+        const p = parseFloat(initialInput.value);
+        const r = parseFloat(interestInput.value) / 100;
+        const i = parseFloat(inflationInput.value) / 100;
+        const f = parseFloat(feeInput.value) / 100;
+        const t = parseInt(timeRange.value);
 
-            // Actualizar el texto de los años
-            document.getElementById('yearDisplay').innerText = years;
+        timeDisplay.textContent = t;
 
-            let labels = [];
-            let grossData = [];
-            let realData = [];
+        let labels = [];
+        let grossData = [];
+        let realData = [];
 
-            // Cálculo matemático
-            for (let i = 0; i <= years; i++) {
-                labels.push('Year ' + i);
-                const gross = initial * Math.pow(1 + (interest - fee), i);
-                const real = initial * Math.pow(1 + (interest - fee - inflation), i);
-                grossData.push(gross.toFixed(2));
-                realData.push(real.toFixed(2));
-            }
+        for (let year = 0; year <= t; year++) {
+            labels.push(`Year ${year}`);
+            
+            // Capital Bruto: P * (1 + r)^t
+            const gross = p * Math.pow((1 + r), year);
+            grossData.push(gross.toFixed(2));
 
-            // Formateo de moneda (Estilo Profesional)
-            const formatter = new Intl.NumberFormat('en-US', { 
-                style: 'currency', 
-                currency: 'EUR' 
-            });
-
-            document.getElementById('grossCapital').innerText = formatter.format(grossData[years]);
-            document.getElementById('realPower').innerText = formatter.format(realData[years]);
-            document.getElementById('lossAmount').innerText = formatter.format(grossData[years] - realData[years]);
-
-            updateChart(labels, grossData, realData);
-        } catch (error) {
-            console.error("Error en el cálculo:", error);
+            // Capital Real (ajustado por inflación y comisiones)
+            // La fórmula simplificada: r_real = (1 + r - f) / (1 + i) - 1
+            const realRate = (1 + r - f) / (1 + i) - 1;
+            const real = p * Math.pow((1 + realRate), year);
+            realData.push(real.toFixed(2));
         }
+
+        const finalGross = grossData[t];
+        const finalReal = realData[t];
+        const loss = finalGross - finalReal;
+
+        // Actualizar textos
+        grossCapitalText.textContent = `€${parseFloat(finalGross).toLocaleString()}`;
+        realPowerText.textContent = `€${parseFloat(finalReal).toLocaleString()}`;
+        purchasingLossText.textContent = `€${parseFloat(loss).toLocaleString()}`;
+
+        updateChart(labels, grossData, realData);
     }
 
-    function updateChart(labels, gross, real) {
-        if (myChart) {
-            myChart.destroy();
+    function updateChart(labels, grossData, realData) {
+        if (analyticsChart) {
+            analyticsChart.destroy();
         }
 
-        myChart = new Chart(ctx.getContext('2d'), {
+        analyticsChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: labels,
                 datasets: [
                     {
                         label: 'Gross Capital',
-                        data: gross,
-                        borderColor: '#007aff', // Azul Vortex
+                        data: grossData,
+                        borderColor: '#007aff',
                         backgroundColor: 'rgba(0, 122, 255, 0.1)',
                         fill: true,
                         tension: 0.4
                     },
                     {
                         label: 'Real Power',
-                        data: real,
-                        borderColor: '#34c759', // Verde Real Power
+                        data: realData,
+                        borderColor: '#00ff88',
+                        backgroundColor: 'rgba(0, 255, 136, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: true, labels: { color: '#fff' } }
+                },
+                scales: {
+                    y: { grid: { color: '#1f2937' }, ticks: { color: '#94a3b8' } },
+                    x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+                }
+            }
+        });
+    }
+
+    // Escuchar cambios
+    [initialInput, interestInput, inflationInput, feeInput, timeRange].forEach(input => {
+        input.addEventListener('input', calculate);
+    });
+
+    // Cálculo inicial
+    calculate();
+});
+
 
 
 
