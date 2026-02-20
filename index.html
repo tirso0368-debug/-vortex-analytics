@@ -31,7 +31,48 @@
                     <input type="number" id="interesAnual" value="8" oninput="calcular()">
                 </div>
                 <div class="input-box">
-                    <label
+                    <label>Inflación Anual (%)</label>
+                    <input type="number" id="inflacionAnual" value="3" oninput="calcular()">
+                </div>
+                <div class="input-box">
+                    <label>Comisión de Gestión (%)</label>
+                    <input type="number" id="comision" value="1.2" step="0.1" oninput="calcular()">
+                </div>
+                <div class="input-box">
+                    <label>Tiempo (Años)</label>
+                    <input type="range" id="tiempo" min="1" max="40" value="16" oninput="calcular()">
+                    <span id="tiempoValor">16 años</span>
+                </div>
+            </div>
+            <p class="footer-text">Propiedad Intelectual de <strong>Artiles</strong><br>VORTEXANALYTICS V1.0 2026</p>
+        </aside>
+
+        <main class="content">
+            <div class="cards-container">
+                <div class="card">
+                    <h3>CAPITAL FINAL BRUTO</h3>
+                    <p id="capFinalBruto">0€</p>
+                </div>
+                <div class="card">
+                    <h3>PODER COMPRA REAL</h3>
+                    <p id="poderCompraReal" class="text-green">0€</p>
+                </div>
+                <div class="card">
+                    <h3>PÉRDIDA ADQUISITIVA</h3>
+                    <p id="perdidaAdquisitiva" class="text-red">0€</p>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="graficoEvolucion"></canvas>
+            </div>
+        </main>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
+
 
 
 
