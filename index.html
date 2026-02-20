@@ -3,77 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vortex Analytics | Artiles Elite</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Vortex Analytics | Financial Calculator</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
-    <meta name="google-site-verification" content="Eg-002DBSd2kvHCfS_Et81OCYwJoIN1Yzui8osQTD2Q" />
+    <link rel="icon" type="image/png" href="logo.png">
 </head>
 <body>
-    <div class="app-container">
+    <div class="dashboard">
         <aside class="sidebar">
+            <div class="logo-container">
+                <img src="logo.png" alt="Vortex Logo" style="width: 60px; border-radius: 50%; margin-bottom: 10px; display: block;">
+            </div>
+            
             <h2>VORTEX<span>ANALYTICS</span></h2>
-            <div class="input-section">
-                <div class="input-box">
+            
+            <div class="controls">
+                <div class="input-group">
                     <label>Asset Type</label>
-                    <select id="tipoActivo" onchange="calcular()">
-                        <option value="fondo">Investment Fund (Variable)</option>
-                        <option value="deposito_fijo">Fixed-Term Deposit</option>
-                        <option value="variable_deposito">Variable Deposit (Euribor + Diff)</option>
+                    <select id="assetType">
+                        <option value="fund">Investment Fund (Variable)</option>
+                        <option value="bank">Bank Deposit (Fixed)</option>
                     </select>
                 </div>
-                <div class="input-box">
+
+                <div class="input-group">
                     <label>Initial Capital (€)</label>
-                    <input type="number" id="capitalInicial" value="5000" oninput="calcular()">
+                    <input type="number" id="initialCapital" value="5000">
                 </div>
-                <div class="input-box">
+
+                <div class="input-group">
                     <label>Annual Interest (%)</label>
-                    <input type="number" id="interesAnual" value="8" oninput="calcular()">
+                    <input type="number" id="interestRate" value="8">
                 </div>
-                <div class="input-box">
+
+                <div class="input-group">
                     <label>Annual Inflation (%)</label>
-                    <input type="number" id="inflacionAnual" value="3" oninput="calcular()">
+                    <input type="number" id="inflationRate" value="3">
                 </div>
-                <div class="input-box">
+
+                <div class="input-group">
                     <label>Management Fee (%)</label>
-                    <input type="number" id="comision" value="1.2" step="0.1" oninput="calcular()">
+                    <input type="number" id="feeRate" value="1.2">
                 </div>
-                <div class="input-box">
-                    <label>Time (Years)</label>
-                    <input type="range" id="tiempo" min="1" max="40" value="16" oninput="calcular()">
-                    <span id="tiempoValor" style="color: white;">16 years</span>
+
+                <div class="input-group">
+                    <label>Time (Years): <span id="yearDisplay">17</span> years</label>
+                    <input type="range" id="timePeriod" min="1" max="40" value="17">
                 </div>
             </div>
-            <div class="sidebar-footer">
-                <p class="specs">VORTEXANALYTICS V1.0</p>
-                <p style="font-size: 0.7rem; color: #94a3b8;">Intellectual Property of Artiles</p>
+            
+            <div class="version-tag">
+                <p>VORTEXANALYTICS V1.0</p>
+                <small>Intellectual Property of Artiles</small>
             </div>
         </aside>
 
-        <main class="dashboard">
+        <main class="main-content">
             <div class="metrics-grid">
                 <div class="metric-card">
-                    <label>GROSS FINAL CAPITAL</label>
-                    <h3 id="capFinalBruto">0€</h3>
+                    <h3>GROSS FINAL CAPITAL</h3>
+                    <p id="grossCapital">0,00€</p>
                 </div>
                 <div class="metric-card">
-                    <label>REAL BUYING POWER</label>
-                    <h3 id="poderCompraReal" style="color: #00ff88;">0€</h3>
+                    <h3>REAL BUYING POWER</h3>
+                    <p id="realPower" class="positive">0,00€</p>
                 </div>
                 <div class="metric-card">
-                    <label>PURCHASING LOSS</label>
-                    <h3 id="perdidaAdquisitiva" style="color: #ff4444;">0€</h3>
+                    <h3>PURCHASING LOSS</h3>
+                    <p id="lossAmount" class="negative">0,00€</p>
                 </div>
             </div>
 
-            <div class="chart-wrapper">
-                <canvas id="graficoEvolucion"></canvas>
+            <div class="chart-container">
+                <canvas id="analyticsChart"></canvas>
             </div>
+
+            <footer class="legal-footer" style="margin-top: 30px; padding: 20px; text-align: center; color: #555; font-size: 0.75rem; border-top: 1px solid #222;">
+                <p>© 2026 Vortex Analytics. Herramienta de análisis financiero.</p>
+                <p>Aviso: Los resultados son estimaciones. No constituye asesoramiento financiero oficial.</p>
+                <div style="margin-top: 10px;">
+                    <a href="#" style="color: #007aff; text-decoration: none;">Privacidad</a> | 
+                    <a href="#" style="color: #007aff; text-decoration: none;">Cookies</a>
+                </div>
+            </footer>
         </main>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="main.js"></script>
 </body>
 </html>
+
 
 
 
