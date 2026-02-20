@@ -1,6 +1,6 @@
 :root { --bg-dark: #05070a; --sidebar: #0f1218; --accent: #007aff; --border: #1f2937; --text-dim: #94a3b8; }
 body { background: var(--bg-dark); color: white; font-family: 'Inter', sans-serif; margin: 0; }
-.app-container { display: flex; min-height: 100vh; } 
+.app-container { display: flex; min-height: 100vh; }  
 .sidebar { width: 340px; background: var(--sidebar); border-right: 1px solid var(--border); padding: 30px; display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; box-sizing: border-box; }
 h2 { font-weight: 800; font-size: 1.3rem; letter-spacing: -1px; margin-bottom: 35px; }
 h2 span { color: var(--accent); }
