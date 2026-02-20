@@ -3,25 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vortex Analytics | Calculadora de Interés Real</title>
+    <title>Vortex Analytics | Calculadora Financiera</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="dashboard">
         <aside class="sidebar">
-            <div class="logo-container" style="margin-bottom: 20px;">
-                <svg width="60" height="60" viewBox="0 0 100 100" style="filter: drop-shadow(0 0 8px #007aff);">
+            <div class="logo-container">
+                <svg width="50" height="50" viewBox="0 0 100 100">
                     <circle cx="50" cy="50" r="45" fill="none" stroke="#007aff" stroke-width="2"/>
-                    <path d="M30 30 L50 70 L70 30" fill="none" stroke="#34c759" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-                    <circle cx="50" cy="50" r="10" fill="#007aff"/>
+                    <path d="M30 35 L50 65 L70 35" fill="none" stroke="#34c759" stroke-width="6" stroke-linecap="round"/>
+                    <circle cx="50" cy="50" r="8" fill="#007aff"/>
                 </svg>
             </div>
             
             <h2>VORTEX<span>ANALYTICS</span></h2>
             
-            <div class="help-box" style="background: rgba(0,122,255,0.1); padding: 15px; border-radius: 10px; margin-bottom: 20px; border-left: 4px solid #007aff;">
-                <p style="font-size: 0.85rem; color: #fff; margin: 0;"><strong>¿Sabías que...?</strong></p>
-                <p style="font-size: 0.75rem; color: #ccc; margin-top: 5px;">La inflación y las comisiones bancarias pueden "comerse" más del 40% de tus ahorros a largo plazo. Usa los controles de abajo para ver tu <strong>Poder Real</strong>.</p>
+            <div class="help-box">
+                <p><strong>Tip:</strong> El "Poder Real" descuenta la inflación y comisiones de tu beneficio bruto.</p>
             </div>
 
             <div class="controls">
@@ -32,77 +31,17 @@
                         <option value="bank">Depósito Bancario</option>
                     </select>
                 </div>
+
                 <div class="input-group">
                     <label>Capital Inicial (€)</label>
                     <input type="number" id="initialCapital" value="5000">
                 </div>
+
                 <div class="input-group">
                     <label>Interés Anual (%)</label>
                     <input type="number" id="interestRate" value="8">
                 </div>
-                <div class="input-group">
-                    <label>Inflación Anual (%)</label>
-                    <input type="number" id="inflationRate" value="3">
-                </div>
-                <div class="input-group">
-                    <label>Comisión Gestión (%)</label>
-                    <input type="number" id="feeRate" value="1.2">
-                </div>
-                <div class="input-group">
-                    <label>Tiempo: <span id="yearDisplay">17</span> años</label>
-                    <input type="range" id="timePeriod" min="1" max="40" value="17">
-                </div>
-            </div>
-            
-            <div class="version-tag">
-                <p>VORTEXANALYTICS V1.0</p>
-                <small>Propiedad Intelectual de Artiles</small>
-            </div>
-        </aside>
 
-        <main class="main-content">
-            <div class="user-guide" style="display: flex; gap: 15px; margin-bottom: 20px;">
-                <div style="flex: 1; background: #1a1c1e; padding: 10px; border-radius: 8px; font-size: 0.75rem;">
-                    <span style="color: #007aff;">Step 1:</span> Ajusta tu capital y el interés de tu banco.
-                </div>
-                <div style="flex: 1; background: #1a1c1e; padding: 10px; border-radius: 8px; font-size: 0.75rem;">
-                    <span style="color: #34c759;">Step 2:</span> Mira la línea verde. ¡Ese es tu dinero real!
-                </div>
-            </div>
-
-            <div class="metrics-grid">
-                <div class="metric-card">
-                    <h3>CAPITAL FINAL BRUTO</h3>
-                    <p id="grossCapital">0,00€</p>
-                </div>
-                <div class="metric-card">
-                    <h3>PODER COMPRA REAL</h3>
-                    <p id="realPower" style="color: #34c759;">0,00€</p>
-                </div>
-                <div class="metric-card">
-                    <h3>PÉRDIDA ADQUISITIVA</h3>
-                    <p id="lossAmount" style="color: #ff3b30;">0,00€</p>
-                </div>
-            </div>
-
-            <div class="chart-container" style="height: 400px; background: #111; padding: 20px; border-radius: 15px;">
-                <canvas id="analyticsChart"></canvas>
-            </div>
-
-            <footer style="margin-top: 30px; padding: 20px; text-align: center; color: #555; font-size: 0.75rem; border-top: 1px solid #222;">
-                <p>© 2026 Vortex Analytics. Herramienta de transparencia financiera indexada por Google.</p>
-                <div style="margin-top: 10px;">
-                    <a href="#" style="color: #007aff; text-decoration: none;">Aviso Legal</a> | 
-                    <a href="#" style="color: #007aff; text-decoration: none;">Política de Privacidad</a>
-                </div>
-            </footer>
-        </main>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="main.js"></script>
-</body>
-</html>
 
 
 
