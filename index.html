@@ -18,13 +18,13 @@
                     <label>Tipo de Activo</label>
                     <select id="tipoActivo" onchange="calcular()">
                         <option value="fondo">Fondo de Inversión (Variable)</option>
-                        <option value="deposito_fijo">Depósito Plaza Fijo</option>
+                        <option value="deposito_fijo">Depósito Plazo Fijo</option>
                         <option value="variable_deposito">Depósito Variable (Euríbor + Diff)</option>
                     </select>
                 </div>
                 <div class="input-box">
                     <label>Capital Inicial (€)</label>
-                    <input type="number" id="capitalInicial" value="10000" oninput="calcular()">
+                    <input type="number" id="capitalInicial" value="5000" oninput="calcular()">
                 </div>
                 <div class="input-box">
                     <label>Interés / TAE Anual (%)</label>
@@ -72,6 +72,7 @@
     <script src="main.js"></script>
 </body>
 </html>
+
 
 
 
