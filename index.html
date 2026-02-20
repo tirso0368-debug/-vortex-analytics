@@ -15,11 +15,11 @@
             <h2>VORTEX<span>ANALYTICS</span></h2>
             <div class="input-section">
                 <div class="input-box">
-                    <label>Investment Type</label>
+                    <label>Asset Type</label>
                     <select id="tipoActivo" onchange="calcular()">
-                        <option value="fondo">Investment Fund</option>
+                        <option value="fondo">Investment Fund (Variable)</option>
                         <option value="deposito_fijo">Fixed-Term Deposit</option>
-                        <option value="variable_deposito">Variable Deposit</option>
+                        <option value="variable_deposito">Variable Deposit (Euribor + Diff)</option>
                     </select>
                 </div>
                 <div class="input-box">
@@ -46,13 +46,35 @@
             </div>
             <div class="sidebar-footer">
                 <p class="specs">VORTEXANALYTICS V1.0</p>
-                <p style="font-size: 0.7rem; color: #94a3b8;">Property of Artiles</p>
+                <p style="font-size: 0.7rem; color: #94a3b8;">Intellectual Property of Artiles</p>
             </div>
         </aside>
 
         <main class="dashboard">
             <div class="metrics-grid">
-                <div class="metric-
+                <div class="metric-card">
+                    <label>GROSS FINAL CAPITAL</label>
+                    <h3 id="capFinalBruto">0€</h3>
+                </div>
+                <div class="metric-card">
+                    <label>REAL BUYING POWER</label>
+                    <h3 id="poderCompraReal" style="color: #00ff88;">0€</h3>
+                </div>
+                <div class="metric-card">
+                    <label>PURCHASING LOSS</label>
+                    <h3 id="perdidaAdquisitiva" style="color: #ff4444;">0€</h3>
+                </div>
+            </div>
+
+            <div class="chart-wrapper">
+                <canvas id="graficoEvolucion"></canvas>
+            </div>
+        </main>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>
+
 
 
 
