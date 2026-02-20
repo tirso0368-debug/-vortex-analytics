@@ -1,83 +1,87 @@
-let chart;
+const ctx = document.getElementById('analyticsChart').getContext('2d');
+let myChart;
 
-function calcular() {
-    // Get values from the UI
-    const capInicial = parseFloat(document.getElementById('capitalInicial').value);
-    const interes = parseFloat(document.getElementById('interesAnual').value) / 100;
-    const inflacion = parseFloat(document.getElementById('inflacionAnual').value) / 100;
-    const comision = parseFloat(document.getElementById('comision').value) / 100;
-    const years = parseInt(document.getElementById('tiempo').value);
+function calculate() {
+    const initial = parseFloat(document.getElementById('initialCapital').value);
+    const interest = parseFloat(document.getElementById('interestRate').value) / 100;
+    const inflation = parseFloat(document.getElementById('inflationRate').value) / 100;
+    const fee = parseFloat(document.getElementById('feeRate').value) / 100;
+    const years = parseInt(document.getElementById('timePeriod').value);
     
-    // Update year label
-    document.getElementById('tiempoValor').innerText = years + " years";
+    document.getElementById('yearDisplay').innerText = years;
 
     let labels = [];
-    let dataBruto = [];
-    let dataReal = [];
+    let grossData = [];
+    let realData = [];
 
-    // Calculation Loop
     for (let i = 0; i <= years; i++) {
-        labels.push("Year " + i);
-        let bruto = capInicial * Math.pow(1 + (interes - comision), i);
-        let real = capInicial * Math.pow(1 + (interes - comision - inflacion), i);
-        dataBruto.push(bruto.toFixed(2));
-        dataReal.push(real.toFixed(2));
+        labels.push('Year ' + i);
+        
+        // Cálculo Capital Bruto
+        const gross = initial * Math.pow(1 + (interest - fee), i);
+        grossData.push(gross.toFixed(2));
+
+        // Cálculo Poder Real (descontando inflación)
+        const real = initial * Math.pow(1 + (interest - fee - inflation), i);
+        realData.push(real.toFixed(2));
     }
 
-    // Update Cards with formatted numbers
-    const formatter = new Intl.NumberFormat('de-DE');
-    document.getElementById('capFinalBruto').innerText = formatter.format(dataBruto[years]) + "€";
-    document.getElementById('poderCompraReal').innerText = formatter.format(dataReal[years]) + "€";
-    document.getElementById('perdidaAdquisitiva').innerText = formatter.format((dataBruto[years] - dataReal[years]).toFixed(2)) + "€";
+    const finalGross = grossData[years];
+    const finalReal = realData[years];
+    const loss = finalGross - finalReal;
 
-    updateChart(labels, dataBruto, dataReal);
+    // Actualizar tarjetas de métricas
+    document.getElementById('grossCapital').innerText = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(finalGross);
+    document.getElementById('realPower').innerText = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(finalReal);
+    document.getElementById('lossAmount').innerText = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(loss);
+
+    updateChart(labels, grossData, realData);
 }
 
-function updateChart(labels, dataBruto, dataReal) {
-    const ctx = document.getElementById('graficoEvolucion').getContext('2d');
-    
-    if (chart) {
-        chart.destroy();
-    }
+function updateChart(labels, gross, real) {
+    if (myChart) { myChart.destroy(); }
 
-    chart = new Chart(ctx, {
+    myChart = new Chart(ctx, {
         type: 'line',
         data: {
             labels: labels,
-            datasets: [
-                {
-                    label: 'Gross Capital',
-                    data: dataBruto,
-                    borderColor: '#007aff',
-                    backgroundColor: 'rgba(0, 122, 255, 0.1)',
-                    fill: true,
-                    tension: 0.4
-                },
-                {
-                    label: 'Real Power',
-                    data: dataReal,
-                    borderColor: '#00ff88',
-                    backgroundColor: 'rgba(0, 255, 136, 0.1)',
-                    fill: true,
-                    tension: 0.4
-                }
-            ]
+            datasets: [{
+                label: 'Gross Capital',
+                data: gross,
+                borderColor: '#007aff',
+                backgroundColor: 'rgba(0, 122, 255, 0.1)',
+                fill: true,
+                tension: 0.4
+            }, {
+                label: 'Real Power',
+                data: real,
+                borderColor: '#34c759',
+                backgroundColor: 'rgba(52, 199, 89, 0.1)',
+                fill: true,
+                tension: 0.4
+            }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: {
-                legend: { labels: { color: '#94a3b8' } }
-            },
             scales: {
-                y: { grid: { color: '#1f2937' }, ticks: { color: '#94a3b8' } },
-                x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+                y: { grid: { color: '#222' }, ticks: { color: '#888' } },
+                x: { grid: { display: false }, ticks: { color: '#888' } }
+            },
+            plugins: {
+                legend: { labels: { color: '#fff' } }
             }
         }
     });
 }
 
-// Initial calculation on load
-window.onload = calcular;
+// Escuchar cambios en los inputs
+document.querySelectorAll('input, select').forEach(input => {
+    input.addEventListener('input', calculate);
+});
+
+// Ejecutar al cargar
+calculate();
+
 
 
