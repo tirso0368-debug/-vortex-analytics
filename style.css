@@ -1,48 +1,62 @@
-/* Reemplaza la parte de los inputs y labels en tu style.css con esto */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=JetBrains+Mono:wght@500;700&display=swap');
+
+:root {
+    --bg: #000;
+    --card: #080808;
+    --border: #1a1a1a;
+    --neon: #00ff88;
+    --alert: #ff3b3b;
+    --dim: #666;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; display: flex; justify-content: center; padding: 20px; }
+
+.dashboard-container { width: 100%; max-width: 1100px; display: flex; flex-direction: column; gap: 15px; }
+
+.brand-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; }
+.v-icon { background: var(--neon); color: #000; font-weight: 900; padding: 3px 9px; border-radius: 3px; margin-right: 12px; }
+.brand-name { font-weight: 700; letter-spacing: 3px; }
+.system-status { font-size: 0.6rem; color: var(--dim); display: flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono'; }
+.pulse-dot { width: 7px; height: 7px; background: var(--neon); border-radius: 50%; animation: pulse 2s infinite; }
+
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+.main-chart { background: var(--card); border: 1px solid var(--border); height: 350px; padding: 20px; }
+
+.results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; }
+.metric-card { background: var(--card); border: 1px solid var(--border); padding: 20px; }
+.metric-card h3 { color: var(--dim); font-size: 0.6rem; letter-spacing: 1px; margin-bottom: 5px; text-transform: uppercase; }
+.metric-card p { font-family: 'JetBrains Mono'; font-size: 1.8rem; font-weight: 700; }
+
+.text-neon { color: var(--neon); }
+.text-alert { color: var(--alert); }
+
+.control-center { background: var(--card); border: 1px solid var(--border); padding: 20px; }
+.input-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 20px; }
+
+label { display: block; color: var(--dim); font-size: 0.6rem; margin-bottom: 5px; font-weight: 700; }
 
 input[type="number"], select {
-    width: 100%; 
-    background: #050505; /* Negro casi total */
-    border: 1px solid #1a1a1a; /* Borde oscuro sutil */
-    color: var(--neon); /* ¡Letras en verde neón! */
-    padding: 12px; 
-    font-family: 'JetBrains Mono'; 
-    outline: none;
-    border-radius: 4px;
-    transition: all 0.3s ease;
+    width: 100%; background: #000; border: 1px solid var(--border);
+    color: #fff; padding: 10px; font-family: 'JetBrains Mono'; outline: none;
 }
 
-/* Cuando haces clic en el cuadro para escribir */
-input[type="number"]:focus, select:focus { 
-    border-color: var(--neon); 
-    background: #000000;
-    box-shadow: 0 0 10px rgba(0, 255, 136, 0.2); /* Brillo neón suave */
-}
+input:focus, select:focus { border-color: var(--dim); }
 
-/* Color de los labels (los títulos de arriba de los cuadros) */
-label { 
-    display: block; 
-    color: var(--neon); /* También en neón para que resalte */
-    font-size: 0.65rem; 
-    margin-bottom: 6px; 
-    font-weight: 700; 
-    text-transform: uppercase;
-    opacity: 0.8;
-}
+input[type="range"] { width: 100%; accent-color: var(--neon); cursor: pointer; }
 
-/* Arreglo para que las flechitas de los números no se vean raras */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+.btn-neon {
+    width: 100%; background: transparent; border: 1px solid var(--neon);
+    color: var(--neon); padding: 12px; font-family: 'JetBrains Mono';
+    font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.3s;
 }
+.btn-neon:hover { background: var(--neon); color: #000; }
 
-/* Estilo para el selector (el desplegable de escenarios) */
-select {
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 20 20' fill='%2300ff88'%3E%3Cpath d='M7 7l5 5 5-5H7z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 10px center;
+@media print {
+    .control-center, .v-icon, .system-status { display: none; }
+    body { background: #fff; color: #000; }
+    .metric-card, .main-chart { border: 1px solid #ddd; }
 }
 
 
