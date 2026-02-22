@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VORTEX ANALYTICS | Terminal</title>
+    <title>VORTEX ANALYTICS | Enterprise Terminal</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -11,44 +11,47 @@
 
     <div class="dashboard-container">
         
-        <section class="chart-container">
+        <section class="chart-area">
             <canvas id="analyticsChart"></canvas>
         </section>
 
-        <section class="stats-grid">
-            <div class="stat-card">
-                <h3>CAPITAL BRUTO FINAL</h3>
-                <p id="gross-capital">0.00</p>
+        <section class="metrics-grid">
+            <div class="metric-card">
+                <span class="label">CAPITAL BRUTO FINAL</span>
+                <p id="gross-capital">0.00€</p>
             </div>
-            <div class="stat-card">
-                <h3>PODER REAL DE COMPRA</h3>
-                <p id="real-power">0.00</p>
+            <div class="metric-card">
+                <span class="label">PODER REAL DE COMPRA</span>
+                <p id="real-power" class="accent">0.00€</p>
             </div>
-            <div class="stat-card">
-                <h3>PÉRDIDA POR INFLACIÓN</h3>
-                <p id="purchasing-loss">0.00</p>
+            <div class="metric-card">
+                <span class="label">PÉRDIDA POR INFLACIÓN</span>
+                <p id="purchasing-loss" class="danger">0.00€</p>
             </div>
         </section>
 
-        <section class="inputs-section">
-            <div class="input-group">
-                <label>CAPITAL INICIAL (€)</label>
-                <input type="number" id="initial-capital" value="1000">
+        <section class="control-panel">
+            <div class="input-row">
+                <div class="field">
+                    <label>CAPITAL INICIAL</label>
+                    <input type="number" id="initial-capital" value="1000">
+                </div>
+                <div class="field">
+                    <label>INTERÉS ANUAL %</label>
+                    <input type="number" id="annual-interest" value="8">
+                </div>
+                <div class="field">
+                    <label>INFLACIÓN %</label>
+                    <input type="number" id="annual-inflation" value="3">
+                </div>
+                <div class="field">
+                    <label>GESTIÓN %</label>
+                    <input type="number" id="management-fee" value="1.2">
+                </div>
             </div>
-            <div class="input-group">
-                <label>INTERÉS ANUAL (%)</label>
-                <input type="number" id="annual-interest" value="8">
-            </div>
-            <div class="input-group">
-                <label>INFLACIÓN ANUAL (%)</label>
-                <input type="number" id="annual-inflation" value="3">
-            </div>
-            <div class="input-group">
-                <label>COMISIÓN GESTIÓN (%)</label>
-                <input type="number" id="management-fee" value="1.2">
-            </div>
-            <div class="input-group">
-                <label>TIEMPO: <span id="time-display">17</span> AÑOS</label>
+
+            <div class="slider-container">
+                <label>HORIZONTE TEMPORAL: <span id="time-display">17</span> AÑOS</label>
                 <input type="range" id="time-range" min="1" max="50" value="17">
             </div>
         </section>
@@ -58,25 +61,6 @@
     <script src="main.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
