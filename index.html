@@ -4,73 +4,125 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>Vortex Analytics | Calculadora de Inflación y Poder Adquisitivo</title>
-    <meta name="description" content="Calcula cuánto dinero pierdes por la inflación. Herramienta profesional para analizar el valor real de tus ahorros.">
-    <meta name="keywords" content="calculadora inflacion, vortex analytics, poder adquisitivo, finanzas">
+    <title>Vortex Analytics | Calculadora de Inflación</title>
+    <meta name="description" content="Analiza la pérdida de poder adquisitivo y el valor real de tus ahorros. Vortex Analytics: Herramienta financiera de precisión.">
+    <meta name="keywords" content="vortex analytics, calculadora inflacion, poder adquisitivo, finanzas, ahorro">
     <meta name="google-site-verification" content="Eg-002DBsd2kvHCfS_Et810CYwJoIN1Yzui8osQTD2Q" />
-    
+
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
+        /* MANTENEMOS TU ESTÉTICA FIEL */
         :root {
-            --bg: #0d1117;
-            --card: #161b22;
-            --text: #c9d1d9;
-            --accent: #58a6ff;
-            --danger: #ff4d4d;
-            --success: #00ff88;
+            --bg-color: #000000;
+            --card-bg: #0a0a0a;
+            --text-color: #ffffff;
+            --accent-color: #ffffff; /* Volvemos al blanco/negro puro si era tu estilo */
         }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); display: flex; flex-direction: column; align-items: center; padding: 20px; }
-        .container { width: 100%; max-width: 900px; }
-        .card { background: var(--card); border: 1px solid #30363d; border-radius: 12px; padding: 24px; margin-bottom: 20px; }
-        h1 { font-family: 'JetBrains Mono', monospace; color: var(--accent); }
-        .input-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-weight: 600; }
-        input[type="number"] { background: #0d1117; border: 1px solid #30363d; color: white; padding: 12px; border-radius: 6px; width: 100%; box-sizing: border-box; }
-        input[type="range"] { width: 100%; cursor: pointer; }
-        .results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
-        .stat-box { padding: 15px; border-radius: 8px; background: #0d1117; border: 1px solid #30363d; }
-        .stat-value { font-family: 'JetBrains Mono', monospace; font-size: 1.3rem; display: block; }
-        #status-message { margin: 20px 0; padding: 15px; border-radius: 8px; font-weight: 700; text-align: center; background: rgba(0,0,0,0.4); border: 1px solid #333; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container { width: 100%; max-width: 800px; }
+
+        h1 { 
+            font-family: 'JetBrains Mono', monospace; 
+            font-weight: 800; 
+            letter-spacing: -2px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid #222;
+            padding: 30px;
+            border-radius: 4px; /* Diseño más cuadrado como el anterior */
+            margin-bottom: 20px;
+        }
+
+        /* Tus inputs de estilo anterior */
+        input[type="number"], input[type="range"] {
+            width: 100%;
+            background: #111;
+            border: 1px solid #333;
+            color: #fff;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .stat-box { border-left: 2px solid #333; padding-left: 15px; }
+        .stat-label { font-size: 10px; text-transform: uppercase; color: #666; }
+        .stat-value { font-family: 'JetBrains Mono', monospace; font-size: 18px; display: block; }
+
+        /* EL MENSAJE PARA LA GENTE (Consultas) */
+        #status-message {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            margin-bottom: 20px;
+            color: #888;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>VORTEX_ANALYTICS</h1>
+        
         <div class="card">
-            <div class="input-group">
-                <label>Capital Inicial (€)</label>
-                <input type="number" id="initialCapital" value="1000">
-            </div>
-            <div class="input-group">
-                <label>Aportación Mensual (€)</label>
-                <input type="number" id="monthlyContribution" value="100">
-            </div>
-            <div class="input-group">
-                <label>Inflación Anual (%): <span id="inflationVal">3%</span></label>
-                <input type="range" id="inflation" min="0" max="25" step="0.1" value="3">
-            </div>
-            <div class="input-group">
-                <label>Tiempo (Años): <span id="yearsVal">10</span></label>
-                <input type="range" id="years" min="1" max="50" value="10">
-            </div>
+            <div id="status-message">// INICIANDO ANÁLISIS...</div>
+            
+            <label>CAPITAL_INICIAL (€)</label>
+            <input type="number" id="initialCapital" value="1000">
+            
+            <label style="margin-top:20px; display:block;">APORTACIÓN_MENSUAL (€)</label>
+            <input type="number" id="monthlyContribution" value="100">
+
+            <label style="margin-top:20px; display:block;">INFLACIÓN_ANUAL: <span id="inflationVal">3%</span></label>
+            <input type="range" id="inflation" min="0" max="20" step="0.1" value="3">
+
+            <label style="margin-top:20px; display:block;">TIEMPO_AÑOS: <span id="yearsVal">10</span></label>
+            <input type="range" id="years" min="1" max="50" value="10">
         </div>
+
         <div class="card">
-            <div id="status-message">Calculando impacto...</div>
             <div class="results-grid">
-                <div class="stat-box"><span>Capital Final</span><span id="nominalResult" class="stat-value">0€</span></div>
-                <div class="stat-box"><span>Poder Real</span><span id="realResult" class="stat-value" style="color:var(--success);">0€</span></div>
-                <div class="stat-box"><span>Pérdida</span><span id="lossResult" class="stat-value" style="color:var(--danger);">0€</span></div>
+                <div class="stat-box">
+                    <span class="stat-label">Nominal</span>
+                    <span id="nominalResult" class="stat-value">0€</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">Real</span>
+                    <span id="realResult" class="stat-value">0€</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">Pérdida</span>
+                    <span id="lossResult" class="stat-value" style="color:#ff0000;">0€</span>
+                </div>
             </div>
-            <canvas id="analyticsChart" style="margin-top:30px;"></canvas>
+            <canvas id="analyticsChart" style="margin-top:40px;"></canvas>
         </div>
     </div>
     <script src="main.js"></script>
 </body>
 </html>
+
 
 
 
