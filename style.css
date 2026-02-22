@@ -1,135 +1,48 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=JetBrains+Mono:wght@500;700&display=swap');
+/* Reemplaza la parte de los inputs y labels en tu style.css con esto */
 
-:root {
-    --bg: #000000;
-    --card: #080808;
-    --border: #1a1a1a;
-    --neon: #00ff88;
-    --alert: #ff3b3b;
-    --dim: #666666;
-}
-
-/* Reset de estilos básicos */
-* { 
-    margin: 0; 
-    padding: 0; 
-    box-sizing: border-box; 
-}
-
-body { 
-    background: var(--bg); 
-    color: #fff; 
-    font-family: 'Inter', sans-serif; 
-    display: flex; 
-    justify-content: center; 
-    padding: 20px; 
-}
-
-.dashboard-container { 
+input[type="number"], select {
     width: 100%; 
-    max-width: 1100px; 
-    display: flex; 
-    flex-direction: column; 
-    gap: 15px; 
-}
-
-/* Header y Logo */
-.brand-header { 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    padding-bottom: 10px; 
-}
-
-.logo-box { 
-    display: flex; 
-    align-items: center; 
-}
-
-.v-icon { 
-    background: var(--neon); 
-    color: #000; 
-    font-weight: 900; 
-    padding: 3px 9px; 
-    border-radius: 3px; 
-    margin-right: 12px; 
-}
-
-.brand-name { 
-    font-weight: 700; 
-    letter-spacing: 3px; 
-}
-
-.system-status { 
-    font-size: 0.6rem; 
-    color: var(--neon); 
-    display: flex; 
-    align-items: center; 
-    gap: 8px; 
+    background: #050505; /* Negro casi total */
+    border: 1px solid #1a1a1a; /* Borde oscuro sutil */
+    color: var(--neon); /* ¡Letras en verde neón! */
+    padding: 12px; 
     font-family: 'JetBrains Mono'; 
-    letter-spacing: 1px; 
+    outline: none;
+    border-radius: 4px;
+    transition: all 0.3s ease;
 }
 
-.pulse-dot { 
-    width: 7px; 
-    height: 7px; 
-    background: var(--neon); 
-    border-radius: 50%; 
-    animation: pulse 2s infinite; 
+/* Cuando haces clic en el cuadro para escribir */
+input[type="number"]:focus, select:focus { 
+    border-color: var(--neon); 
+    background: #000000;
+    box-shadow: 0 0 10px rgba(0, 255, 136, 0.2); /* Brillo neón suave */
 }
 
-@keyframes pulse { 
-    0%, 100% { opacity: 1; transform: scale(1); } 
-    50% { opacity: 0.3; transform: scale(1.2); } 
-}
-
-/* Gráfica */
-.main-chart { 
-    background: var(--card); 
-    border: 1px solid var(--border); 
-    height: 380px; 
-    padding: 20px; 
-}
-
-/* Tarjetas de resultados */
-.results-grid { 
-    display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-    gap: 12px; 
-}
-
-.metric-card { 
-    background: var(--card); 
-    border: 1px solid var(--border); 
-    padding: 25px; 
-}
-
-.metric-card h3 { 
-    color: var(--dim); 
+/* Color de los labels (los títulos de arriba de los cuadros) */
+label { 
+    display: block; 
+    color: var(--neon); /* También en neón para que resalte */
     font-size: 0.65rem; 
-    letter-spacing: 1px; 
-    margin-bottom: 8px; 
-    text-transform: uppercase; 
-}
-
-.metric-card p { 
-    font-family: 'JetBrains Mono'; 
-    font-size: 2rem; 
+    margin-bottom: 6px; 
     font-weight: 700; 
+    text-transform: uppercase;
+    opacity: 0.8;
 }
 
-.text-neon { color: var(--neon); }
-.text-alert { color: var(--alert); }
-
-/* Panel de Control e Inputs */
-.control-center { 
-    background: var(--card); 
-    border: 1px solid var(--border); 
-    padding: 25px; 
+/* Arreglo para que las flechitas de los números no se vean raras */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
-.input-row { 
-    display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
-    gap: 20px;
+/* Estilo para el selector (el desplegable de escenarios) */
+select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 20 20' fill='%2300ff88'%3E%3Cpath d='M7 7l5 5 5-5H7z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+}
+
 
