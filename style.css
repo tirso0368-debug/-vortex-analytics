@@ -1,53 +1,85 @@
-/* CONTENEDOR PRINCIPAL */
-/* Esto hace que en el móvil todo se ponga uno debajo de otro */
-.dashboard-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 10px;
+/* RESET BÁSICO */
+* {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
-/* LOS CUADROS DE NÚMEROS (Capital, Poder Real, etc.) */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 15px;
-  width: 100%;
-  margin-bottom: 20px;
+/* FONTO TOTALMENTE NEGRO */
+body {
+  background-color: #000000; /* Negro puro */
+  color: #ffffff;
+  font-family: 'Courier New', Courier, monospace;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
 }
 
-/* LA PIEZA CLAVE: EL CONTENEDOR DE LA GRÁFICA */
+/* CONTENEDOR PRINCIPAL */
+.dashboard-container {
+  width: 100%;
+  max-width: 1100px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* TARJETAS DE RESULTADOS (Capital, Poder, etc.) */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  width: 100%;
+}
+
+.stat-card {
+  background-color: #0a0a0a; /* Negro muy suave para que se vea el relieve */
+  border: 1px solid #333333; /* Borde gris oscuro */
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  transition: border-color 0.3s ease;
+}
+
+.stat-card:hover {
+  border-color: #00ff00; /* Brillo verde al pasar el ratón */
+}
+
+.stat-card h3 {
+  font-size: 0.8rem;
+  color: #888888;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.stat-card p {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #00ff00; /* Verde neón para los números */
+}
+
+/* EL CONTENEDOR DE LA GRÁFICA */
 .chart-container {
   position: relative;
   width: 100%;
-  /* IMPORTANTE: Le damos una altura fija para que no se vea como una línea plana */
-  height: 400px; 
-  background: #161b22;
-  border: 1px solid #30363d;
-  border-radius: 12px;
-  padding: 15px;
-  box-sizing: border-box;
+  height: 450px; /* Altura generosa */
+  background-color: #0a0a0a;
+  border: 1px solid #333333;
+  border-radius: 8px;
+  padding: 20px;
 }
 
-/* Forzamos a que la gráfica ocupe todo el espacio del cuadro */
-canvas {
-  width: 100% !important;
-  height: 100% !important;
-}
-
-/* AJUSTE PARA MÓVILES PEQUEÑOS */
-@media (max-width: 600px) {
+/* RESPONSIVE PARA MÓVIL */
+@media (max-width: 768px) {
   .chart-container {
-    height: 350px; /* Un poco más pequeña en móviles para que no haya que bajar mucho */
+    height: 350px; /* Un poco más pequeña en móvil para que no ocupe todo */
   }
-  .stats-grid {
-    grid-template-columns: 1fr; /* Un cuadro por fila en móvil */
+  
+  .stat-card p {
+    font-size: 1.4rem;
   }
 }
+
 
 
 
