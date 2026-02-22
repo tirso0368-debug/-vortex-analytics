@@ -4,80 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VORTEX | Financial Terminal</title>
-    
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%2300ff88%22/><text y=%22.9em%22 font-size=%2280%22 font-weight=%22bold%22 x=%2215%22 fill=%22black%22>V</text></svg>">
-    
-    <meta name="description" content="VORTEX ANALYTICS - Terminal financiera de alta precisión para el análisis de capital e inflación.">
-    <meta property="og:title" content="VORTEX | Financial Terminal">
-    <meta property="og:type" content="website">
-    <meta name="theme-color" content="#00ff88">
-
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-
     <div class="dashboard-container">
-        
         <header class="brand-header">
             <div class="logo-box">
                 <span class="v-icon">V</span>
                 <span class="brand-name">VORTEX <small>ANALYTICS</small></span>
             </div>
-            <div class="system-status">
-                <span class="pulse-dot"></span> SYSTEM ONLINE
-            </div>
+            <div class="system-status"><span class="pulse-dot"></span> SYSTEM ONLINE</div>
         </header>
 
-        <section class="main-chart">
-            <canvas id="analyticsChart"></canvas>
-        </section>
+        <section class="main-chart"><canvas id="analyticsChart"></canvas></section>
 
         <section class="results-grid">
-            <div class="metric-card">
-                <h3>CAPITAL NOMINAL</h3>
-                <p id="gross-capital">0.00€</p>
-            </div>
-            <div class="metric-card">
-                <h3>PODER ADQUISITIVO</h3>
-                <p id="real-power" class="text-neon">0.00€</p>
-            </div>
-            <div class="metric-card">
-                <h3>PÉRDIDA POR INFLACIÓN</h3>
-                <p id="purchasing-loss" class="text-alert">0.00€</p>
-            </div>
+            <div class="metric-card"><h3>CAPITAL NOMINAL</h3><p id="gross-capital">0.00€</p></div>
+            <div class="metric-card"><h3>PODER ADQUISITIVO</h3><p id="real-power" class="text-neon">0.00€</p></div>
+            <div class="metric-card"><h3>PÉRDIDA TOTAL</h3><p id="purchasing-loss" class="text-alert">0.00€</p></div>
         </section>
 
         <section class="control-center">
             <div class="input-row">
-                <div class="field">
-                    <label>CAPITAL INICIAL (€)</label>
-                    <input type="number" id="initial-capital" value="1000">
-                </div>
-                <div class="field">
-                    <label>INTERÉS ANUAL (%)</label>
-                    <input type="number" id="annual-interest" value="8">
-                </div>
-                <div class="field">
-                    <label>INFLACIÓN (%)</label>
-                    <input type="number" id="annual-inflation" value="3">
-                </div>
-                <div class="field">
-                    <label>GESTIÓN (%)</label>
-                    <input type="number" id="management-fee" value="1.2">
-                </div>
+                <div class="field"><label>CAPITAL INICIAL (€)</label><input type="number" id="initial-capital" value="1000"></div>
+                <div class="field"><label>AHORRO MENSUAL (€)</label><input type="number" id="monthly-savings" value="100"></div>
+                <div class="field"><label>INTERÉS ANUAL (%)</label><input type="number" id="annual-interest" value="8"></div>
+                <div class="field"><label>INFLACIÓN (%)</label><input type="number" id="annual-inflation" value="3"></div>
             </div>
             <div class="slider-area">
-                <label>HORIZONTE TEMPORAL: <span id="time-display">17</span> AÑOS</label>
+                <label>TIEMPO: <span id="time-display">17</span> AÑOS</label>
                 <input type="range" id="time-range" min="1" max="50" value="17">
             </div>
         </section>
-
     </div>
-
     <script src="main.js"></script>
 </body>
 </html>
+
 
 
 
