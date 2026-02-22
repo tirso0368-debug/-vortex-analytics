@@ -1,67 +1,79 @@
 
-/* RESET Y VARIABLES DE TU VORTEX ORIGINAL */
+/* DISEÑO VORTEX DARK - SIN TARJETAS BLANCAS */
 :root {
-    --bg: #0d1117;
-    --card: #161b22;
-    --text: #c9d1d9;
-    --accent: #58a6ff;
-    --danger: #ff4d4d;
-    --success: #00ff88;
+    --bg-negro: #000000;
+    --tarjeta-negra: #0a0a0a;
+    --borde-gris: #333333;
+    --verde-vortex: #00ff88;
+    --texto-gris: #888888;
 }
 
 body {
-    background-color: var(--bg);
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-negro);
+    color: #ffffff;
+    font-family: 'Courier New', Courier, monospace;
     margin: 0;
     padding: 20px;
     display: flex;
-    flex-direction: column; /* Esto es lo que pone la gráfica arriba */
+    flex-direction: column;
     align-items: center;
 }
 
-/* LA GRÁFICA: Arriba y a pantalla completa */
+/* LA GRÁFICA ARRIBA */
 .chart-container {
-    order: -1 !important; /* Manda la gráfica al principio */
+    order: -1 !important;
     width: 100%;
-    max-width: 1000px;
+    max-width: 900px;
     height: 400px;
-    background: var(--card);
-    border: 1px solid #30363d;
-    border-radius: 12px;
+    background: var(--tarjeta-negra);
+    border: 1px solid var(--borde-gris);
+    border-radius: 10px;
     padding: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
-/* TUS TARJETAS ORIGINALES (Capital, Poder, Pérdida) */
+/* TARJETAS DE RESULTADOS - AHORA NEGRAS */
 .stats-grid {
+    order: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
     width: 100%;
-    max-width: 1000px;
-    margin-bottom: 20px;
+    max-width: 900px;
+    margin-bottom: 25px;
 }
 
 .stat-card {
-    background: var(--card);
-    border: 1px solid #30363d;
+    background: var(--tarjeta-negra); /* Adiós al blanco */
+    border: 1px solid var(--borde-gris);
     padding: 20px;
-    border-radius: 12px;
+    border-radius: 10px;
     text-align: center;
 }
 
-.stat-card h3 { color: #8b949e; font-size: 0.9rem; margin-bottom: 10px; }
-.stat-card p { font-size: 1.8rem; font-weight: bold; margin: 0; }
+.stat-card h3 {
+    color: var(--texto-gris);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
 
-/* TUS CONTROLES AL FINAL */
+.stat-card p {
+    color: var(--verde-vortex); /* Los números brillan en verde */
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* CONTROLES E INPUTS */
 .inputs-container {
-    background: var(--card);
-    padding: 20px;
-    border-radius: 12px;
+    order: 1;
     width: 100%;
-    max-width: 1000px;
-    border: 1px solid #30363d;
+    max-width: 900px;
+    background: var(--tarjeta-negra);
+    border: 1px solid var(--borde-gris);
+    padding: 20px;
+    border-radius: 10px;
 }
 
 
