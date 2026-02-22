@@ -1,65 +1,54 @@
-:root {
-    --bg: #0a0a0b;
-    --card: #141518; 
-    --input-bg: #1c1e22;
-    --accent: #007aff;
-    --text: #ffffff;
-    --text-dim: #a0a0a0;
+/* CONTENEDOR PRINCIPAL */
+/* Esto hace que en el móvil todo se ponga uno debajo de otro */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
-body {
-    background-color: var(--bg);
-    color: var(--text);
-    font-family: 'Inter', -apple-system, sans-serif;
-    margin: 0;
+/* LOS CUADROS DE NÚMEROS (Capital, Poder Real, etc.) */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
-.dashboard { display: flex; height: 100vh; }
-
-.sidebar {
-    width: 320px;
-    background: var(--card);
-    padding: 30px;
-    border-right: 1px solid #222;
-    display: flex;
-    flex-direction: column;
+/* LA PIEZA CLAVE: EL CONTENEDOR DE LA GRÁFICA */
+.chart-container {
+  position: relative;
+  width: 100%;
+  /* IMPORTANTE: Le damos una altura fija para que no se vea como una línea plana */
+  height: 400px; 
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  padding: 15px;
+  box-sizing: border-box;
 }
 
-h2 span { color: var(--accent); }
-
-.input-group { margin-bottom: 20px; }
-label { display: block; color: var(--text-dim); font-size: 0.8rem; margin-bottom: 5px; }
-
-input[type="number"], select {
-    width: 100%;
-    background: var(--input-bg);
-    border: 1px solid #333;
-    border-radius: 8px;
-    padding: 12px;
-    color: white;
-    outline: none;
+/* Forzamos a que la gráfica ocupe todo el espacio del cuadro */
+canvas {
+  width: 100% !important;
+  height: 100% !important;
 }
 
-.metrics-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    padding: 40px;
+/* AJUSTE PARA MÓVILES PEQUEÑOS */
+@media (max-width: 600px) {
+  .chart-container {
+    height: 350px; /* Un poco más pequeña en móviles para que no haya que bajar mucho */
+  }
+  .stats-grid {
+    grid-template-columns: 1fr; /* Un cuadro por fila en móvil */
+  }
 }
 
-.metric-card {
-    background: var(--card);
-    padding: 25px;
-    border-radius: 15px;
-    border: 1px solid #222;
-}
-
-.positive { color: #34c759; }
-.negative { color: #ff3b30; }
-
-.chart-container { flex-grow: 1; padding: 0 40px 40px; height: 400px; }
-
-.legal-footer { text-align: center; color: #444; font-size: 0.7rem; padding: 20px; }
 
 
 
