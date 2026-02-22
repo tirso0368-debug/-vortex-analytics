@@ -3,75 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Vortex Analytics | Calculadora de Inflación y Poder Adquisitivo</title>
-    <meta name="description" content="Calcula la pérdida de valor de tu dinero. Vortex analiza la inflación y comisiones en tiempo real. Herramienta financiera profesional.">
-    <meta name="keywords" content="calculadora inflacion, vortex analytics, poder adquisitivo, interes compuesto, finanzas">
-    <meta name="google-site-verification" content="Eg-002DBsd2kvHCfS_Et810CYwJoIN1Yzui8osQTD2Q" />
-
+    <title>VORTEX | Financial Terminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
-    
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <div class="app-container">
-        <aside class="sidebar">
-            <h2>VORTEX<span>ANALYTICS</span></h2>
-            <p class="tip"><strong>Tip:</strong> El "Poder Real" descuenta la inflación de tus ahorros.</p>
 
-            <div class="input-box">
-                <label>Capital Inicial (€)</label>
-                <input type="number" id="initial-capital" value="1000">
+    <div class="main-container">
+        
+        <section class="chart-container">
+            <canvas id="myChart"></canvas>
+        </section>
+
+        <section class="stats-grid">
+            <div class="stat-card">
+                <h3>CAPITAL NOMINAL</h3>
+                <p id="capFinal">0.00</p>
+            </div>
+            <div class="stat-card">
+                <h3>PODER ADQUISITIVO</h3>
+                <p id="poderReal">0.00</p>
+            </div>
+            <div class="stat-card negative">
+                <h3>PÉRDIDA TOTAL</h3>
+                <p id="perdidaTotal">0.00</p>
+            </div>
+        </section>
+
+        <section class="inputs-container">
+            <div class="input-group">
+                <label for="capital">CAPITAL INICIAL</label>
+                <input type="number" id="capital" value="1000" step="100">
             </div>
 
-            <div class="input-box">
-                <label>Interés Anual (%)</label>
-                <input type="number" id="annual-interest" value="8">
+            <div class="input-group">
+                <label for="inflacion">INFLACIÓN ANUAL (%)</label>
+                <input type="number" id="inflacion" value="5" step="0.1">
             </div>
 
-            <div class="input-box">
-                <label>Inflación Anual (%)</label>
-                <input type="number" id="annual-inflation" value="3">
+            <div class="input-group">
+                <label for="años">PERIODO (AÑOS)</label>
+                <input type="number" id="años" value="10" min="1" max="50">
             </div>
+        </section>
 
-            <div class="input-box">
-                <label>Comisión Gestión (%)</label>
-                <input type="number" id="management-fee" value="1.2">
-            </div>
-
-            <div class="input-box">
-                <label>Tiempo: <span id="time-display">17</span> años</label>
-                <input type="range" id="time-range" min="1" max="50" value="17">
-            </div>
-        </aside>
-
-        <main class="dashboard">
-            <div id="status-message" style="color: #666; font-family: 'JetBrains Mono'; margin-bottom: 20px; font-size: 0.8rem;">// ANALIZANDO DATOS...</div>
-
-            <div class="metrics-grid">
-                <div class="metric-card">
-                    <h3>CAPITAL FINAL</h3>
-                    <p id="gross-capital">0.00€</p>
-                </div>
-                <div class="metric-card">
-                    <h3>PODER REAL</h3>
-                    <p id="real-power" style="color: #00ff88;">0.00€</p>
-                </div>
-                <div class="metric-card">
-                    <h3>PÉRDIDA</h3>
-                    <p id="purchasing-loss" style="color: #ff4444;">0.00€</p>
-                </div>
-            </div>
-
-            <div class="chart-wrapper">
-                <canvas id="analyticsChart"></canvas>
-            </div>
-        </main>
     </div>
+
     <script src="main.js"></script>
 </body>
 </html>
+
 
 
 
