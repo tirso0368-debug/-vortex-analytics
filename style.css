@@ -1,72 +1,67 @@
-/* Contenedor principal en columna */
-.dashboard-container {
-  display: flex;
-  flex-direction: column; /* Alinea todo de arriba a abajo */
-  gap: 20px;
-  width: 100%;
-  max-width: 1000px;
-  margin: 0 auto;
-  background-color: #000; /* Negro puro */
+
+/* RESET Y VARIABLES DE TU VORTEX ORIGINAL */
+:root {
+    --bg: #0d1117;
+    --card: #161b22;
+    --text: #c9d1d9;
+    --accent: #58a6ff;
+    --danger: #ff4d4d;
+    --success: #00ff88;
 }
 
-/* LA GRÁFICA ARRIBA */
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column; /* Esto es lo que pone la gráfica arriba */
+    align-items: center;
+}
+
+/* LA GRÁFICA: Arriba y a pantalla completa */
 .chart-container {
-  order: 1; /* Esto la pone la primera de la lista */
-  position: relative;
-  width: 100%;
-  height: 400px; /* Altura para que se vea bien en móvil */
-  background: #0a0a0a;
-  border: 1px solid #333;
-  border-radius: 8px;
-  padding: 10px;
+    order: -1 !important; /* Manda la gráfica al principio */
+    width: 100%;
+    max-width: 1000px;
+    height: 400px;
+    background: var(--card);
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
 }
 
-/* LOS NÚMEROS DEBAJO */
+/* TUS TARJETAS ORIGINALES (Capital, Poder, Pérdida) */
 .stats-grid {
-  order: 2; /* Esto los pone debajo de la gráfica */
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 15px;
-  width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 1000px;
+    margin-bottom: 20px;
 }
 
 .stat-card {
-  background: #0a0a0a;
-  border: 1px solid #333;
-  padding: 15px;
-  border-radius: 8px;
-  text-align: center;
+    background: var(--card);
+    border: 1px solid #30363d;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
 }
 
-/* Forzar que el canvas ocupe su sitio */
-canvas {
-  width: 100% !important;
-  height: 100% !important;
-}
-/* Esto fuerza a que el contenedor principal sea vertical */
-body, .container, main {
-    display: flex !important;
-    flex-direction: column !important;
-}
+.stat-card h3 { color: #8b949e; font-size: 0.9rem; margin-bottom: 10px; }
+.stat-card p { font-size: 1.8rem; font-weight: bold; margin: 0; }
 
-/* Esto sube la gráfica arriba del todo respetando tu estilo */
-.chart-container {
-    order: -1 !important; /* La pone la primera */
-    width: 100% !important;
-    min-height: 350px !important; /* Para que en el móvil se vea grande */
-    margin-bottom: 20px !important;
-}
-
-/* Esto pone los resultados (Capital, etc.) justo debajo */
-.stats-grid {
-    order: 1 !important;
-    display: grid !important;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)) !important;
-}
-
-/* Los inputs (controles) se irán al final solos */
-.inputs-container, .controls {
-    order: 2 !important;
+/* TUS CONTROLES AL FINAL */
+.inputs-container {
+    background: var(--card);
+    padding: 20px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 1000px;
+    border: 1px solid #30363d;
 }
 
 
