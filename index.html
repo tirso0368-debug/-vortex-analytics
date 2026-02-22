@@ -3,79 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vortex Analytics | Real Interest Calculator</title>
     
-    <meta name="google-site-verification" content="Eg-002DBSd2kvHCfS_Et81OCYwJoIN1Yzui8osQTD2Q" />
-    
+    <title>Vortex Analytics | Protege tu dinero de la Inflación</title>
+    <meta name="description" content="Calcula cuánto poder adquisitivo pierdes por la inflación y las comisiones. Vortex analiza tus ahorros en tiempo real.">
+    <meta name="keywords" content="calculadora inflacion, vortex analytics, ahorro, finanzas, inversion">
+        <meta name="google-site-verification" content="Eg-002DBsd2kvHCfS_Et810CYwJoIN1Yzui8osQTD2Q" />
     <link rel="stylesheet" href="style.css">
-    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
+
+
+    <meta property="og:title" content="¿Cuánto vale tu dinero realmente?">
+    <meta property="og:description" content="He analizado mi pérdida por inflación en Vortex. Míralo tú mismo.">
+    <meta property="og:url" content="https://vortex-analytics.vercel.app">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        :root {
+            --bg: #0d1117;
+            --card: #161b22;
+            --text: #c9d1d9;
+            --accent: #58a6ff;
+            --danger: #ff4d4d;
+            --success: #00ff88;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        h1 { font-family: 'JetBrains Mono', monospace; color: var(--accent); }
+
+        .input-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-size: 0.9rem; }
+        input[type="range"] { width: 100%; cursor: pointer; }
+        input[type="number"] {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            color: white;
+            padding: 8px;
+            border-radius: 6px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-box { padding: 15px; border-radius: 8px; background: #0d1117; border: 1px solid #30363d; }
+        .stat-label { font-size: 0.8rem; opacity: 0.7; }
+        .stat-value { font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; display: block; margin-top: 5px; }
+
+        #status-message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-align: center;
+            background: rgba(0,0,0,0.2);
+        }
+
+        canvas { margin-top: 20px; }
+    </style>
 </head>
 <body>
-    <div class="app-container">
-        <aside class="sidebar">
-            <h2>VORTEX<span>ANALYTICS</span></h2>
-            <p class="tip"><strong>Tip:</strong> "Real Power" accounts for inflation and fees on your gross profit.</p>
+    <div class="container">
+        <h1>VORTEX_ANALYTICS</h1>
+        
+        <div class="card">
+            <div class="input-group">
+                <label>Capital Inicial (€)</label>
+                <input type="number" id="initialCapital" value="1000">
+            </div>
             
-            <div class="input-box">
-                <label>Asset Type</label>
-                <select id="asset-type">
-                    <option value="fund">Investment Fund</option>
-                </select>
+            <div class="input-group">
+                <label>Aportación Mensual (€)</label>
+                <input type="number" id="monthlyContribution" value="100">
             </div>
 
-            <div class="input-box">
-                <label>Initial Capital (€)</label>
-                <input type="number" id="initial-capital" value="5000">
+            <div class="input-group">
+                <label>Inflación Anual (%)</label>
+                <input type="range" id="inflation" min="0" max="20" step="0.1" value="3">
+                <span id="inflationVal">3%</span>
             </div>
 
-            <div class="input-box">
-                <label>Annual Interest (%)</label>
-                <input type="number" id="annual-interest" value="8">
+            <div class="input-group">
+                <label>Tiempo (Años): <span id="yearsVal">10</span></label>
+                <input type="range" id="years" min="1" max="50" value="10">
             </div>
+        </div>
 
-            <div class="input-box">
-                <label>Annual Inflation (%)</label>
-                <input type="number" id="annual-inflation" value="3">
-            </div>
-
-            <div class="input-box">
-                <label>Management Fee (%)</label>
-                <input type="number" id="management-fee" value="1.2">
-            </div>
-
-            <div class="input-box">
-                <label>Time: <span id="time-display">17</span> years</label>
-                <input type="range" id="time-range" min="1" max="50" value="17">
-            </div>
-        </aside>
-
-        <main class="dashboard">
-            <div class="metrics-grid">
-                <div class="metric-card">
-                    <h3>GROSS CAPITAL</h3>
-                    <p id="gross-capital">0.00€</p>
+        <div class="card">
+            <div class="results-grid">
+                <div class="stat-box">
+                    <span class="stat-label">Capital Nominal</span>
+                    <span id="nominalResult" class="stat-value">0€</span>
                 </div>
-                <div class="metric-card">
-                    <h3>REAL BUYING POWER</h3>
-                    <p id="real-power" style="color: #00ff88;">0.00€</p>
+                <div class="stat-box">
+                    <span class="stat-label">Poder Real (Ajustado)</span>
+                    <span id="realResult" class="stat-value" style="color: var(--success);">0€</span>
                 </div>
-                <div class="metric-card">
-                    <h3>PURCHASING LOSS</h3>
-                    <p id="purchasing-loss" style="color: #ff4444;">0.00€</p>
+                <div class="stat-box">
+                    <span class="stat-label">Pérdida por Inflación</span>
+                    <span id="lossResult" class="stat-value" style="color: var(--danger);">0€</span>
                 </div>
             </div>
-
-            <div class="chart-wrapper">
-                <canvas id="analyticsChart"></canvas>
-            </div>
-        </main>
+            <div id="status-message"></div>
+            <canvas id="analyticsChart"></canvas>
+        </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="main.js"></script>
 </body>
 </html>
+
 
 
 
