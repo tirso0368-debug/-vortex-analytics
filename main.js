@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Referencias a los elementos del DOM
+    // Referencias exactas a tus IDs originales
     const initialInput = document.getElementById('initial-capital');
     const interestInput = document.getElementById('annual-interest');
     const inflationInput = document.getElementById('annual-inflation');
@@ -7,18 +7,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const timeRange = document.getElementById('time-range');
     const timeDisplay = document.getElementById('time-display');
 
-    const grossCapitalText = document.getElementById('gross-capital');
-    const realPowerText = document.getElementById('real-power');
-    const purchasingLossText = document.getElementById('purchasing-loss');
+    const grossText = document.getElementById('gross-capital');
+    const realText = document.getElementById('real-power');
+    const lossText = document.getElementById('purchasing-loss');
+    const statusMsg = document.getElementById('status-message');
 
     const ctx = document.getElementById('analyticsChart').getContext('2d');
     let analyticsChart;
 
     function calculate() {
-        const p = parseFloat(initialInput.value);
-        const r = parseFloat(interestInput.value) / 100;
-        const i = parseFloat(inflationInput.value) / 100;
-        const f = parseFloat(feeInput.value) / 100;
+        const p = parseFloat(initialInput.value) || 0;
+        const r = (parseFloat(interestInput.value) || 0) / 100;
+        const i = (parseFloat(inflationInput.value) || 0) / 100;
+        const f = (parseFloat(feeInput.value) || 0) / 100;
         const t = parseInt(timeRange.value);
 
         timeDisplay.textContent = t;
@@ -28,81 +29,68 @@ document.addEventListener('DOMContentLoaded', () => {
         let realData = [];
 
         for (let year = 0; year <= t; year++) {
-            labels.push(`Year ${year}`);
+            labels.push(`Año ${year}`);
             
-            // Capital Bruto: P * (1 + r)^t
+            // Cálculo Nominal
             const gross = p * Math.pow((1 + r), year);
             grossData.push(gross.toFixed(2));
 
-            // Capital Real (ajustado por inflación y comisiones)
-            // La fórmula simplificada: r_real = (1 + r - f) / (1 + i) - 1
+            // Cálculo Real (Ajustado por inflación y comisiones)
             const realRate = (1 + r - f) / (1 + i) - 1;
             const real = p * Math.pow((1 + realRate), year);
             realData.push(real.toFixed(2));
         }
 
-        const finalGross = grossData[t];
-        const finalReal = realData[t];
+        const finalGross = parseFloat(grossData[t]);
+        const finalReal = parseFloat(realData[t]);
         const loss = finalGross - finalReal;
 
-        // Actualizar textos
-        grossCapitalText.textContent = `€${parseFloat(finalGross).toLocaleString()}`;
-        realPowerText.textContent = `€${parseFloat(finalReal).toLocaleString()}`;
-        purchasingLossText.textContent = `€${parseFloat(loss).toLocaleString()}`;
+        // Actualizar textos con formato moneda
+        grossText.textContent = `${finalGross.toLocaleString()}€`;
+        realText.textContent = `${finalReal.toLocaleString()}€`;
+        lossText.textContent = `-${loss.toLocaleString()}€`;
+
+        // Lógica de "Consultas a la gente" (Mensajes de impacto)
+        const lossPercent = (loss / finalGross) * 100;
+        if (lossPercent > 30) {
+            statusMsg.innerHTML = "⚠️ <span style='color: #ff4444;'>ALERTA:</span> La inflación está destruyendo tu patrimonio.";
+        } else {
+            statusMsg.innerHTML = "✅ <span style='color: #00ff88;'>INFO:</span> Tu capital mantiene valor real.";
+        }
 
         updateChart(labels, grossData, realData);
     }
 
-    function updateChart(labels, grossData, realData) {
-        if (analyticsChart) {
-            analyticsChart.destroy();
-        }
-
+    function updateChart(labels, gross, real) {
+        if (analyticsChart) analyticsChart.destroy();
         analyticsChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: labels,
                 datasets: [
-                    {
-                        label: 'Gross Capital',
-                        data: grossData,
-                        borderColor: '#007aff',
-                        backgroundColor: 'rgba(0, 122, 255, 0.1)',
-                        fill: true,
-                        tension: 0.4
-                    },
-                    {
-                        label: 'Real Power',
-                        data: realData,
-                        borderColor: '#00ff88',
-                        backgroundColor: 'rgba(0, 255, 136, 0.1)',
-                        fill: true,
-                        tension: 0.4
-                    }
+                    { label: 'Capital Bruto', data: gross, borderColor: '#007aff', tension: 0.4 },
+                    { label: 'Poder Real', data: real, borderColor: '#00ff88', tension: 0.4 }
                 ]
             },
-            options: {
-                responsive: true,
+            options: { 
+                responsive: true, 
                 maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: true, labels: { color: '#fff' } }
-                },
-                scales: {
+                scales: { 
                     y: { grid: { color: '#1f2937' }, ticks: { color: '#94a3b8' } },
-                    x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
-                }
+                    x: { ticks: { color: '#94a3b8' } }
+                },
+                plugins: { legend: { labels: { color: '#fff' } } }
             }
         });
     }
 
-    // Escuchar cambios
     [initialInput, interestInput, inflationInput, feeInput, timeRange].forEach(input => {
         input.addEventListener('input', calculate);
     });
 
-    // Cálculo inicial
     calculate();
 });
+
 
 
 
