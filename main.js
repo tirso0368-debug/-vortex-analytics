@@ -7,27 +7,27 @@ function initChart() {
         data: {
             labels: [],
             datasets: [
-                { label: 'Capital Bruto', data: [], borderColor: '#58a6ff', fill: false },
-                { label: 'Poder Real', data: [], borderColor: '#00ff88', fill: false }
+                { label: 'Capital Bruto', data: [], borderColor: '#3b82f6', tension: 0.3, fill: false },
+                { label: 'Poder Real', data: [], borderColor: '#00ff88', tension: 0.3, fill: false }
             ]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { legend: { labels: { color: '#ffffff' } } },
+            plugins: { legend: { labels: { color: '#ffffff', font: { family: 'Inter' } } } },
             scales: {
-                y: { ticks: { color: '#888' }, grid: { color: '#1a1a1a' } },
-                x: { ticks: { color: '#888' }, grid: { color: '#1a1a1a' } }
+                y: { ticks: { color: '#666' }, grid: { color: '#1a1a1a' } },
+                x: { ticks: { color: '#666' }, grid: { color: '#1a1a1a' } }
             }
         }
     });
 }
 
 function updateAnalytics() {
-    const capital = parseFloat(document.getElementById('initial-capital').value);
-    const interes = parseFloat(document.getElementById('annual-interest').value) / 100;
-    const inflacion = parseFloat(document.getElementById('annual-inflation').value) / 100;
-    const gestion = parseFloat(document.getElementById('management-fee').value) / 100;
+    const capital = parseFloat(document.getElementById('initial-capital').value) || 0;
+    const interes = (parseFloat(document.getElementById('annual-interest').value) || 0) / 100;
+    const inflacion = (parseFloat(document.getElementById('annual-inflation').value) || 0) / 100;
+    const gestion = (parseFloat(document.getElementById('management-fee').value) || 0) / 100;
     const años = parseInt(document.getElementById('time-range').value);
 
     document.getElementById('time-display').innerText = años;
@@ -52,19 +52,18 @@ function updateAnalytics() {
     const finalBruto = dataBruto[dataBruto.length - 1];
     const finalReal = dataReal[dataReal.length - 1];
     
-    document.getElementById('gross-capital').innerText = finalBruto + '€';
-    document.getElementById('real-power').innerText = finalReal + '€';
-    document.getElementById('purchasing-loss').innerText = (finalBruto - finalReal).toFixed(2) + '€';
+    document.getElementById('gross-capital').innerText = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(finalBruto);
+    document.getElementById('real-power').innerText = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(finalReal);
+    document.getElementById('purchasing-loss').innerText = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(finalBruto - finalReal);
 }
 
-// Iniciar
 initChart();
 updateAnalytics();
 
-// Escuchar cambios sin crear bucles
 document.querySelectorAll('input').forEach(input => {
     input.addEventListener('input', updateAnalytics);
 });
+
 
 
 
