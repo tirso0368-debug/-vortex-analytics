@@ -1,88 +1,72 @@
 
-const ctx = document.getElementById('analyticsChart').getContext('2d');
-let vortexChart;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=JetBrains+Mono:wght@500;700&display=swap');
 
-function init() {
-    vortexChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: [],
-            datasets: [
-                { label: 'Capital Bruto (Vortex)', data: [], borderColor: '#3b82f6', tension: 0.3, pointRadius: 0, borderWidth: 3 },
-                { label: 'Poder Real (Ajustado)', data: [], borderColor: '#00ff88', tension: 0.3, pointRadius: 0, borderWidth: 3 },
-                { label: 'Bajo el Colchón (Pérdida)', data: [], borderColor: '#ff3b3b', borderDash: [5, 5], tension: 0, pointRadius: 0 }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { 
-                legend: { labels: { color: '#888', font: { family: 'JetBrains Mono', size: 10 } } },
-                tooltip: { mode: 'index', intersect: false }
-            },
-            scales: {
-                y: { grid: { color: '#111' }, ticks: { color: '#444', font: { family: 'JetBrains Mono' } } },
-                x: { grid: { display: false }, ticks: { color: '#444', font: { family: 'JetBrains Mono' } } }
-            }
-        }
-    });
+:root {
+    --bg: #000000;
+    --card: #080808;
+    --border: #1a1a1a;
+    --neon: #00ff88;
+    --alert: #ff3b3b;
+    --dim: #666666;
 }
 
-function refresh() {
-    let initial = parseFloat(document.getElementById('initial-capital').value) || 0;
-    let savings = parseFloat(document.getElementById('monthly-savings').value) || 0;
-    let interest = (parseFloat(document.getElementById('annual-interest').value) || 0) / 100;
-    let inflation = (parseFloat(document.getElementById('annual-inflation').value) || 0) / 100;
-    let age = parseInt(document.getElementById('user-age').value) || 0;
-    let yrs = parseInt(document.getElementById('time-range').value);
-    let scenario = document.getElementById('scenario-mode').value;
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; display: flex; justify-content: center; padding: 20px; }
 
-    if (scenario === 'optimist') {
-        inflation = 0.02; document.getElementById('annual-inflation').value = 2;
-    } else if (scenario === 'panic') {
-        inflation = 0.08; document.getElementById('annual-inflation').value = 8;
-    }
+.dashboard-container { width: 100%; max-width: 1100px; display: flex; flex-direction: column; gap: 15px; }
 
-    document.getElementById('time-display').innerText = yrs;
-    document.getElementById('retirement-age').innerText = age + yrs;
+.brand-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; }
+.logo-box { display: flex; align-items: center; }
+.v-icon { background: var(--neon); color: #000; font-weight: 900; padding: 3px 9px; border-radius: 3px; margin-right: 12px; }
+.brand-name { font-weight: 700; letter-spacing: 3px; }
+.system-status { font-size: 0.6rem; color: var(--neon); display: flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono'; letter-spacing: 1px; }
+.pulse-dot { width: 7px; height: 7px; background: var(--neon); border-radius: 50%; animation: pulse 2s infinite; }
 
-    let labs = [], dBruto = [], dReal = [], dColchon = [];
-    let curBruto = initial, curReal = initial, curColchon = initial;
+@keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.3; transform: scale(1.2); } }
 
-    const mInt = interest / 12;
-    const mInf = inflation / 12;
+.main-chart { background: var(--card); border: 1px solid var(--border); height: 380px; padding: 20px; position: relative; }
 
-    for (let i = 0; i <= yrs; i++) {
-        labs.push(`Edad ${age + i}`);
-        dBruto.push(curBruto.toFixed(2));
-        dReal.push(curReal.toFixed(2));
-        dColchon.push(curColchon.toFixed(2));
+.results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+.metric-card { background: var(--card); border: 1px solid var(--border); padding: 25px; transition: 0.3s; }
+.metric-card:hover { border-color: #333; }
+.metric-card h3 { color: var(--dim); font-size: 0.65rem; letter-spacing: 1px; margin-bottom: 8px; text-transform: uppercase; }
+.metric-card p { font-family: 'JetBrains Mono'; font-size: 2rem; font-weight: 700; }
+.text-neon { color: var(--neon); }
+.text-alert { color: var(--alert); }
 
-        for (let m = 0; m < 12; m++) {
-            curBruto = (curBruto + savings) * (1 + mInt);
-            curReal = (curReal + savings) * (1 + (mInt - mInf));
-            curColchon = (curColchon + savings) * (1 - mInf);
-        }
-    }
+.control-center { background: var(--card); border: 1px solid var(--border); padding: 25px; }
+.input-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; margin-bottom: 20px; }
+label { display: block; color: var(--dim); font-size: 0.65rem; margin-bottom: 6px; font-weight: 700; text-transform: uppercase; }
 
-    vortexChart.data.labels = labs;
-    vortexChart.data.datasets[0].data = dBruto;
-    vortexChart.data.datasets[1].data = dReal;
-    vortexChart.data.datasets[2].data = dColchon;
-    vortexChart.update('none');
+input[type="number"], select {
+    width: 100%; background: #000; border: 1px solid var(--border);
+    color: #fff; padding: 12px; font-family: 'JetBrains Mono'; outline: none; transition: 0.3s;
+}
+input:focus, select:focus { border-color: var(--neon); background: #050505; }
+input[type="range"] { width: 100%; accent-color: var(--neon); cursor: pointer; }
 
-    const fBruto = dBruto[dBruto.length - 1];
-    const fReal = dReal[dReal.length - 1];
-    const fmt = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' });
-    
-    document.getElementById('gross-capital').innerText = fmt.format(fBruto);
-    document.getElementById('real-power').innerText = fmt.format(fReal);
-    document.getElementById('purchasing-loss').innerText = fmt.format(fBruto - fReal);
+.btn-neon {
+    width: 100%; background: transparent; border: 2px solid var(--neon);
+    color: var(--neon); padding: 15px; font-family: 'JetBrains Mono';
+    font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
+}
+.btn-neon:hover { background: var(--neon); color: #000; box-shadow: 0 0 25px rgba(0, 255, 136, 0.4); }
+
+.vortex-footer { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); }
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+.info-item h4 { color: var(--neon); font-size: 0.7rem; margin-bottom: 10px; letter-spacing: 1px; }
+.info-item p { color: var(--dim); font-size: 0.65rem; line-height: 1.5; }
+
+@media (max-width: 600px) {
+    .info-grid { grid-template-columns: 1fr; gap: 20px; }
+    .brand-header { flex-direction: column; gap: 10px; align-items: flex-start; }
 }
 
-document.getElementById('download-report').addEventListener('click', () => window.print());
-
-init();
-refresh();
-document.querySelectorAll('input, select').forEach(el => el.addEventListener('input', refresh));
+@media print {
+    .control-center, .v-icon, .system-status { display: none; }
+    body { background: #fff; color: #000; }
+    .dashboard-container { max-width: 100%; }
+    .metric-card, .main-chart { border: 1px solid #ddd; background: #fff; }
+    .metric-card p { color: #000; }
+}
 
