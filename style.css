@@ -43,6 +43,32 @@ canvas {
   width: 100% !important;
   height: 100% !important;
 }
+/* Esto fuerza a que el contenedor principal sea vertical */
+body, .container, main {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/* Esto sube la gráfica arriba del todo respetando tu estilo */
+.chart-container {
+    order: -1 !important; /* La pone la primera */
+    width: 100% !important;
+    min-height: 350px !important; /* Para que en el móvil se vea grande */
+    margin-bottom: 20px !important;
+}
+
+/* Esto pone los resultados (Capital, etc.) justo debajo */
+.stats-grid {
+    order: 1 !important;
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)) !important;
+}
+
+/* Los inputs (controles) se irán al final solos */
+.inputs-container, .controls {
+    order: 2 !important;
+}
+
 
 
 
