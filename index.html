@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VORTEX | Enterprise Asset Intelligence</title>
+    <title>VORTEX | Intelligent Treasury Management</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -13,42 +13,45 @@
         <nav class="sidebar">
             <div class="logo">VORTEX</div>
             <ul class="nav-links">
-                <li class="active">Resumen de Tesorería</li>
-                <li>Análisis de Divisas</li>
-                <li>Gestión de Activos</li>
-                <li>Configuración</li>
+                <li class="active">Panel de Control</li>
+                <li>Estrategia de Activos</li>
+                <li>Informes B2B</li>
             </ul>
             <div class="user-profile">
                 <div class="avatar"></div>
-                <span>Corporativo A1</span>
+                <span>ID: CORP-2026</span>
             </div>
         </nav>
 
         <main class="main-content">
             <header class="top-bar">
-                <h1>Panel de Control de Tesorería</h1>
+                <div class="title-group">
+                    <h1>Gestión de Tesorería Operativa</h1>
+                    <p class="subtitle">Análisis de erosión y señales de protección de capital.</p>
+                </div>
                 <div class="market-status">
-                    <span class="status-dot"></span> MERCADOS ABIERTOS (UTC+1)
+                    <span class="status-dot"></span> LIVE MARKET DATA
                 </div>
             </header>
 
             <section class="metrics-grid">
                 <div class="metric-card">
-                    <label>CAPITAL OPERATIVO</label>
-                    <input type="number" id="capital-input" value="100000">
-                    <select id="currency-select">
-                        <option value="EUR">EUR</option>
-                        <option value="USD">USD</option>
-                        <option value="GBP">GBP</option>
-                    </select>
+                    <label>CAPITAL EN RIESGO</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="capital-input" value="100000">
+                        <select id="currency-select">
+                            <option value="EUR">EUR</option>
+                            <option value="USD">USD</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="metric-card">
-                    <label>INFLACIÓN ESTIMADA (ANUAL)</label>
-                    <div id="inflation-display" class="value-highlight">3.2%</div>
-                </div>
-                <div class="metric-card">
-                    <label>COSTE DE INACCIÓN (POR HORA)</label>
+                    <label>COSTE DE INACCIÓN (HORARIO)</label>
                     <div id="hourly-loss" class="value-alert">-0.00€</div>
+                </div>
+                <div class="metric-card signal-card" id="signal-container">
+                    <label>SISTEMA DE DECISIÓN VORTEX</label>
+                    <div id="vortex-signal" class="signal-text">ANALIZANDO...</div>
                 </div>
             </section>
 
@@ -56,21 +59,21 @@
                 <div class="chart-container">
                     <canvas id="mainChart"></canvas>
                 </div>
-                <div class="live-feed">
-                    <h3>Monitor de Activos Refugio</h3>
+                <div class="action-panel">
+                    <h3>Recomendación de Activos</h3>
                     <div class="ticker-item">
-                        <span>ORO (XAU/USD)</span>
+                        <span>XAU (ORO)</span>
                         <span id="gold-price" class="price">--.--</span>
                     </div>
                     <div class="ticker-item">
-                        <span>BITCOIN (BTC/USD)</span>
+                        <span>BTC (BITCOIN)</span>
                         <span id="btc-price" class="price">--.--</span>
                     </div>
-                    <div class="cta-container">
-                        <p>Optimice su tesorería con informes detallados.</p>
+                    <div class="cta-box">
+                        <p>¿Deseas blindar tu tesorería?</p>
                         <form action="https://formspree.io/f/mbdapyyv" method="POST">
-                            <input type="email" name="email" placeholder="Email corporativo" required>
-                            <button type="submit">SOLICITAR AUDITORÍA</button>
+                            <input type="email" name="email" placeholder="Email para reporte PDF" required>
+                            <button type="submit">GENERAR ESTRATEGIA</button>
                         </form>
                     </div>
                 </div>
@@ -80,6 +83,7 @@
     <script src="main.js"></script>
 </body>
 </html>
+
 
 
 
