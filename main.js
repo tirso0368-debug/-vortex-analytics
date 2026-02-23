@@ -1,142 +1,62 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const ctx = document.getElementById('analyticsChart').getContext('2d');
-    let v_Chart;
+/**
+ * VORTEX ANALYTICS CORE ENGINE
+ */
 
-    // --- 1. MOTOR DE LA GRÁFICA ---
-    function renderChart(labels, nominalData, realData) {
-        if (v_Chart) {
-            v_Chart.destroy(); // Evita que la gráfica parpadee o se duplique
-        }
+function calculateVortex() {
+    // Parámetros de entrada
+    const capitalInicial = parseFloat(document.getElementById('initial-capital').value) || 0;
+    const inflationRate = (parseFloat(document.getElementById('annual-inflation').value) / 100) || 0;
+    const years = parseInt(document.getElementById('investment-years').value) || 0;
+    const targetAssetPrice = parseFloat(document.getElementById('goal-selector').value);
 
-        v_Chart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: [
-                    {
-                        label: 'CAPITAL ACUMULADO (€)',
-                        data: nominalData,
-                        backgroundColor: '#00ff88', // Verde Neón Vortex
-                        borderRadius: 4,
-                        borderWidth: 0,
-                        barPercentage: 0.6
-                    },
-                    {
-                        label: 'VALOR REAL (AJUSTADO A INFLACIÓN) (€)',
-                        data: realData,
-                        backgroundColor: 'rgba(255, 255, 255, 0.15)', // Blanco traslúcido para contraste
-                        borderRadius: 4,
-                        borderWidth: 0,
-                        barPercentage: 0.6
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                animation: { duration: 400 }, // Animación fluida pero rápida
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
-                        ticks: { 
-                            color: '#00ff88', 
-                            font: { family: 'monospace', size: 11 },
-                            callback: value => value.toLocaleString() + '€'
-                        }
-                    },
-                    x: {
-                        grid: { display: false },
-                        ticks: { color: '#888', font: { family: 'monospace', size: 10 } }
-                    }
-                },
-                plugins: {
-                    legend: {
-                        position: 'top',
-                        labels: { color: '#fff', font: { family: 'monospace', size: 11 }, padding: 20 }
-                    },
-                    tooltip: {
-                        backgroundColor: '#0a0a0a',
-                        titleFont: { family: 'monospace' },
-                        bodyFont: { family: 'monospace' },
-                        borderColor: '#00ff88',
-                        borderWidth: 1,
-                        displayColors: false
-                    }
-                }
-            }
-        });
+    // Salidas UI
+    const statusDisplay = document.getElementById('result-status');
+    const detailsDisplay = document.getElementById('result-details');
+
+    // Cálculo del Costo Futuro Ajustado (Inflación)
+    // Formula: VF = P * (1 + i)^n
+    const futureAssetPrice = targetAssetPrice * Math.pow(1 + inflationRate, years);
+    
+    // Balance Final
+    const deficit = capitalInicial - futureAssetPrice;
+    const isSuccess = deficit >= 0;
+
+    // Renderizado de Resultados
+    updateTerminalUI(isSuccess, futureAssetPrice, deficit, years);
+}
+
+function updateTerminalUI(success, price, diff, t) {
+    const status = document.getElementById('result-status');
+    const details = document.getElementById('result-details');
+
+    const fmtPrice = price.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const fmtDiff = Math.abs(diff).toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    if (success) {
+        status.style.color = "#00ff88";
+        status.innerText = "ESTADO: PODER ADQUISITIVO VALIDADO";
+        details.innerHTML = `PROYECCIÓN T+${t}: EL CAPITAL CUBRE EL ACTIVO.<br>` +
+                            `COSTO ESTIMADO DEL BIEN: ${fmtPrice}€<br>` +
+                            `EXCEDENTE DISPONIBLE: ${fmtDiff}€`;
+    } else {
+        status.style.color = "#ff4444";
+        status.innerText = "ESTADO: EROSIÓN DE CAPITAL DETECTADA";
+        details.innerHTML = `PROYECCIÓN T+${t}: EL CAPITAL NO CUBRE EL ACTIVO.<br>` +
+                            `COSTO ESTIMADO DEL BIEN: ${fmtPrice}€<br>` +
+                            `DÉFICIT DE PODER ADQUISITIVO: -${fmtDiff}€`;
     }
+}
 
-    // --- 2. MOTOR DE CÁLCULOS ---
-    function runVortex() {
-        const initial = parseFloat(document.getElementById('initial-capital').value) || 0;
-        const monthly = parseFloat(document.getElementById('monthly-savings').value) || 0;
-        const years = parseInt(document.getElementById('time-range').value) || 1;
-        const rate = (parseFloat(document.getElementById('annual-interest').value) || 0) / 100;
-        const inflation = (parseFloat(document.getElementById('annual-inflation').value) || 0) / 100;
-        const age = parseInt(document.getElementById('user-age').value) || 0;
-
-        // Actualizar indicadores visuales
-        document.getElementById('time-display').innerText = years;
-        document.getElementById('retirement-age').innerText = age + years;
-
-        let labels = [];
-        let nominalData = [];
-        let realData = [];
-        let currentNominal = initial;
-
-        for (let i = 0; i <= years; i++) {
-            labels.push("Año " + i);
-            
-            // Fórmula: Poder de compra ajustado por inflación acumulada
-            let currentReal = currentNominal / Math.pow(1 + inflation, i);
-            
-            nominalData.push(Math.round(currentNominal));
-            realData.push(Math.round(currentReal));
-
-            // Crecimiento anual: (Capital + Ahorro Mensual * 12) * Interés
-            currentNominal = (currentNominal + (monthly * 12)) * (1 + rate);
-        }
-
-        // --- 3. ACTUALIZACIÓN DE TARJETAS (MÉTRICAS) ---
-        const fNominal = nominalData[years];
-        const fReal = realData[years];
-        const fLoss = fNominal - fReal;
-
-        document.getElementById('gross-capital').innerText = fNominal.toLocaleString('es-ES') + "€";
-        document.getElementById('real-power').innerText = fReal.toLocaleString('es-ES') + "€";
-        document.getElementById('purchasing-loss').innerText = fLoss.toLocaleString('es-ES') + "€";
-
-        renderChart(labels, nominalData, realData);
-    }
-
-    // --- 4. CONTROLADORES DE EVENTOS ---
-    const inputs = document.querySelectorAll('input, select');
-    inputs.forEach(input => {
-        input.addEventListener('input', runVortex);
-    });
-
-    // Lógica del Modal (Lead Magnet)
-    const btnReport = document.getElementById('download-report');
-    const modal = document.getElementById('lead-modal');
-    const btnClose = document.getElementById('close-modal');
-
-    if (btnReport) {
-        btnReport.addEventListener('click', () => {
-            modal.style.display = 'flex';
-        });
-    }
-
-    if (btnClose) {
-        btnClose.addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
-    }
-
-    // Arrancar sistema al cargar
-    runVortex();
+// Listeners de actualización en tiempo real
+['initial-capital', 'annual-inflation', 'investment-years', 'goal-selector'].forEach(id => {
+    const el = document.getElementById(id);
+    el.addEventListener('input', calculateVortex);
+    el.addEventListener('change', calculateVortex);
 });
+
+// Inicialización
+calculateVortex();
+
 
 
 
