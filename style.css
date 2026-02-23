@@ -1,79 +1,162 @@
+/* VORTEX ENGINE v2.0 - UI/UX DESIGN SYSTEM */
+
 :root {
-    --neon-green: #00ff88;
-    --dark-bg: #050505;
-    --card-bg: #0f0f0f;
+    --vortex-green: #00ff88;
+    --vortex-red: #ff4444;
+    --vortex-bg: #000000;
+    --vortex-panel: #050505;
+    --vortex-border: #1a1a1a;
+    --vortex-text: #ffffff;
+    --vortex-subtext: #666666;
+    --glow: 0 0 15px rgba(0, 255, 136, 0.2);
+}
+
+* {
+    box-sizing: border-box;
+    cursor: crosshair; /* Detalle de terminal profesional */
 }
 
 body {
-    background-color: var(--dark-bg);
-    color: white;
-    font-family: 'Courier New', monospace;
+    background-color: var(--vortex-bg);
+    color: var(--vortex-text);
+    font-family: 'Courier New', Courier, monospace;
     margin: 0;
-    overflow-x: hidden;
+    height: 100vh;
+    overflow: hidden; /* Evita scrolls innecesarios para que parezca una app */
 }
 
-.vortex-container {
-    padding: 20px;
-    max-width: 1200px;
-    margin: auto;
+/* Estructura de la Terminal */
+#vortex-saas-root {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
-.neon-title {
-    color: var(--neon-green);
-    text-align: center;
-    letter-spacing: 10px;
-    text-shadow: 0 0 15px var(--neon-green);
-    margin-bottom: 5px;
+header {
+    background: var(--vortex-panel);
+    border-bottom: 1px solid var(--vortex-border);
+    padding: 15px 25px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    z-index: 10;
 }
 
-.status-bar {
-    text-align: center;
-    font-size: 10px;
-    color: #444;
-    margin-bottom: 30px;
-}
-
-.grid-layout {
+/* Dashboard Grid */
+.dashboard-grid {
     display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 20px;
+    grid-template-columns: 320px 1fr;
+    flex-grow: 1;
 }
 
-.input-card {
-    background: var(--card-bg);
-    padding: 20px;
-    border: 1px solid #1a1a1a;
-    margin-bottom: 15px;
+/* Sidebar Estilo Bloomberg */
+aside {
+    background: var(--vortex-panel);
+    border-right: 1px solid var(--vortex-border);
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
 }
 
-input[type=range] {
-    width: 100%;
-    accent-color: var(--neon-green);
+label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--vortex-subtext);
+    margin-bottom: 8px;
+    display: block;
+    text-transform: uppercase;
 }
 
-.terminal-msg {
+/* Inputs y Selects Pro */
+input, select {
     background: #000;
+    border: 1px solid var(--vortex-border);
+    color: var(--vortex-green);
+    padding: 12px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--vortex-green);
+    box-shadow: var(--glow);
+}
+
+/* Tickers en tiempo real */
+#live-ticker-box {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px dashed #333;
     padding: 15px;
-    border-left: 3px solid var(--neon-green);
+    border-radius: 2px;
+}
+
+#btc-live, #gold-live {
     font-size: 13px;
-    margin-top: 20px;
-    min-height: 50px;
-}
-
-.glow-button {
-    background: var(--neon-green);
-    color: black;
-    border: none;
-    padding: 15px 30px;
+    margin-top: 10px;
     font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
 }
 
-.glow-button:hover {
-    transform: scale(1.05);
+/* Main Display */
+section {
+    padding: 30px;
+    background: radial-gradient(circle at center, #0a0a0a 0%, #000 100%);
 }
 
-@media (max-width: 768px) {
-    .grid-layout { grid-template-columns: 1fr; }
+#analysis-output {
+    background: rgba(255, 255, 255, 0.01);
+    border: 1px solid var(--vortex-border);
+    padding: 25px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
+
+h2 {
+    color: var(--vortex-green);
+    font-size: 14px;
+    letter-spacing: 3px;
+    margin-top: 0;
+    margin-bottom: 25px;
+    text-shadow: var(--glow);
+}
+
+/* Alertas de Sistema */
+#critical-alerts {
+    margin-top: auto;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.8; }
+    50% { opacity: 1; }
+    100% { opacity: 0.8; }
+}
+
+/* Scrollbars Estilo Matrix */
+::-webkit-scrollbar {
+    width: 4px;
+}
+::-webkit-scrollbar-track {
+    background: #000;
+}
+::-webkit-scrollbar-thumb {
+    background: var(--vortex-border);
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--vortex-green);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        overflow-y: auto;
+    }
+    aside {
+        border-right: none;
+        border-bottom: 1px solid var(--vortex-border);
+    }
+}
+
