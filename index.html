@@ -1,86 +1,133 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VORTEX | Intelligent Treasury Management</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8">
+  <title>VORTEX Capital</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="style.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
-    <div class="dashboard-container">
-        <nav class="sidebar">
-            <div class="logo">VORTEX</div>
-            <ul class="nav-links">
-                <li class="active">Panel de Control</li>
-                <li>Estrategia de Activos</li>
-                <li>Informes B2B</li>
-            </ul>
-            <div class="user-profile">
-                <div class="avatar"></div>
-                <span>ID: CORP-2026</span>
-            </div>
-        </nav>
 
-        <main class="main-content">
-            <header class="top-bar">
-                <div class="title-group">
-                    <h1>Gestión de Tesorería Operativa</h1>
-                    <p class="subtitle">Análisis de erosión y señales de protección de capital.</p>
-                </div>
-                <div class="market-status">
-                    <span class="status-dot"></span> LIVE MARKET DATA
-                </div>
-            </header>
+<header class="header">
 
-            <section class="metrics-grid">
-                <div class="metric-card">
-                    <label>CAPITAL EN RIESGO</label>
-                    <div class="input-wrapper">
-                        <input type="number" id="capital-input" value="100000">
-                        <select id="currency-select">
-                            <option value="EUR">EUR</option>
-                            <option value="USD">USD</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="metric-card">
-                    <label>COSTE DE INACCIÓN (HORARIO)</label>
-                    <div id="hourly-loss" class="value-alert">-0.00€</div>
-                </div>
-                <div class="metric-card signal-card" id="signal-container">
-                    <label>SISTEMA DE DECISIÓN VORTEX</label>
-                    <div id="vortex-signal" class="signal-text">ANALIZANDO...</div>
-                </div>
-            </section>
+  <div class="logo">VORTEX Capital</div>
 
-            <section class="analysis-section">
-                <div class="chart-container">
-                    <canvas id="mainChart"></canvas>
-                </div>
-                <div class="action-panel">
-                    <h3>Recomendación de Activos</h3>
-                    <div class="ticker-item">
-                        <span>XAU (ORO)</span>
-                        <span id="gold-price" class="price">--.--</span>
-                    </div>
-                    <div class="ticker-item">
-                        <span>BTC (BITCOIN)</span>
-                        <span id="btc-price" class="price">--.--</span>
-                    </div>
-                    <div class="cta-box">
-                        <p>¿Deseas blindar tu tesorería?</p>
-                        <form action="https://formspree.io/f/mbdapyyv" method="POST">
-                            <input type="email" name="email" placeholder="Email para reporte PDF" required>
-                            <button type="submit">GENERAR ESTRATEGIA</button>
-                        </form>
-                    </div>
-                </div>
-            </section>
-        </main>
+  <div class="market">
+
+    <div class="market-item">
+      BTC: <span id="btc">...</span> €
     </div>
-    <script src="main.js"></script>
+
+    <div class="market-item">
+      EUR/USD: <span id="eurusd">...</span>
+    </div>
+
+  </div>
+
+</header>
+
+
+<section class="hero">
+
+  <div class="hero-content">
+
+    <h1>Inteligencia financiera para proteger tu capital</h1>
+
+    <p>
+      Plataforma avanzada de simulación patrimonial con datos reales de mercado.
+    </p>
+
+    <button onclick="calculate()">Analizar mi capital</button>
+
+  </div>
+
+</section>
+
+
+
+<section class="dashboard">
+
+  <!-- INPUTS -->
+  <div class="card inputs">
+
+    <h2>Simulación financiera</h2>
+
+    <label>Capital inicial (€)</label>
+    <input type="number" id="capital" value="10000">
+
+    <label>Rentabilidad anual (%)</label>
+    <input type="number" id="rate" value="7">
+
+    <label>Inflación (%)</label>
+    <input type="number" id="inflation" value="3">
+
+    <label>Años</label>
+    <input type="number" id="years" value="20">
+
+    <button onclick="calculate()">Calcular proyección</button>
+
+    <div class="results">
+      <p>Capital futuro: <strong><span id="future">-</span> €</strong></p>
+      <p>Valor real: <strong><span id="real">-</span> €</strong></p>
+    </div>
+
+  </div>
+
+
+  <!-- CHART -->
+  <div class="card chart-card">
+    <canvas id="chart"></canvas>
+  </div>
+
+</section>
+
+
+
+<!-- REGISTRO EMAIL -->
+<section class="signup">
+
+  <div class="signup-box">
+
+    <h2>Crear cuenta gratuita</h2>
+
+    <p>
+      Accede a informes financieros personalizados y estrategias de inversión.
+    </p>
+
+    <form id="signupForm">
+
+      <input
+        type="email"
+        id="email"
+        placeholder="Introduce tu correo electrónico"
+        required
+      >
+
+      <button type="submit">
+        Crear cuenta
+      </button>
+
+    </form>
+
+    <span id="msg"></span>
+
+  </div>
+
+</section>
+
+
+
+<footer class="footer">
+  © 2026 VORTEX Capital — Plataforma de análisis financiero
+</footer>
+
+
+<script src="main.js"></script>
+
 </body>
 </html>
 
