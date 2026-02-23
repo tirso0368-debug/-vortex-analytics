@@ -3,83 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VORTEX ANALYTICS | TERMINAL</title>
+    <title>VORTEX | TERMINAL</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body style="background-color: #000; color: #fff; margin: 0; padding: 20px; font-family: 'Courier New', monospace;">
+<body>
 
-    <div id="vortex-app" style="max-width: 900px; margin: 0 auto; border: 1px solid #1a1a1a; padding: 30px; background: #050505;">
-        
-        <header style="border-bottom: 1px solid #00ff88; padding-bottom: 20px; margin-bottom: 30px;">
-            <h1 style="color: #00ff88; margin: 0; letter-spacing: 4px; font-size: 24px;">VORTEX SYSTEM v1.0</h1>
-            <p style="color: #666; font-size: 12px; margin-top: 5px;">ENGINE DE PROYECCIÓN Y EROSIÓN MONETARIA</p>
+    <div class="vortex-container">
+        <header>
+            <h1 class="neon-title">VORTEX ANALYTICS</h1>
+            <div class="status-bar">SISTEMA ACTIVO // DATOS EN TIEMPO REAL</div>
         </header>
 
-        <section class="control-panel" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; margin-bottom: 40px;">
-            <div>
-                <label style="color: #888; font-size: 11px; display: block; margin-bottom: 10px;">CAPITAL INICIAL (€)</label>
-                <input type="number" id="initial-capital" value="10000" style="width: 100%; background: #000; border: 1px solid #333; color: #00ff88; padding: 12px; font-family: monospace; font-size: 16px;">
-            </div>
-            <div>
-                <label style="color: #888; font-size: 11px; display: block; margin-bottom: 10px;">INFLACIÓN ANUAL (%)</label>
-                <input type="number" id="annual-inflation" value="3.5" step="0.1" style="width: 100%; background: #000; border: 1px solid #333; color: #00ff88; padding: 12px; font-family: monospace; font-size: 16px;">
-            </div>
-            <div>
-                <label style="color: #888; font-size: 11px; display: block; margin-bottom: 10px;">TIEMPO DE EXPOSICIÓN (AÑOS)</label>
-                <input type="number" id="investment-years" value="15" style="width: 100%; background: #000; border: 1px solid #333; color: #00ff88; padding: 12px; font-family: monospace; font-size: 16px;">
-            </div>
-        </section>
+        <main class="grid-layout">
+            <section class="controls">
+                <div class="input-card">
+                    <label>CAPITAL INICIAL (€)</label>
+                    <input type="range" id="capital-slider" min="1000" max="100000" step="1000" value="10000">
+                    <span id="capital-val">10.000€</span>
+                </div>
 
-        <section id="purchasing-power-scanner" style="background: #0a0a0a; border: 1px solid #1a1a1a; padding: 25px; margin-bottom: 40px;">
-            <h2 style="color: #00ff88; font-size: 14px; margin: 0 0 20px 0; text-transform: uppercase; letter-spacing: 2px;">Purchasing Power Scanner</h2>
-            
-            <div style="margin-bottom: 25px;">
-                <label style="color: #666; font-size: 11px; display: block; margin-bottom: 10px;">SELECCIONAR OBJETIVO DE REFERENCIA</label>
-                <select id="goal-selector" style="width: 100%; background: #000; border: 1px solid #00ff88; color: #00ff88; padding: 12px; font-family: monospace; cursor: pointer;">
-                    <option value="45000">Vehículo Media Gama (45.000€)</option>
-                    <option value="280000">Propiedad Inmobiliaria (280.000€)</option>
-                    <option value="35000">Coste de Vida Anual (35.000€)</option>
-                    <option value="120000">Fondo de Emergencia / Estudios (120.000€)</option>
+                <div class="input-card">
+                    <label>INFLACIÓN ANUAL (%)</label>
+                    <input type="range" id="inflation-slider" min="0" max="20" step="0.5" value="3.5">
+                    <span id="inflation-val">3.5%</span>
+                </div>
+
+                <div class="input-card">
+                    <label>HORIZONTE (AÑOS)</label>
+                    <input type="range" id="years-slider" min="1" max="40" value="15">
+                    <span id="years-val">15 Años</span>
+                </div>
+
+                <div class="scanner-box">
+                    <label>ACTIVO DE REFERENCIA</label>
+                    <select id="asset-selector">
+                        <option value="45000">COCHE MEDIA GAMA</option>
+                        <option value="280000">VIVIENDA PROMEDIO</option>
+                        <option value="35000">SUELDO ANUAL</option>
+                    </select>
+                </div>
+            </section>
+
+            <section class="display">
+                <div class="chart-container">
+                    <canvas id="vortexChart"></canvas>
+                </div>
+                <div id="vortex-msg" class="terminal-msg">INICIALIZANDO ESCÁNER...</div>
+            </section>
+        </main>
+
+        <footer class="registration-area">
+            <form action="https://formspree.io/f/mbdapyyv" method="POST" class="vortex-form">
+                <input type="email" name="email" placeholder="TU EMAIL PARA ACCESO VIP" required>
+                <select name="tier">
+                    <option value="standard">INVERSOR STANDARD</option>
+                    <option value="whale">INVERSOR WHALE (+50K)</option>
                 </select>
-            </div>
-
-            <div id="scanner-results" style="background: #000; border: 1px solid #111; padding: 20px; min-height: 80px;">
-                <div id="result-status" style="font-size: 14px; font-weight: bold; margin-bottom: 10px;">CARGANDO DATOS...</div>
-                <div id="result-details" style="color: #aaa; font-size: 12px; line-height: 1.6;"></div>
-            </div>
-        </section>
-
-        <section id="vortex-registration" style="border-top: 1px solid #1a1a1a; padding-top: 30px;">
-            <div style="text-align: center; margin-bottom: 25px;">
-                <h3 style="color: #fff; font-size: 16px; margin: 0;">SOLICITAR INFORME DETALLADO</h3>
-                <p style="color: #666; font-size: 11px;">RECIBE EL ANÁLISIS COMPLETO EN TU TERMINAL</p>
-            </div>
-
-            <form action="https://formspree.io/f/mbdapyyv" method="POST" style="display: grid; gap: 15px; max-width: 500px; margin: 0 auto;">
-                <input type="email" name="email" placeholder="EMAIL DE ACCESO" required 
-                    style="background: #000; border: 1px solid #333; color: #fff; padding: 15px; font-family: monospace; text-align: center;">
-                
-                <select name="capital-tier" required 
-                    style="background: #000; border: 1px solid #333; color: #888; padding: 15px; font-family: monospace; text-align: center;">
-                    <option value="" disabled selected>CAPITAL BAJO GESTIÓN</option>
-                    <option value="retail">Retail (< 10.000€)</option>
-                    <option value="growth">Growth (10k - 50k€)</option>
-                    <option value="high_net">High Net Worth (+50k€)</option>
-                </select>
-
-                <button type="submit" style="background: #00ff88; color: #000; border: none; padding: 15px; font-family: monospace; font-weight: bold; cursor: pointer; letter-spacing: 2px;">
-                    EJECUTAR REGISTRO
-                </button>
+                <button type="submit" class="glow-button">SOLICITAR TERMINAL COMPLETA</button>
             </form>
-        </section>
-
+        </footer>
     </div>
 
     <script src="main.js"></script>
 </body>
 </html>
-
-
 
 
 
