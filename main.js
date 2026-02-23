@@ -1,27 +1,27 @@
 document.addEventListener('DOMContentLoaded', () => {
     const ctx = document.getElementById('analyticsChart').getContext('2d');
-    let myChart;
+    let v_Chart;
 
-    // --- CONFIGURACIÓN DE LA GRÁFICA ---
-    function initChart(nominalData, realData, labels) {
-        if (myChart) {
-            myChart.destroy();
+    // --- FUNCIÓN PARA DIBUJAR LA GRÁFICA ---
+    function renderChart(labels, nominalData, realData) {
+        if (v_Chart) {
+            v_Chart.destroy(); // Borra la anterior para no encimar
         }
 
-        myChart = new Chart(ctx, {
+        v_Chart = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: labels,
                 datasets: [
                     {
-                        label: 'Capital Bruto',
+                        label: 'CAPITAL BRUTO',
                         data: nominalData,
-                        backgroundColor: '#00ff88',
+                        backgroundColor: '#00ff88', // Verde neón
                         borderColor: '#00ff88',
                         borderWidth: 1
                     },
                     {
-                        label: 'Poder de Compra Real',
+                        label: 'PODER REAL',
                         data: realData,
                         backgroundColor: 'rgba(255, 255, 255, 0.1)',
                         borderColor: '#ffffff',
@@ -46,15 +46,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 plugins: {
                     legend: {
                         display: true,
-                        labels: { color: '#fff', font: { family: 'monospace' } }
+                        labels: { color: '#fff', font: { family: 'monospace', size: 10 } }
                     }
                 }
             }
         });
     }
 
-    // --- CÁLCULOS MATEMÁTICOS ---
-    function calculate() {
+    // --- FUNCIÓN DE CÁLCULO ---
+    function runVortex() {
         const initial = parseFloat(document.getElementById('initial-capital').value) || 0;
         const monthly = parseFloat(document.getElementById('monthly-savings').value) || 0;
         const years = parseInt(document.getElementById('time-range').value) || 1;
@@ -62,55 +62,63 @@ document.addEventListener('DOMContentLoaded', () => {
         const inflation = (parseFloat(document.getElementById('annual-inflation').value) || 0) / 100;
         const age = parseInt(document.getElementById('user-age').value) || 0;
 
-        // Actualizar etiquetas de texto
+        // Actualizar textos de la interfaz
         document.getElementById('time-display').innerText = years;
         document.getElementById('retirement-age').innerText = age + years;
 
+        let labels = [];
         let nominalData = [];
         let realData = [];
-        let labels = [];
 
         let currentNominal = initial;
 
         for (let i = 0; i <= years; i++) {
             labels.push("Año " + i);
-            let powerReal = currentNominal / Math.pow(1 + inflation, i);
+            let currentReal = currentNominal / Math.pow(1 + inflation, i);
             
-            nominalData.push(currentNominal.toFixed(2));
-            realData.push(powerReal.toFixed(2));
+            nominalData.push(currentNominal.toFixed(0));
+            realData.push(currentReal.toFixed(0));
 
-            // Cálculo para el siguiente año (interés compuesto)
+            // Fórmula Interés Compuesto: (Capital + Ahorro Anual) * Interés
             currentNominal = (currentNominal + (monthly * 12)) * (1 + rate);
         }
 
-        // Mostrar totales en las tarjetas
-        const finalNominal = nominalData[years];
-        const finalReal = realData[years];
+        // Mostrar resultados en las tarjetas superiores
+        const fNominal = nominalData[years];
+        const fReal = realData[years];
+        const fLoss = fNominal - fReal;
 
-        document.getElementById('gross-capital').innerText = `${Number(finalNominal).toLocaleString('es-ES')}€`;
-        document.getElementById('real-power').innerText = `${Number(finalReal).toLocaleString('es-ES')}€`;
-        document.getElementById('purchasing-loss').innerText = `${(finalNominal - finalReal).toLocaleString('es-ES')}€`;
+        document.getElementById('gross-capital').innerText = `${Number(fNominal).toLocaleString('es-ES')}€`;
+        document.getElementById('real-power').innerText = `${Number(fReal).toLocaleString('es-ES')}€`;
+        document.getElementById('purchasing-loss').innerText = `${Number(fLoss).toLocaleString('es-ES')}€`;
 
-        initChart(nominalData, realData, labels);
+        // Lanzar la gráfica
+        renderChart(labels, nominalData, realData);
     }
 
-    // --- LISTENERS ---
-    document.querySelectorAll('input, select').forEach(el => {
-        el.addEventListener('input', calculate);
+    // --- ACTIVADORES (LISTENERS) ---
+    document.querySelectorAll('input, select').forEach(input => {
+        input.addEventListener('input', runVortex);
     });
 
-    // Abrir modal
-    document.getElementById('download-report').addEventListener('click', () => {
-        document.getElementById('lead-modal').style.display = 'flex';
-    });
+    // Abrir modal de captura de leads
+    const btnDownload = document.getElementById('download-report');
+    if (btnDownload) {
+        btnDownload.addEventListener('click', () => {
+            document.getElementById('lead-modal').style.display = 'flex';
+        });
+    }
 
     // Cerrar modal
-    document.getElementById('close-modal').addEventListener('click', () => {
-        document.getElementById('lead-modal').style.display = 'none';
-    });
+    const btnClose = document.getElementById('close-modal');
+    if (btnClose) {
+        btnClose.addEventListener('click', () => {
+            document.getElementById('lead-modal').style.display = 'none';
+        });
+    }
 
-    // Primera ejecución
-    calculate();
+    // Arrancar la primera vez
+    runVortex();
 });
 
 
