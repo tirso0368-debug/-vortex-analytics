@@ -1,73 +1,42 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VORTEX | TERMINAL</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
+<div class="saas-container" style="background: #000; color: #00ff88; font-family: 'Courier New', monospace; padding: 20px; border: 1px solid #1a1a1a;">
+    <header style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 20px;">
+        <div>[ VORTEX_TERMINAL_v2.0 ]</div>
+        <div id="live-clock">2026-02-23 | 15:48:52</div>
+    </header>
 
-    <div class="vortex-container">
-        <header>
-            <h1 class="neon-title">VORTEX ANALYTICS</h1>
-            <div class="status-bar">SISTEMA ACTIVO // DATOS EN TIEMPO REAL</div>
-        </header>
+    <div class="grid-main" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <aside class="sidebar" style="border-right: 1px solid #1a1a1a; padding-right: 20px;">
+            <label>SELECCIONAR DIVISA BASE</label>
+            <select id="base-currency" style="width: 100%; background: #000; color: #00ff88; border: 1px solid #00ff88; margin: 10px 0; padding: 10px;">
+                <option value="EUR">EURO (EUR)</option>
+                <option value="USD">DÓLAR (USD)</option>
+                <option value="GBP">LIBRA (GBP)</option>
+                <option value="JPY">YEN (JPY)</option>
+            </select>
 
-        <main class="grid-layout">
-            <section class="controls">
-                <div class="input-card">
-                    <label>CAPITAL INICIAL (€)</label>
-                    <input type="range" id="capital-slider" min="1000" max="100000" step="1000" value="10000">
-                    <span id="capital-val">10.000€</span>
-                </div>
+            <label>CAPITAL BAJO GESTIÓN</label>
+            <input type="number" id="capital-input" value="50000" style="width: 100%; background: #111; color: #00ff88; border: 1px solid #333; padding: 10px; margin-bottom: 20px;">
+            
+            <div id="ticker-feed" style="font-size: 11px; background: #0a0a0a; padding: 10px; border: 1px solid #222;">
+                <p>LIVE FEED:</p>
+                <div id="btc-price">BTC/USD: --.---</div>
+                <div id="gold-price">GOLD/OZ: --.---</div>
+            </div>
+        </aside>
 
-                <div class="input-card">
-                    <label>INFLACIÓN ANUAL (%)</label>
-                    <input type="range" id="inflation-slider" min="0" max="20" step="0.5" value="3.5">
-                    <span id="inflation-val">3.5%</span>
-                </div>
-
-                <div class="input-card">
-                    <label>HORIZONTE (AÑOS)</label>
-                    <input type="range" id="years-slider" min="1" max="40" value="15">
-                    <span id="years-val">15 Años</span>
-                </div>
-
-                <div class="scanner-box">
-                    <label>ACTIVO DE REFERENCIA</label>
-                    <select id="asset-selector">
-                        <option value="45000">COCHE MEDIA GAMA</option>
-                        <option value="280000">VIVIENDA PROMEDIO</option>
-                        <option value="35000">SUELDO ANUAL</option>
-                    </select>
-                </div>
-            </section>
-
-            <section class="display">
-                <div class="chart-container">
-                    <canvas id="vortexChart"></canvas>
-                </div>
-                <div id="vortex-msg" class="terminal-msg">INICIALIZANDO ESCÁNER...</div>
-            </section>
-        </main>
-
-        <footer class="registration-area">
-            <form action="https://formspree.io/f/mbdapyyv" method="POST" class="vortex-form">
-                <input type="email" name="email" placeholder="TU EMAIL PARA ACCESO VIP" required>
-                <select name="tier">
-                    <option value="standard">INVERSOR STANDARD</option>
-                    <option value="whale">INVERSOR WHALE (+50K)</option>
-                </select>
-                <button type="submit" class="glow-button">SOLICITAR TERMINAL COMPLETA</button>
-            </form>
-        </footer>
+        <section class="main-view">
+            <div id="analysis-header" style="background: #00ff88; color: #000; padding: 5px; font-weight: bold; text-align: center; margin-bottom: 15px;">
+                REAL-TIME ASSET PERFORMANCE
+            </div>
+            <canvas id="vortexLiveChart"></canvas>
+            
+            <div id="action-signals" style="margin-top: 20px; padding: 15px; border: 1px solid #ff4444; color: #ff4444;">
+                [ALERTA DE SISTEMA]: PÉRDIDA POR INACCIÓN DETECTADA
+            </div>
+        </section>
     </div>
+</div>
 
-    <script src="main.js"></script>
-</body>
-</html>
 
 
 
