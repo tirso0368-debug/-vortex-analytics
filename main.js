@@ -4,9 +4,9 @@ const supabaseUrl = 'https://zajtohneourkrqtqtobq.supabase.co'
 const supabaseKey = "sb_publishable_jlPvHDt6scrsSn_ERTqkEA_YI--0147"
 const supabase = createClient(supabaseUrl, supabaseKey)
 
-const form = document.getElementById('form')
+const form = document.getElementById("form")
 
-form.addEventListener('submit', async (e) => {
+form.addEventListener("submit", async (e) => {
   e.preventDefault()
 
   const email = document.getElementById('email').value
