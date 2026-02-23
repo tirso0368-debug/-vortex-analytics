@@ -1,60 +1,99 @@
-
 document.addEventListener('DOMContentLoaded', () => {
-    // --- ELEMENTOS DE LA INTERFAZ ---
-    const downloadBtn = document.getElementById('download-report');
-    const modal = document.getElementById('lead-modal');
-    const closeModal = document.getElementById('close-modal');
-    const timeRange = document.getElementById('time-range');
-    const timeDisplay = document.getElementById('time-display');
-    const retirementAge = document.getElementById('retirement-age');
+    const ctx = document.getElementById('analyticsChart').getContext('2d');
+    let myChart;
 
-    // --- LÓGICA DEL MODAL ---
-    if (downloadBtn && modal) {
-        downloadBtn.addEventListener('click', () => {
-            modal.style.display = 'flex'; // Muestra el modal
+    // --- FUNCIÓN PARA DIBUJAR LA GRÁFICA ---
+    function updateChart(nominalData, realData, labels) {
+        if (myChart) { myChart.destroy(); }
+        
+        myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Capital Bruto (€)',
+                        data: nominalData,
+                        backgroundColor: '#00ff88',
+                        borderColor: '#00ff88',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Poder Real (€)',
+                        data: realData,
+                        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                        borderColor: '#ffffff',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true, grid: { color: '#222' }, ticks: { color: '#00ff88' } },
+                    x: { grid: { display: false }, ticks: { color: '#888' } }
+                },
+                plugins: {
+                    legend: { labels: { color: '#fff', font: { family: 'monospace' } } }
+                }
+            }
         });
     }
 
-    if (closeModal) {
-        closeModal.addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
-    }
-
-    // --- LÓGICA DE CÁLCULOS ---
+    // --- FUNCIÓN DE CÁLCULOS ---
     function updateCalculations() {
         const initial = parseFloat(document.getElementById('initial-capital').value) || 0;
         const monthly = parseFloat(document.getElementById('monthly-savings').value) || 0;
-        const years = parseInt(timeRange.value);
+        const years = parseInt(document.getElementById('time-range').value);
         const rate = (parseFloat(document.getElementById('annual-interest').value) || 0) / 100;
         const inflation = (parseFloat(document.getElementById('annual-inflation').value) || 0) / 100;
         const age = parseInt(document.getElementById('user-age').value) || 0;
 
-        // Actualizar textos
-        timeDisplay.innerText = years;
-        retirementAge.innerText = age + years;
+        document.getElementById('time-display').innerText = years;
+        document.getElementById('retirement-age').innerText = age + years;
 
-        // Cálculo Interés Compuesto
-        let totalNominal = initial * Math.pow(1 + rate, years);
-        for (let i = 1; i <= years * 12; i++) {
-            totalNominal += monthly * Math.pow(1 + rate / 12, (years * 12) - i);
+        let nominalData = [];
+        let realData = [];
+        let labels = [];
+
+        let currentNominal = initial;
+        
+        for (let y = 0; y <= years; y++) {
+            labels.push(`Año ${y}`);
+            const powerReal = currentNominal / Math.pow(1 + inflation, y);
+            nominalData.push(currentNominal);
+            realData.push(powerReal);
+            
+            // Incremento para el año siguiente
+            currentNominal = (currentNominal + (monthly * 12)) * (1 + rate);
         }
 
-        // Ajuste por Inflación (Poder de compra real)
-        const totalReal = totalNominal / Math.pow(1 + inflation, years);
-        const loss = totalNominal - totalReal;
+        // Mostrar resultados finales
+        const finalNominal = nominalData[years];
+        const finalReal = realData[years];
+        
+        document.getElementById('gross-capital').innerText = `$${finalNominal.toLocaleString('es-ES', {maximumFractionDigits:0})}`;
+        document.getElementById('real-power').innerText = `$${finalReal.toLocaleString('es-ES', {maximumFractionDigits:0})}`;
+        document.getElementById('purchasing-loss').innerText = `$${(finalNominal - finalReal).toLocaleString('es-ES', {maximumFractionDigits:0})}`;
 
-        // Mostrar resultados
-        document.getElementById('gross-capital').innerText = `$${totalNominal.toLocaleString('es-ES', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-        document.getElementById('real-power').innerText = `$${totalReal.toLocaleString('es-ES', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-        document.getElementById('purchasing-loss').innerText = `$${loss.toLocaleString('es-ES', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        updateChart(nominalData, realData, labels);
     }
 
-    // Escuchar cambios en los inputs
-    document.querySelectorAll('input, select').forEach(input => {
-        input.addEventListener('input', updateCalculations);
+    // --- EVENTOS ---
+    document.querySelectorAll('input, select').forEach(el => {
+        el.addEventListener('input', updateCalculations);
     });
 
-    // Iniciar cálculos al cargar
+    // Lógica del Modal
+    document.getElementById('download-report').addEventListener('click', () => {
+        document.getElementById('lead-modal').style.display = 'flex';
+    });
+
+    document.getElementById('close-modal').addEventListener('click', () => {
+        document.getElementById('lead-modal').style.display = 'none';
+    });
+
     updateCalculations();
 });
+
