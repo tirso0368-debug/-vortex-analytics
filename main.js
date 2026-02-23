@@ -1,11 +1,10 @@
-// Esperar a que el HTML cargue por completo
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
     const ctx = document.getElementById('analyticsChart');
     if (!ctx) return;
 
     let vortexChart;
 
-    // 1. Inicializar el Gráfico
+    // 1. INICIALIZACIÓN DEL GRÁFICO
     function initChart() {
         vortexChart = new Chart(ctx.getContext('2d'), {
             type: 'line',
@@ -20,42 +19,16 @@ document.addEventListener('DOMContentLoaded', function() {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: { legend: { labels: { color: '#666', font: { size: 10 } } } },
+                plugins: { legend: { labels: { color: '#666', font: { size: 10, family: 'JetBrains Mono' } } } },
                 scales: {
-                    y: { grid: { color: '#111' }, ticks: { color: '#444' } },
-                    x: { grid: { display: false }, ticks: { color: '#444' } }
+                    y: { grid: { color: '#111' }, ticks: { color: '#444', font: { family: 'JetBrains Mono' } } },
+                    x: { grid: { display: false }, ticks: { color: '#444', font: { family: 'JetBrains Mono' } } }
                 }
             }
         });
     }
 
-    // 2. Función de Hitos
-    function updateMilestones(currentReal) {
-        const list = document.getElementById('milestones-list');
-        if (!list) return;
-        
-        list.innerHTML = '';
-        const mset = [
-            { label: "FONDO DE RESERVA", val: 10000, desc: "SEGURIDAD BÁSICA" },
-            { label: "ESTABILIDAD", val: 50000, desc: "INVERSIÓN MEDIA" },
-            { label: "PATRIMONIO", val: 100000, desc: "CRECIMIENTO ACELERADO" },
-            { label: "LIBERTAD", val: 500000, desc: "INDEPENDENCIA TOTAL" }
-        ];
-
-        mset.forEach(m => {
-            const reached = currentReal >= m.val;
-            const item = document.createElement('div');
-            item.className = `milestone-item ${reached ? 'reached' : 'locked'}`;
-            item.innerHTML = `
-                <h4>${reached ? '[ ALCANZADO ]' : '[ PENDIENTE ]'}</h4>
-                <p>${m.label}</p>
-                <p style="color: ${reached ? '#00ff88' : '#444'}">${reached ? m.desc : 'REQ: ' + m.val.toLocaleString() + ' €'}</p>
-            `;
-            list.appendChild(item);
-        });
-    }
-
-    // 3. Función de Cálculo (Refresh)
+    // 2. LÓGICA DE CÁLCULO
     function refresh() {
         const initial = parseFloat(document.getElementById('initial-capital').value) || 0;
         const savings = parseFloat(document.getElementById('monthly-savings').value) || 0;
@@ -99,14 +72,35 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('real-power').innerText = fmt.format(finalReal);
         document.getElementById('purchasing-loss').innerText = fmt.format(finalBruto - finalReal);
 
-        updateMilestones(finalReal);
-
         localStorage.setItem('vortex_config', JSON.stringify({
             initial, savings, age, interest: interest*100, inflation: inflation*100, time: yrs, scenario
         }));
     }
 
-    // 4. Ejecución Inicial
+    // 3. SISTEMA DE CAPTURA (MODAL)
+    const downloadBtn = document.getElementById('download-report');
+    const modal = document.getElementById('lead-modal');
+    const closeModal = document.getElementById('close-modal');
+    const leadForm = document.getElementById('lead-form');
+
+    downloadBtn.addEventListener('click', () => {
+        modal.style.display = 'flex';
+    });
+
+    closeModal.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+
+    leadForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('user-email').value;
+        console.log("Lead registrado: " + email);
+        localStorage.setItem('vortex_lead', email);
+        modal.style.display = 'none';
+        window.print();
+    });
+
+    // 4. EJECUCIÓN INICIAL
     initChart();
     
     const saved = localStorage.getItem('vortex_config');
@@ -123,13 +117,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     refresh();
 
-    // Eventos
     document.querySelectorAll('input, select').forEach(el => {
         el.addEventListener('input', refresh);
     });
-
-    document.getElementById('download-report').addEventListener('click', () => window.print());
 });
+
 
 
 
