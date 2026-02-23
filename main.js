@@ -12,13 +12,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     {
                         label: 'CAPITAL ACUMULADO (€)',
                         data: nominalData,
-                        backgroundColor: '#00ff88', // Verde neón
+                        backgroundColor: '#00ff88',
                         borderRadius: 5,
                     },
                     {
-                        label: 'VALOR REAL (AJUSTADO A INFLACIÓN) (€)',
+                        label: 'VALOR REAL (INFLACIÓN) (€)',
                         data: realData,
-                        backgroundColor: 'rgba(255, 255, 255, 0.2)', // Blanco traslúcido
+                        backgroundColor: 'rgba(255, 255, 255, 0.2)',
                         borderRadius: 5,
                     }
                 ]
@@ -29,36 +29,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 scales: {
                     y: { beginAtZero: true, grid: { color: '#222' }, ticks: { color: '#00ff88' } },
                     x: { grid: { display: false }, ticks: { color: '#888' } }
+                },
+                plugins: {
+                    legend: { labels: { color: '#fff', font: { family: 'monospace' } } }
                 }
             }
         });
     }
 
     function updateVortex() {
-        const initial = parseFloat(document.getElementById('initial-capital').value) || 0;
-        const monthly = parseFloat(document.getElementById('monthly-savings').value) || 0;
-        const years = parseInt(document.getElementById('time-range').value) || 1;
-        const rate = (parseFloat(document.getElementById('annual-interest').value) || 0) / 100;
-        const inflation = (parseFloat(document.getElementById('annual-inflation').value) || 0) / 100;
+        // Aseguramos que lea bien los números aunque pongas puntos o comas
+        const initial = parseFloat(document.getElementById('initial-
 
-        let labels = [], nominalData = [], realData = [];
-        let currentNominal = initial;
-
-        for (let i = 0; i <= years; i++) {
-            labels.push("Año " + i);
-            let currentReal = currentNominal / Math.pow(1 + inflation, i);
-            nominalData.push(Math.round(currentNominal));
-            realData.push(Math.round(currentReal));
-            currentNominal = (currentNominal + (monthly * 12)) * (1 + rate);
-        }
-
-        renderChart(labels, nominalData, realData);
-    }
-
-    document.querySelectorAll('input, select').forEach(el => el.addEventListener('input', updateVortex));
-    document.getElementById('download-report').addEventListener('click', () => {
-        document.getElementById('lead-modal').style.display = 'flex';
-    });
-    updateVortex();
-});
 
