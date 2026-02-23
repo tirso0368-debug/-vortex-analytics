@@ -5,130 +5,90 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>VORTEX — Inteligencia Artificial Financiera</title>
+<title>VORTEX — Inteligencia Financiera</title>
 
-<meta name="description" content="VORTEX es una plataforma de inteligencia artificial financiera que analiza mercados en tiempo real y ayuda a descubrir oportunidades de inversión de forma inteligente.">
+<meta name="description" content="Plataforma de inteligencia artificial financiera para analizar mercados y descubrir oportunidades de inversión.">
 
-<meta name="keywords" content="inteligencia artificial financiera, invertir dinero, análisis de mercado, IA inversión, fintech, trading, inversión inteligente, predicción financiera">
-
-<meta name="author" content="VORTEX">
-
-<meta property="og:title" content="VORTEX — Inteligencia financiera impulsada por IA">
-<meta property="og:description" content="Descubre oportunidades de inversión con tecnología avanzada y datos en tiempo real.">
-<meta property="og:type" content="website">
+<meta name="keywords" content="inteligencia artificial financiera, inversión, análisis de mercado, fintech">
 
 <style>
 
 body{
     margin:0;
-    font-family:'Segoe UI',Arial,sans-serif;
-    background:radial-gradient(circle at top,#0c1224,#05070f);
+    font-family:Arial, Helvetica, sans-serif;
+    background:#0b0f1a;
     color:white;
 }
 
 nav{
     display:flex;
     justify-content:space-between;
-    align-items:center;
     padding:20px 40px;
-    background:rgba(0,0,0,0.3);
-    backdrop-filter:blur(10px);
-    border-bottom:1px solid rgba(255,255,255,0.08);
+    background:#0e1424;
 }
 
 .logo{
     font-weight:bold;
-    font-size:20px;
     letter-spacing:2px;
-}
-
-.badge{
-    background:#1d4ed8;
-    padding:6px 12px;
-    border-radius:20px;
-    font-size:12px;
 }
 
 .hero{
     text-align:center;
-    padding:100px 20px 60px;
-    max-width:900px;
+    padding:80px 20px;
+    max-width:800px;
     margin:auto;
 }
 
 .hero h1{
-    font-size:42px;
+    font-size:36px;
     margin-bottom:20px;
 }
 
 .hero p{
-    font-size:18px;
-    opacity:0.85;
+    opacity:0.8;
 }
 
 .card{
-    background:rgba(255,255,255,0.05);
-    border:1px solid rgba(255,255,255,0.08);
-    border-radius:14px;
-    padding:40px;
-    max-width:420px;
+    background:#121a2f;
+    padding:30px;
+    border-radius:10px;
+    max-width:380px;
     margin:40px auto;
-    backdrop-filter:blur(20px);
 }
 
 input{
     width:100%;
-    padding:14px;
-    margin-bottom:15px;
-    border-radius:8px;
+    padding:12px;
+    margin-bottom:12px;
+    border-radius:6px;
     border:none;
-    font-size:15px;
 }
 
 button{
     width:100%;
-    padding:15px;
+    padding:14px;
     border:none;
-    border-radius:8px;
+    border-radius:6px;
     background:#2563eb;
     color:white;
     font-weight:bold;
-    font-size:16px;
     cursor:pointer;
-    transition:0.3s;
 }
 
 button:hover{
-    background:#1e40af;
-}
-
-.secure{
-    margin-top:15px;
-    font-size:13px;
-    opacity:0.7;
+    background:#1d4ed8;
 }
 
 #mensaje{
-    margin-top:15px;
+    margin-top:10px;
     color:#22c55e;
-    font-weight:bold;
     display:none;
-}
-
-.section{
-    max-width:900px;
-    margin:auto;
-    padding:60px 20px;
-}
-
-.feature{
-    margin-bottom:30px;
 }
 
 footer{
     text-align:center;
-    padding:40px;
-    opacity:0.4;
+    padding:30px;
+    opacity:0.5;
     font-size:14px;
 }
 
@@ -140,7 +100,7 @@ footer{
 
 <nav>
 <div class="logo">VORTEX</div>
-<div class="badge">Acceso anticipado</div>
+<div>Acceso anticipado</div>
 </nav>
 
 <section class="hero">
@@ -148,118 +108,51 @@ footer{
 <h1>La inteligencia artificial que analiza el mercado por ti</h1>
 
 <p>
-Plataforma exclusiva de análisis financiero impulsada por IA.  
-Actualmente en fase privada, pero el acceso está disponible por tiempo limitado.
+Plataforma financiera en fase privada.  
+Acceso disponible por tiempo limitado.
 </p>
 
 <div class="card">
 
 <form 
-  action="https://formspree.io/f/mbdapyvv" 
-  method="POST"
-  id="registroForm"
+action="https://formspree.io/f/mbdapyvv" 
+method="POST"
+id="form"
 >
 
-<input 
-type="text" 
-name="nombre" 
-placeholder="Nombre"
-required
->
+<input type="text" name="nombre" placeholder="Nombre" required>
 
-<input 
-type="email" 
-name="email" 
-placeholder="Correo electrónico"
-required
->
+<input type="email" name="email" placeholder="Correo electrónico" required>
 
-<input type="text" name="_gotcha" style="display:none">
+<input type="hidden" name="_subject" value="Nuevo registro VORTEX">
 
-<input type="hidden" name="_subject" value="Nuevo usuario registrado en VORTEX">
-
-<button type="submit">Solicitar acceso anticipado</button>
+<button type="submit">Solicitar acceso</button>
 
 </form>
 
-<div id="mensaje">✔ Registro recibido — revisaremos tu acceso</div>
-
-<p class="secure">
-🔒 Datos protegidos — sin spam
-</p>
+<div id="mensaje">Registro enviado correctamente ✔</div>
 
 </div>
-
-</section>
-
-<section class="section">
-
-<h2>¿Qué es VORTEX?</h2>
-
-<p>
-VORTEX es una plataforma tecnológica de inteligencia artificial financiera diseñada para analizar mercados en tiempo real y ayudar a los usuarios a descubrir oportunidades de inversión de forma más eficiente.
-</p>
-
-<p>
-Utilizando algoritmos avanzados, datos financieros y modelos predictivos, la plataforma permite optimizar decisiones relacionadas con capital, inversión y crecimiento financiero.
-</p>
-
-</section>
-
-<section class="section">
-
-<h2>Funciones principales</h2>
-
-<div class="feature">
-<h3>📊 Análisis de mercado con IA</h3>
-<p>Modelos inteligentes que detectan patrones y tendencias financieras.</p>
-</div>
-
-<div class="feature">
-<h3>⚡ Datos financieros en tiempo real</h3>
-<p>Seguimiento continuo de activos globales, criptomonedas y mercados.</p>
-</div>
-
-<div class="feature">
-<h3>🧠 Predicciones y oportunidades</h3>
-<p>Sistemas diseñados para identificar oportunidades antes que el mercado.</p>
-</div>
-
-</section>
-
-<section class="section">
-
-<h2>Preguntas frecuentes</h2>
-
-<p><strong>¿Quién puede usar VORTEX?</strong><br>
-Cualquier persona interesada en mejorar su conocimiento financiero y explorar oportunidades de inversión mediante tecnología avanzada.</p>
-
-<p><strong>¿Es necesario tener experiencia?</strong><br>
-No. La plataforma está diseñada tanto para principiantes como para usuarios avanzados.</p>
-
-<p><strong>¿Cuándo estará disponible?</strong><br>
-Actualmente estamos en fase de acceso anticipado con usuarios seleccionados.</p>
 
 </section>
 
 <footer>
-© 2026 VORTEX Capital — Inteligencia Artificial Financiera
+© 2026 VORTEX
 </footer>
 
 <script>
 
-const form = document.getElementById("registroForm");
-const mensaje = document.getElementById("mensaje");
+const form = document.getElementById("form");
+const msg = document.getElementById("mensaje");
 
 form.addEventListener("submit", function(){
-    mensaje.style.display = "block";
+    msg.style.display = "block";
 });
 
 </script>
 
 </body>
 </html>
-
 
 
 
