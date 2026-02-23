@@ -4,10 +4,93 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VORTEX | Financial Analytics Terminal</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%2300ff88%22/><text y=%22.9em%22 font-size=%2280%22 font-weight=%22bold%22 x=%2215%22 fill=%22black%22>V</text></svg>">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <div class="dashboard-container
+    <div class="dashboard-container">
+        <header class="brand-header">
+            <div class="logo-box">
+                <span class="v-icon">V</span>
+                <span class="brand-name">VORTEX <small>ANALYTICS</small></span>
+            </div>
+            <div class="system-status">
+                <span class="pulse-dot"></span> 
+                <span id="status-text">SYSTEM ACTIVE</span>
+            </div>
+        </header>
+
+        <section class="main-chart">
+            <canvas id="analyticsChart"></canvas>
+        </section>
+
+        <section class="results-grid">
+            <div class="metric-card">
+                <h3>CAPITAL NOMINAL</h3>
+                <p id="gross-capital">0,00 €</p>
+            </div>
+            <div class="metric-card">
+                <h3>PODER ADQUISITIVO REAL</h3>
+                <p id="real-power" class="text-neon">0,00 €</p>
+            </div>
+            <div class="metric-card">
+                <h3>EROSIÓN POR INFLACIÓN</h3>
+                <p id="purchasing-loss" class="text-alert">0,00 €</p>
+            </div>
+        </section>
+
+        <section class="milestones-container">
+            <h3 class="section-title">PROYECCIÓN DE HITOS FINANCIEROS</h3>
+            <div id="milestones-list" class="milestones-grid">
+                </div>
+        </section>
+
+        <section class="control-center">
+            <div class="input-row">
+                <div class="field">
+                    <label>CAPITAL INICIAL (EUR)</label>
+                    <input type="number" id="initial-capital" value="1000">
+                </div>
+                <div class="field">
+                    <label>APORTACIÓN MENSUAL (EUR)</label>
+                    <input type="number" id="monthly-savings" value="100">
+                </div>
+                <div class="field">
+                    <label>EDAD ACTUAL</label>
+                    <input type="number" id="user-age" value="16">
+                </div>
+                <div class="field">
+                    <label>ESCENARIO MACRO</label>
+                    <select id="scenario-mode">
+                        <option value="manual" selected>Manual</option>
+                        <option value="optimist">Baja Inflación (2%)</option>
+                        <option value="panic">Alta Inflación (8%)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="input-row">
+                <div class="field">
+                    <label>RENDIMIENTO ANUAL (%)</label>
+                    <input type="number" id="annual-interest" value="8">
+                </div>
+                <div class="field">
+                    <label>INFLACIÓN ANUAL (%)</label>
+                    <input type="number" id="annual-inflation" value="3">
+                </div>
+                <div class="field" style="grid-column: span 2;">
+                    <label>HORIZONTE TEMPORAL: <span id="time-display">20</span> AÑOS (EDAD OBJETIVO: <span id="retirement-age">36</span>)</label>
+                    <input type="range" id="time-range" min="1" max="50" value="20">
+                </div>
+            </div>
+
+            <button id="download-report" class="btn-neon">GENERAR INFORME ANALÍTICO</button>
+        </section>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
 
 
