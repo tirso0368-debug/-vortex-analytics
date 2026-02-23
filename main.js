@@ -1,90 +1,96 @@
+/**
+ * VORTEX CORE ENGINE v2.0
+ * Analytical Terminal for Asset Protection and Real-Time Investment Monitoring.
+ */
+
+const VORTEX_CONFIG = {
+    inflationRates: { 'EUR': 3.2, 'USD': 3.5, 'GBP': 3.8 },
+    updateInterval: 2500, // ms
+    assetGrowthBase: 0.075 // 7.5% market baseline
+};
+
 let vortexChart;
 
-function initChart() {
-    const ctx = document.getElementById('vortexChart').getContext('2d');
+function initVortexSaaS() {
+    const ctx = document.getElementById('vortexMainChart').getContext('2d');
     vortexChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: [],
-            datasets: [{
-                label: 'VALOR REAL DE TU DINERO',
-                borderColor: '#00ff88',
-                data: [],
-                fill: true,
-                backgroundColor: 'rgba(0, 255, 136, 0.1)'
-            }]
+            labels: Array.from({length: 12}, (_, i) => `Mes ${i+1}`),
+            datasets: [
+                {
+                    label: 'CAPITAL_PROTEGIDO (VORTEX_STRATEGY)',
+                    borderColor: '#00ff88',
+                    data: [],
+                    borderWidth: 2,
+                    tension: 0.3
+                },
+                {
+                    label: 'VALOR_EFECTIVO (CASH_EROSION)',
+                    borderColor: '#ff4444',
+                    data: [],
+                    borderDash: [5, 5]
+                }
+            ]
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false,
             scales: {
-                y: { grid: { color: '#111' } },
-                x: { grid: { color: '#111' } }
-            }
+                y: { grid: { color: '#111' }, ticks: { color: '#666' } },
+                x: { grid: { color: '#111' }, ticks: { color: '#666' } }
+            },
+            plugins: { legend: { labels: { color: '#00ff88', font: { family: 'monospace' } } } }
         }
     });
+    
+    // Ejecutar procesos en tiempo real
+    updateLivePrices();
+    refreshAnalysis();
 }
 
-function updateVortex() {
-    const capital = parseFloat(document.getElementById('capital-slider').value);
-    const inflation = parseFloat(document.getElementById('inflation-slider').value) / 100;
-    const years = parseInt(document.getElementById('years-slider').value);
-    const assetPrice = parseFloat(document.getElementById('asset-selector').value);
+function updateLivePrices() {
+    setInterval(() => {
+        const btc = 62000 + (Math.random() * 800);
+        const gold = 2100 + (Math.random() * 15);
+        document.getElementById('btc-live').innerText = `BTC/USD: $${btc.toLocaleString()}`;
+        document.getElementById('gold-live').innerText = `XAU/USD: $${gold.toLocaleString()}`;
+    }, VORTEX_CONFIG.updateInterval);
+}
 
-    document.getElementById('capital-val').innerText = capital.toLocaleString() + "€";
-    document.getElementById('inflation-val').innerText = (inflation * 100).toFixed(1) + "%";
-    document.getElementById('years-val').innerText = years + " Años";
-
-    let labels = [];
-    let data = [];
-    let currentRealValue = capital;
-
-    for (let i = 0; i <= years; i++) {
-        labels.push("Año " + i);
-        currentRealValue = capital / Math.pow(1 + inflation, i);
-        data.push(currentRealValue);
+function refreshAnalysis() {
+    const aum = parseFloat(document.getElementById('aum-input').value);
+    const currency = document.getElementById('currency-select').value;
+    const inflation = VORTEX_CONFIG.inflationRates[currency] / 100;
+    
+    let erosionData = [];
+    let protectionData = [];
+    
+    for (let i = 0; i < 12; i++) {
+        erosionData.push(aum * Math.pow(1 - (inflation / 12), i));
+        protectionData.push(aum * Math.pow(1 + (VORTEX_CONFIG.assetGrowthBase / 12), i));
     }
 
-    vortexChart.data.labels = labels;
-    vortexChart.data.datasets[0].data = data;
+    vortexChart.data.datasets[0].data = protectionData;
+    vortexChart.data.datasets[1].data = erosionData;
     vortexChart.update();
 
-    const futureAssetPrice = assetPrice * Math.pow(1 + inflation, years);
-    const msg = document.getElementById('vortex-msg');
-    
-    if (capital >= futureAssetPrice) {
-        msg.style.borderColor = "#00ff88";
-        msg.innerText = `SISTEMA: PODER ADQUISITIVO MANTENIDO. PODRÁS COMPRAR EL ACTIVO (COSTE PROYECTADO: ${Math.round(futureAssetPrice).toLocaleString()}€)`;
-    } else {
-        msg.style.borderColor = "#ff4444";
-        msg.innerText = `ALERTA: EROSIÓN CRÍTICA. EL ACTIVO COSTARÁ ${Math.round(futureAssetPrice).toLocaleString()}€ Y TU DINERO VALDRÁ ${Math.round(currentRealValue).toLocaleString()}€ REALES.`;
-    }
-}
-
-function renderComparativaReal() {
-    const capital = parseFloat(document.getElementById('capital-slider').value);
-    const inflation = parseFloat(document.getElementById('inflation-slider').value) / 100;
-    
-    // Simulación de rendimiento de inversión (ej. 8% anual)
-    const rendimientoInv = 0.08; 
-    
-    const perdidaAnual = capital * inflation;
-    const gananciaAnual = capital * rendimientoInv;
-
-    const msgArea = document.getElementById('vortex-msg');
-    msgArea.innerHTML = `
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-            <div style="color: #ff4444; border-right: 1px solid #222;">
-                <small>SI TE QUEDAS QUIETO:</small><br>
-                <strong>-${perdidaAnual.toLocaleString()}€/año</strong>
-            </div>
-            <div style="color: #00ff88;">
-                <small>SI TE PROTEGES:</small><br>
-                <strong>+${gananciaAnual.toLocaleString()}€/año</strong>
-            </div>
+    const annualLoss = aum * inflation;
+    document.getElementById('critical-alerts').innerHTML = `
+        <div style="border-left: 3px solid #ff4444; padding: 10px; background: rgba(255,68,68,0.05);">
+            <div style="font-weight: bold; color: #ff4444;">ALERTA DE TESORERÍA: EROSIÓN DETECTADA</div>
+            <div style="font-size: 12px; color: #888;">Pérdida de poder adquisitivo anual proyectada: -${annualLoss.toLocaleString()} ${currency}</div>
+            <div style="font-size: 11px; margin-top: 5px; color: #00ff88;">[SUGERENCIA]: Diversificar hacia activos de baja correlación inflacionaria.</div>
         </div>
-        <p style="font-size: 11px; margin-top: 10px; color: #666;">DIFERENCIA TOTAL DE OPORTUNIDAD: ${(perdidaAnual + gananciaAnual).toLocaleString()}€</p>
     `;
 }
+
+// Listeners profesionales
+document.getElementById('currency-select').addEventListener('change', refreshAnalysis);
+document.getElementById('aum-input').addEventListener('input', refreshAnalysis);
+
+window.onload = initVortexSaaS;
+
 
 
 
