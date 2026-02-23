@@ -60,29 +60,32 @@ function updateVortex() {
     }
 }
 
-document.querySelectorAll('input, select').forEach(el => el.addEventListener('input', updateVortex));
-initChart();
-updateVortex();
-let capitalActual = 10000; // Capital que el usuario ingresa
-let tasaInflacionAnual = 3.5; // % de inflación
-
-function iniciarRelojDePerdida() {
-    const displayReloj = document.getElementById('reloj-perdida');
+function renderComparativaReal() {
+    const capital = parseFloat(document.getElementById('capital-slider').value);
+    const inflation = parseFloat(document.getElementById('inflation-slider').value) / 100;
     
-    // Calculamos la pérdida por segundo: (Capital * Inflación) / Segundos en un año
-    const perdidaPorSegundo = (capitalActual * (tasaInflacionAnual / 100)) / 31536000;
-    let perdidaAcumulada = 0;
+    // Simulación de rendimiento de inversión (ej. 8% anual)
+    const rendimientoInv = 0.08; 
+    
+    const perdidaAnual = capital * inflation;
+    const gananciaAnual = capital * rendimientoInv;
 
-    setInterval(() => {
-        perdidaAcumulada += perdidaPorSegundo;
-        displayReloj.innerHTML = `
-            <div style="color: #ff4444; font-size: 0.8rem;">SISTEMA DETECTA FUGA DE CAPITAL:</div>
-            <div style="color: #ff4444; font-size: 1.5rem; font-weight: bold;">
-                -${perdidaAcumulada.toFixed(6)}€
+    const msgArea = document.getElementById('vortex-msg');
+    msgArea.innerHTML = `
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div style="color: #ff4444; border-right: 1px solid #222;">
+                <small>SI TE QUEDAS QUIETO:</small><br>
+                <strong>-${perdidaAnual.toLocaleString()}€/año</strong>
             </div>
-        `;
-    }, 1000);
+            <div style="color: #00ff88;">
+                <small>SI TE PROTEGES:</small><br>
+                <strong>+${gananciaAnual.toLocaleString()}€/año</strong>
+            </div>
+        </div>
+        <p style="font-size: 11px; margin-top: 10px; color: #666;">DIFERENCIA TOTAL DE OPORTUNIDAD: ${(perdidaAnual + gananciaAnual).toLocaleString()}€</p>
+    `;
 }
+
 
 
 
