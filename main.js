@@ -1,103 +1,148 @@
+
+// =========================
+// DATOS DE MERCADO REALES
+// =========================
+
+async function loadMarket() {
+
+  try {
+
+    const btcRes = await fetch(
+      "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=eur"
+    );
+    const btcData = await btcRes.json();
+
+    document.getElementById("btc").innerText =
+      btcData.bitcoin.eur.toLocaleString();
+
+
+    const fxRes = await fetch(
+      "https://api.exchangerate.host/latest?base=EUR&symbols=USD"
+    );
+    const fxData = await fxRes.json();
+
+    document.getElementById("eurusd").innerText =
+      fxData.rates.USD.toFixed(3);
+
+  } catch (err) {
+
+    console.log("Error mercado:", err);
+
+  }
+
+}
+
+loadMarket();
+setInterval(loadMarket, 60000);
+
+
+
+// =========================
+// CALCULADORA FINANCIERA
+// =========================
+
 let chart;
-let lossInterval;
 
-function init() {
-    const ctx = document.getElementById('mainChart').getContext('2d');
-    chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['Mes 1', 'Mes 2', 'Mes 3', 'Mes 4', 'Mes 5', 'Mes 6', 'Mes 7', 'Mes 8', 'Mes 9', 'Mes 10', 'Mes 11', 'Mes 12'],
-            datasets: [{
-                label: 'Pérdida de Poder Adquisitivo',
-                data: [],
-                borderColor: '#dc2626',
-                backgroundColor: 'rgba(220, 38, 38, 0.05)',
-                borderWidth: 3,
-                tension: 0.4,
-                fill: true,
-                pointRadius: 0
-            }]
+function calculate() {
+
+  const capital = parseFloat(document.getElementById("capital").value);
+  const rate = parseFloat(document.getElementById("rate").value) / 100;
+  const inflation = parseFloat(document.getElementById("inflation").value) / 100;
+  const years = parseInt(document.getElementById("years").value);
+
+  let nominal = [];
+  let real = [];
+  let labels = [];
+
+  let value = capital;
+  let inflationFactor = 1;
+
+  for (let i = 0; i <= years; i++) {
+
+    labels.push("Año " + i);
+
+    nominal.push(value);
+    real.push(value / inflationFactor);
+
+    value *= (1 + rate);
+    inflationFactor *= (1 + inflation);
+
+  }
+
+  document.getElementById("future").innerText =
+    nominal[nominal.length - 1].toFixed(0);
+
+  document.getElementById("real").innerText =
+    real[real.length - 1].toFixed(0);
+
+  drawChart(labels, nominal, real);
+
+}
+
+function drawChart(labels, nominal, real) {
+
+  const ctx = document.getElementById("chart");
+
+  if (chart) chart.destroy();
+
+  chart = new Chart(ctx, {
+
+    type: "line",
+
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: "Capital nominal",
+          data: nominal,
+          borderWidth: 2
         },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: {
-                x: { grid: { display: false } },
-                y: { grid: { color: '#f3f4f6' } }
-            }
+        {
+          label: "Valor real",
+          data: real,
+          borderWidth: 2
         }
-    });
-    
-    updateAnalysis();
-    startLivePrices();
-    startRealTimeLoss();
-}
+      ]
+    },
 
-function updateAnalysis() {
-    const capital = parseFloat(document.getElementById('capital-input').value) || 0;
-    const currency = document.getElementById('currency-select').value;
-    
-    // Tasas estimadas 2026
-    const rates = { 'EUR': 3.2, 'USD': 3.5 };
-    const rate = rates[currency] / 100;
-    
-    // Actualizar Señal VORTEX
-    const signalElem = document.getElementById('vortex-signal');
-    const signalBox = document.getElementById('signal-container');
-    
-    if (capital > 50000) {
-        signalElem.innerText = "ACCIONAR DEFENSA";
-        signalElem.style.color = "#dc2626";
-        signalBox.style.borderLeft = "5px solid #dc2626";
-    } else {
-        signalElem.innerText = "RIESGO MODERADO";
-        signalElem.style.color = "#f59e0b";
-        signalBox.style.borderLeft = "5px solid #f59e0b";
+    options: {
+      responsive: true,
+      maintainAspectRatio: false
     }
 
-    // Gráfico de erosión
-    let projection = [];
-    for (let i = 0; i < 12; i++) {
-        projection.push(capital * Math.pow(1 - (rate / 12), i));
-    }
-    chart.data.datasets[0].data = projection;
-    chart.update();
+  });
+
 }
 
-function startRealTimeLoss() {
-    if (lossInterval) clearInterval(lossInterval);
-    const display = document.getElementById('hourly-loss');
+calculate();
 
-    lossInterval = setInterval(() => {
-        const capital = parseFloat(document.getElementById('capital-input').value) || 0;
-        const currency = document.getElementById('currency-select').value;
-        const rate = (currency === 'EUR' ? 3.2 : 3.5) / 100;
 
-        const lossPerHour = (capital * rate) / (365 * 24);
-        display.innerText = `-${lossPerHour.toFixed(2)} ${currency}`;
-        
-        // Animación de pulso
-        display.classList.remove('pulse-active');
-        void display.offsetWidth; 
-        display.classList.add('pulse-active');
-    }, 1000);
-}
 
-function startLivePrices() {
-    setInterval(() => {
-        const btc = 68000 + (Math.random() * 300);
-        const gold = 2150 + (Math.random() * 10);
-        document.getElementById('btc-price').innerText = `$${btc.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
-        document.getElementById('gold-price').innerText = `$${gold.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
-    }, 3000);
-}
+// =========================
+// REGISTRO USUARIOS
+// =========================
 
-document.getElementById('capital-input').addEventListener('input', updateAnalysis);
-document.getElementById('currency-select').addEventListener('change', updateAnalysis);
+document.getElementById("signupForm").addEventListener("submit", function(e) {
 
-window.onload = init;
+  e.preventDefault();
 
+  const email = document.getElementById("email").value;
+
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+
+  users.push({
+    email: email,
+    date: new Date().toISOString()
+  });
+
+  localStorage.setItem("users", JSON.stringify(users));
+
+  document.getElementById("msg").innerText =
+    "Cuenta creada correctamente";
+
+  document.getElementById("signupForm").reset();
+
+});
 
 
 
