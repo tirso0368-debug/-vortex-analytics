@@ -1,157 +1,260 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>VORTEX Analytics</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #0b0f1a;
-      color: white;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    header {
-      padding: 20px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #0e1424;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
+<title>VORTEX — Inteligencia Artificial Financiera</title>
 
-    .logo {
-      font-weight: bold;
-      font-size: 20px;
-      letter-spacing: 1px;
-    }
+<meta name="description" content="VORTEX es una plataforma de inteligencia artificial financiera que analiza mercados en tiempo real y ayuda a descubrir oportunidades de inversión de forma inteligente.">
 
-    .hero {
-      text-align: center;
-      padding: 100px 20px;
-      max-width: 900px;
-      margin: auto;
-    }
+<meta name="keywords" content="inteligencia artificial financiera, invertir dinero, análisis de mercado, IA inversión, fintech, trading, inversión inteligente, predicción financiera">
 
-    .hero h1 {
-      font-size: 42px;
-      margin-bottom: 20px;
-    }
+<meta name="author" content="VORTEX">
 
-    .hero p {
-      font-size: 18px;
-      opacity: 0.8;
-      margin-bottom: 40px;
-    }
+<meta property="og:title" content="VORTEX — Inteligencia financiera impulsada por IA">
+<meta property="og:description" content="Descubre oportunidades de inversión con tecnología avanzada y datos en tiempo real.">
+<meta property="og:type" content="website">
 
-    .registro {
-      background: #121a2f;
-      padding: 40px;
-      border-radius: 12px;
-      max-width: 400px;
-      margin: auto;
-      box-shadow: 0 0 30px rgba(0,0,0,0.4);
-    }
+<style>
 
-    input {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 15px;
-      border-radius: 6px;
-      border: none;
-      font-size: 16px;
-    }
+body{
+    margin:0;
+    font-family:'Segoe UI',Arial,sans-serif;
+    background:radial-gradient(circle at top,#0c1224,#05070f);
+    color:white;
+}
 
-    button {
-      width: 100%;
-      padding: 14px;
-      background: #2563eb;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-      font-weight: bold;
-    }
+nav{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 40px;
+    background:rgba(0,0,0,0.3);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(255,255,255,0.08);
+}
 
-    button:hover {
-      background: #1d4ed8;
-    }
+.logo{
+    font-weight:bold;
+    font-size:20px;
+    letter-spacing:2px;
+}
 
-    #mensaje {
-      margin-top: 15px;
-      color: #22c55e;
-      display: none;
-      font-weight: bold;
-      text-align: center;
-    }
+.badge{
+    background:#1d4ed8;
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:12px;
+}
 
-    footer {
-      text-align: center;
-      padding: 40px;
-      opacity: 0.5;
-      font-size: 14px;
-    }
-  </style>
+.hero{
+    text-align:center;
+    padding:100px 20px 60px;
+    max-width:900px;
+    margin:auto;
+}
+
+.hero h1{
+    font-size:42px;
+    margin-bottom:20px;
+}
+
+.hero p{
+    font-size:18px;
+    opacity:0.85;
+}
+
+.card{
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:14px;
+    padding:40px;
+    max-width:420px;
+    margin:40px auto;
+    backdrop-filter:blur(20px);
+}
+
+input{
+    width:100%;
+    padding:14px;
+    margin-bottom:15px;
+    border-radius:8px;
+    border:none;
+    font-size:15px;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:8px;
+    background:#2563eb;
+    color:white;
+    font-weight:bold;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#1e40af;
+}
+
+.secure{
+    margin-top:15px;
+    font-size:13px;
+    opacity:0.7;
+}
+
+#mensaje{
+    margin-top:15px;
+    color:#22c55e;
+    font-weight:bold;
+    display:none;
+}
+
+.section{
+    max-width:900px;
+    margin:auto;
+    padding:60px 20px;
+}
+
+.feature{
+    margin-bottom:30px;
+}
+
+footer{
+    text-align:center;
+    padding:40px;
+    opacity:0.4;
+    font-size:14px;
+}
+
+</style>
+
 </head>
 
 <body>
 
-<header>
-  <div class="logo">VORTEX</div>
-  <div>AI Financial Platform</div>
-</header>
+<nav>
+<div class="logo">VORTEX</div>
+<div class="badge">Acceso anticipado</div>
+</nav>
 
 <section class="hero">
-  <h1>La inteligencia artificial que analiza el mercado por ti</h1>
-  <p>Acceso anticipado exclusivo — plazas limitadas</p>
 
-  <div class="registro">
+<h1>La inteligencia artificial que analiza el mercado por ti</h1>
 
-    <form action="https://formspree.io/f/mbdapyvv" method="POST" id="formulario">
+<p>
+Plataforma exclusiva de análisis financiero impulsada por IA.  
+Actualmente en fase privada, pero el acceso está disponible por tiempo limitado.
+</p>
 
-      <input 
-        type="text" 
-        name="nombre" 
-        placeholder="Nombre"
-        required
-      >
+<div class="card">
 
-      <input 
-        type="email" 
-        name="email" 
-        placeholder="Correo electrónico"
-        required
-      >
+<form 
+  action="https://formspree.io/f/mbdapyvv" 
+  method="POST"
+  id="registroForm"
+>
 
-      <!-- Anti spam -->
-      <input type="text" name="_gotcha" style="display:none">
+<input 
+type="text" 
+name="nombre" 
+placeholder="Nombre"
+required
+>
 
-      <input type="hidden" name="_subject" value="Nuevo registro VORTEX">
+<input 
+type="email" 
+name="email" 
+placeholder="Correo electrónico"
+required
+>
 
-      <button type="submit">Crear Cuenta</button>
+<input type="text" name="_gotcha" style="display:none">
 
-    </form>
+<input type="hidden" name="_subject" value="Nuevo usuario registrado en VORTEX">
 
-    <div id="mensaje">✅ Registro completado correctamente</div>
+<button type="submit">Solicitar acceso anticipado</button>
 
-  </div>
+</form>
+
+<div id="mensaje">✔ Registro recibido — revisaremos tu acceso</div>
+
+<p class="secure">
+🔒 Datos protegidos — sin spam
+</p>
+
+</div>
+
+</section>
+
+<section class="section">
+
+<h2>¿Qué es VORTEX?</h2>
+
+<p>
+VORTEX es una plataforma tecnológica de inteligencia artificial financiera diseñada para analizar mercados en tiempo real y ayudar a los usuarios a descubrir oportunidades de inversión de forma más eficiente.
+</p>
+
+<p>
+Utilizando algoritmos avanzados, datos financieros y modelos predictivos, la plataforma permite optimizar decisiones relacionadas con capital, inversión y crecimiento financiero.
+</p>
+
+</section>
+
+<section class="section">
+
+<h2>Funciones principales</h2>
+
+<div class="feature">
+<h3>📊 Análisis de mercado con IA</h3>
+<p>Modelos inteligentes que detectan patrones y tendencias financieras.</p>
+</div>
+
+<div class="feature">
+<h3>⚡ Datos financieros en tiempo real</h3>
+<p>Seguimiento continuo de activos globales, criptomonedas y mercados.</p>
+</div>
+
+<div class="feature">
+<h3>🧠 Predicciones y oportunidades</h3>
+<p>Sistemas diseñados para identificar oportunidades antes que el mercado.</p>
+</div>
+
+</section>
+
+<section class="section">
+
+<h2>Preguntas frecuentes</h2>
+
+<p><strong>¿Quién puede usar VORTEX?</strong><br>
+Cualquier persona interesada en mejorar su conocimiento financiero y explorar oportunidades de inversión mediante tecnología avanzada.</p>
+
+<p><strong>¿Es necesario tener experiencia?</strong><br>
+No. La plataforma está diseñada tanto para principiantes como para usuarios avanzados.</p>
+
+<p><strong>¿Cuándo estará disponible?</strong><br>
+Actualmente estamos en fase de acceso anticipado con usuarios seleccionados.</p>
+
 </section>
 
 <footer>
-  © 2026 Vortex Analytics — All rights reserved
+© 2026 VORTEX Capital — Inteligencia Artificial Financiera
 </footer>
 
 <script>
-  const form = document.getElementById("formulario");
-  const mensaje = document.getElementById("mensaje");
 
-  form.addEventListener("submit", function() {
+const form = document.getElementById("registroForm");
+const mensaje = document.getElementById("mensaje");
+
+form.addEventListener("submit", function(){
     mensaje.style.display = "block";
-  });
+});
+
 </script>
 
 </body>
