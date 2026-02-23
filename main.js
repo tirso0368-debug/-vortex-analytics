@@ -97,29 +97,7 @@ document.getElementById('capital-input').addEventListener('input', updateAnalysi
 document.getElementById('currency-select').addEventListener('change', updateAnalysis);
 
 window.onload = init;
-function generateReport(event) {
-    event.preventDefault(); // Evita que la página se recargue al enviar el form
 
-    const capital = parseFloat(document.getElementById('capital-input').value);
-    const currency = document.getElementById('currency-select').value;
-    
-    // Rellenar datos en el informe
-    document.getElementById('rep-cap').innerText = `${capital.toLocaleString()} ${currency}`;
-    
-    // Lógica de recomendación dinámica según capital
-    if (capital > 200000) {
-        document.getElementById('report-title').innerText = "AUDITORÍA DE RIESGO: EXPOSICIÓN MÁXIMA";
-        document.getElementById('alloc-gold').innerText = "30%";
-        document.getElementById('alloc-btc').innerText = "10%";
-    }
-
-    // Mostrar pantalla de reporte
-    const reportScreen = document.getElementById('report-screen');
-    reportScreen.style.display = 'flex';
-}
-
-// Conectar el formulario a la función
-document.querySelector('.cta-box form').addEventListener('submit', generateReport);
 
 
 
