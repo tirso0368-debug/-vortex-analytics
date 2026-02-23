@@ -1,61 +1,69 @@
-/**
- * VORTEX ANALYTICS CORE ENGINE
- */
+let vortexChart;
 
-function calculateVortex() {
-    // Parámetros de entrada
-    const capitalInicial = parseFloat(document.getElementById('initial-capital').value) || 0;
-    const inflationRate = (parseFloat(document.getElementById('annual-inflation').value) / 100) || 0;
-    const years = parseInt(document.getElementById('investment-years').value) || 0;
-    const targetAssetPrice = parseFloat(document.getElementById('goal-selector').value);
-
-    // Salidas UI
-    const statusDisplay = document.getElementById('result-status');
-    const detailsDisplay = document.getElementById('result-details');
-
-    // Cálculo del Costo Futuro Ajustado (Inflación)
-    // Formula: VF = P * (1 + i)^n
-    const futureAssetPrice = targetAssetPrice * Math.pow(1 + inflationRate, years);
-    
-    // Balance Final
-    const deficit = capitalInicial - futureAssetPrice;
-    const isSuccess = deficit >= 0;
-
-    // Renderizado de Resultados
-    updateTerminalUI(isSuccess, futureAssetPrice, deficit, years);
+function initChart() {
+    const ctx = document.getElementById('vortexChart').getContext('2d');
+    vortexChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'VALOR REAL DE TU DINERO',
+                borderColor: '#00ff88',
+                data: [],
+                fill: true,
+                backgroundColor: 'rgba(0, 255, 136, 0.1)'
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { grid: { color: '#111' } },
+                x: { grid: { color: '#111' } }
+            }
+        }
+    });
 }
 
-function updateTerminalUI(success, price, diff, t) {
-    const status = document.getElementById('result-status');
-    const details = document.getElementById('result-details');
+function updateVortex() {
+    const capital = parseFloat(document.getElementById('capital-slider').value);
+    const inflation = parseFloat(document.getElementById('inflation-slider').value) / 100;
+    const years = parseInt(document.getElementById('years-slider').value);
+    const assetPrice = parseFloat(document.getElementById('asset-selector').value);
 
-    const fmtPrice = price.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    const fmtDiff = Math.abs(diff).toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    document.getElementById('capital-val').innerText = capital.toLocaleString() + "€";
+    document.getElementById('inflation-val').innerText = (inflation * 100).toFixed(1) + "%";
+    document.getElementById('years-val').innerText = years + " Años";
 
-    if (success) {
-        status.style.color = "#00ff88";
-        status.innerText = "ESTADO: PODER ADQUISITIVO VALIDADO";
-        details.innerHTML = `PROYECCIÓN T+${t}: EL CAPITAL CUBRE EL ACTIVO.<br>` +
-                            `COSTO ESTIMADO DEL BIEN: ${fmtPrice}€<br>` +
-                            `EXCEDENTE DISPONIBLE: ${fmtDiff}€`;
+    let labels = [];
+    let data = [];
+    let currentRealValue = capital;
+
+    for (let i = 0; i <= years; i++) {
+        labels.push("Año " + i);
+        currentRealValue = capital / Math.pow(1 + inflation, i);
+        data.push(currentRealValue);
+    }
+
+    vortexChart.data.labels = labels;
+    vortexChart.data.datasets[0].data = data;
+    vortexChart.update();
+
+    const futureAssetPrice = assetPrice * Math.pow(1 + inflation, years);
+    const msg = document.getElementById('vortex-msg');
+    
+    if (capital >= futureAssetPrice) {
+        msg.style.borderColor = "#00ff88";
+        msg.innerText = `SISTEMA: PODER ADQUISITIVO MANTENIDO. PODRÁS COMPRAR EL ACTIVO (COSTE PROYECTADO: ${Math.round(futureAssetPrice).toLocaleString()}€)`;
     } else {
-        status.style.color = "#ff4444";
-        status.innerText = "ESTADO: EROSIÓN DE CAPITAL DETECTADA";
-        details.innerHTML = `PROYECCIÓN T+${t}: EL CAPITAL NO CUBRE EL ACTIVO.<br>` +
-                            `COSTO ESTIMADO DEL BIEN: ${fmtPrice}€<br>` +
-                            `DÉFICIT DE PODER ADQUISITIVO: -${fmtDiff}€`;
+        msg.style.borderColor = "#ff4444";
+        msg.innerText = `ALERTA: EROSIÓN CRÍTICA. EL ACTIVO COSTARÁ ${Math.round(futureAssetPrice).toLocaleString()}€ Y TU DINERO VALDRÁ ${Math.round(currentRealValue).toLocaleString()}€ REALES.`;
     }
 }
 
-// Listeners de actualización en tiempo real
-['initial-capital', 'annual-inflation', 'investment-years', 'goal-selector'].forEach(id => {
-    const el = document.getElementById(id);
-    el.addEventListener('input', calculateVortex);
-    el.addEventListener('change', calculateVortex);
-});
+document.querySelectorAll('input, select').forEach(el => el.addEventListener('input', updateVortex));
+initChart();
+updateVortex();
 
-// Inicialización
-calculateVortex();
 
 
 
