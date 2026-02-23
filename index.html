@@ -1,115 +1,22 @@
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VORTEX | Terminal de Análisis Financiero</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
-
-    <div class="dashboard-container">
-        <header class="brand-header">
-            <div class="logo-box">
-                <span class="v-icon">V</span>
-                <span class="brand-name">VORTEX_ANALYTICS</span>
+<div id="lead-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+        <h3>BLOQUEO DE SEGURIDAD</h3>
+        <p>Introduce tu email para desbloquear el informe completo.</p>
+        
+        <form action="https://formspree.io/f/mbdapyyv" method="POST">
+            <div class="input-group">
+                <label>EMAIL DE ANALISTA</label>
+                <input type="email" name="email" placeholder="nombre@ejemplo.com" required>
             </div>
-            <div class="system-status">
-                <span class="pulse-dot"></span>
-                SYSTEM_ACTIVE // STABLE
-            </div>
-        </header>
-
-        <section class="main-chart">
-            <canvas id="analyticsChart"></canvas>
-        </section>
-
-        <section class="results-grid">
-            <div class="metric-card">
-                <h3>Capital Bruto Final</h3>
-                <p id="gross-capital" class="text-neon">$0.00</p>
-            </div>
-            <div class="metric-card">
-                <h3>Poder de Compra Real</h3>
-                <p id="real-power" class="text-neon">$0.00</p>
-            </div>
-            <div class="metric-card">
-                <h3>Pérdida por Inflación</h3>
-                <p id="purchasing-loss" class="text-alert">$0.00</p>
-            </div>
-        </section>
-
-        <section class="control-center">
-            <div class="input-row">
-                <div>
-                    <label>CAPITAL INICIAL (€)</label>
-                    <input type="number" id="initial-capital" value="10000">
-                </div>
-                <div>
-                    <label>AHORRO MENSUAL (€)</label>
-                    <input type="number" id="monthly-savings" value="500">
-                </div>
-                <div>
-                    <label>EDAD ACTUAL</label>
-                    <input type="number" id="user-age" value="25">
-                </div>
-            </div>
-
-            <div class="input-row">
-                <div>
-                    <label>INTERÉS ANUAL (%)</label>
-                    <input type="number" id="annual-interest" value="7">
-                </div>
-                <div>
-                    <label>INFLACIÓN ESTIMADA (%)</label>
-                    <input type="number" id="annual-inflation" value="3">
-                </div>
-                <div>
-                    <label>ESCENARIO</label>
-                    <select id="scenario-mode">
-                        <option value="custom">PERSONALIZADO</option>
-                        <option value="optimist">OPTIMISTA (2%)</option>
-                        <option value="panic">HIPERINFLACIÓN (8%)</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="slider-box">
-                <label>HORIZONTE TEMPORAL: <span id="time-display">10</span> AÑOS (RETIRO A LOS <span id="retirement-age">35</span>)</label>
-                <input type="range" id="time-range" min="1" max="50" value="10">
-            </div>
-
-            <button id="download-report" class="btn-neon">GENERAR INFORME DETALLADO</button>
-        </section>
-    </div>
-
-    <div id="lead-modal" class="modal-overlay" style="display: none;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>BLOQUEO DE SEGURIDAD</h3>
-                <span class="blink">_REQUERIDO</span>
-            </div>
-            <p>Introduce tu email para desbloquear el informe completo y recibir la estrategia anti-inflación de VORTEX en tu bandeja de entrada.</p>
             
-            <form id="lead-form" action="https://formspree.io/f/mbdapyyv" method="POST">
-                <div class="input-group">
-                    <label for="user-email">EMAIL DE ANALISTA</label>
-                    <input type="email" name="email" id="user-email" placeholder="nombre@ejemplo.com" required>
-                </div>
-                
-                <div class="modal-actions">
-                    <button type="submit" class="btn-neon">ENVIAR Y DESBLOQUEAR</button>
-                    <button type="button" id="close-modal" class="btn-secondary">CANCELAR</button>
-                </div>
-            </form>
-        </div>
+            <div class="modal-actions">
+                <button type="submit" class="btn-neon">ENVIAR Y DESBLOQUEAR</button>
+                <button type="button" onclick="document.getElementById('lead-modal').style.display='none'" class="btn-secondary">CANCELAR</button>
+            </div>
+        </form>
     </div>
+</div>
 
-    <script src="main.js"></script>
-</body>
-</html>
 
 
 
