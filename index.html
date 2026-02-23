@@ -1,164 +1,161 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>VORTEX Capital</title>
+  <title>VORTEX Analytics</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #0b0f1a;
+      color: white;
+    }
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    header {
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #0e1424;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .logo {
+      font-weight: bold;
+      font-size: 20px;
+      letter-spacing: 1px;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 100px 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .hero h1 {
+      font-size: 42px;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      opacity: 0.8;
+      margin-bottom: 40px;
+    }
+
+    .registro {
+      background: #121a2f;
+      padding: 40px;
+      border-radius: 12px;
+      max-width: 400px;
+      margin: auto;
+      box-shadow: 0 0 30px rgba(0,0,0,0.4);
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      border: none;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+    }
+
+    #mensaje {
+      margin-top: 15px;
+      color: #22c55e;
+      display: none;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px;
+      opacity: 0.5;
+      font-size: 14px;
+    }
+  </style>
 </head>
 
 <body>
-  <section class="registro">
-  <h2>Únete a Vortex</h2>
-  <p>Acceso anticipado — plazas limitadas</p>
 
-  <form action="https://formspree.io/f/mbdapyvv" method="POST">
-
-    <input 
-      type="email" 
-      name="email" 
-      placeholder="Tu correo electrónico" 
-      required
-    >
-
-    <input 
-      type="text" 
-      name="nombre" 
-      placeholder="Nombre"
-      required
-    >
-
-    <input type="text" name="_gotcha" style="display:none">
-
-    <input type="hidden" name="_subject" value="Nuevo registro VORTEX 🚀">
-
-    <button type="submit">Crear Cuenta</button>
-
-  </form>
-  </section>
-
-<header class="header">
-
-  <div class="logo">VORTEX Capital</div>
-
-  <div class="market">
-
-    <div class="market-item">
-      BTC: <span id="btc">...</span> €
-    </div>
-
-    <div class="market-item">
-      EUR/USD: <span id="eurusd">...</span>
-    </div>
-
-  </div>
-
+<header>
+  <div class="logo">VORTEX</div>
+  <div>AI Financial Platform</div>
 </header>
 
-
 <section class="hero">
+  <h1>La inteligencia artificial que analiza el mercado por ti</h1>
+  <p>Acceso anticipado exclusivo — plazas limitadas</p>
 
-  <div class="hero-content">
+  <div class="registro">
 
-    <h1>Inteligencia financiera para proteger tu capital</h1>
+    <form action="https://formspree.io/f/mbdapyvv" method="POST" id="formulario">
 
-    <p>
-      Plataforma avanzada de simulación patrimonial con datos reales de mercado.
-    </p>
-
-    <button onclick="calculate()">Analizar mi capital</button>
-
-  </div>
-
-</section>
-
-
-
-<section class="dashboard">
-
-  <!-- INPUTS -->
-  <div class="card inputs">
-
-    <h2>Simulación financiera</h2>
-
-    <label>Capital inicial (€)</label>
-    <input type="number" id="capital" value="10000">
-
-    <label>Rentabilidad anual (%)</label>
-    <input type="number" id="rate" value="7">
-
-    <label>Inflación (%)</label>
-    <input type="number" id="inflation" value="3">
-
-    <label>Años</label>
-    <input type="number" id="years" value="20">
-
-    <button onclick="calculate()">Calcular proyección</button>
-
-    <div class="results">
-      <p>Capital futuro: <strong><span id="future">-</span> €</strong></p>
-      <p>Valor real: <strong><span id="real">-</span> €</strong></p>
-    </div>
-
-  </div>
-
-
-  <!-- CHART -->
-  <div class="card chart-card">
-    <canvas id="chart"></canvas>
-  </div>
-
-</section>
-
-
-
-<!-- REGISTRO EMAIL -->
-<section class="signup">
-
-  <div class="signup-box">
-
-    <h2>Crear cuenta gratuita</h2>
-
-    <p>
-      Accede a informes financieros personalizados y estrategias de inversión.
-    </p>
-
-    <form id="signupForm">
-
-      <input
-        type="email"
-        id="email"
-        placeholder="Introduce tu correo electrónico"
+      <input 
+        type="text" 
+        name="nombre" 
+        placeholder="Nombre"
         required
       >
 
-      <button type="submit">
-        Crear cuenta
-      </button>
+      <input 
+        type="email" 
+        name="email" 
+        placeholder="Correo electrónico"
+        required
+      >
+
+      <!-- Anti spam -->
+      <input type="text" name="_gotcha" style="display:none">
+
+      <input type="hidden" name="_subject" value="Nuevo registro VORTEX">
+
+      <button type="submit">Crear Cuenta</button>
 
     </form>
 
-    <span id="msg"></span>
+    <div id="mensaje">✅ Registro completado correctamente</div>
 
   </div>
-
 </section>
 
-
-
-<footer class="footer">
-  © 2026 VORTEX Capital — Plataforma de análisis financiero
+<footer>
+  © 2026 Vortex Analytics — All rights reserved
 </footer>
 
+<script>
+  const form = document.getElementById("formulario");
+  const mensaje = document.getElementById("mensaje");
 
-<script src="main.js"></script>
+  form.addEventListener("submit", function() {
+    mensaje.style.display = "block";
+  });
+</script>
 
 </body>
 </html>
-
 
 
 
