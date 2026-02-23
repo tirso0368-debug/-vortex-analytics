@@ -13,7 +13,7 @@ form.addEventListener('submit', async (e) => {
   const email = document.getElementById('email').value
 
   const { error } = await supabase
-    .from('leads')
+    .from("leads")
     .insert([{ email }])
 
   if (error) {
