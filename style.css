@@ -1,3 +1,4 @@
+
 :root {
     --bg-main: #fcfcfd;
     --sidebar-bg: #0b0f19;
@@ -229,68 +230,6 @@ input, select {
 .cta-box button:hover {
     background: #1d4ed8;
 }
-/* Report Screen Styles */
-.hidden-report { display: none; }
-
-#report-screen {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(15, 23, 42, 0.95);
-    z-index: 1000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.report-paper {
-    background: white;
-    width: 600px;
-    padding: 60px;
-    color: #1e293b;
-    border-radius: 4px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-}
-
-.report-header {
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 2px solid #0f172a;
-    padding-bottom: 20px;
-    margin-bottom: 30px;
-}
-
-.report-body h2 {
-    color: var(--danger);
-    font-size: 20px;
-    margin-bottom: 20px;
-}
-
-.allocation-table {
-    background: #f8fafc;
-    padding: 20px;
-    border-radius: 8px;
-    margin: 25px 0;
-}
-
-.alloc-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid #e2e8f0;
-}
-
-.report-footer button {
-    margin-top: 30px;
-    padding: 12px 24px;
-    background: #0f172a;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-weight: 700;
-}
-
-
-
 
 
 
