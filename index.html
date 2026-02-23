@@ -9,6 +9,20 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+    <div id="lead-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+        <h3>SOLICITAR INFORME ESTRATÉGICO</h3>
+        <p>Introduce tu email para recibir el desglose detallado de la erosión de tu capital y soluciones de cobertura.</p>
+        <form id="lead-form">
+            <input type="email" id="user-email" placeholder="tu@email.com" required>
+            <div class="modal-actions">
+                <button type="submit" class="btn-neon">ENVIAR Y DESCARGAR</button>
+                <button type="button" id="close-modal" class="btn-secondary">CANCELAR</button>
+            </div>
+        </form>
+    </div>
+</div>
+
     <div class="dashboard-container">
         <header class="brand-header">
             <div class="logo-box">
