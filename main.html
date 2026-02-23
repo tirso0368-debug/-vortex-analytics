@@ -9,50 +9,50 @@
 
 <style>
 body {
-    font-family: Arial, sans-serif;
-    background: #0f172a;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  font-family: Arial, sans-serif;
+  background: #0f172a;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .container {
-    background: #1e293b;
-    padding: 30px;
-    border-radius: 12px;
-    text-align: center;
-    width: 320px;
+  background: #1e293b;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  width: 320px;
 }
 
 input {
-    width: 100%;
-    padding: 12px;
-    margin-top: 10px;
-    border-radius: 8px;
-    border: none;
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: none;
 }
 
 button {
-    width: 100%;
-    padding: 12px;
-    margin-top: 15px;
-    border-radius: 8px;
-    border: none;
-    background: #3b82f6;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  border-radius: 8px;
+  border: none;
+  background: #3b82f6;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 button:hover {
-    background: #2563eb;
+  background: #2563eb;
 }
 
 #msg {
-    margin-top: 15px;
-    font-size: 14px;
+  margin-top: 15px;
+  font-size: 14px;
 }
 </style>
 </head>
@@ -60,47 +60,47 @@ button:hover {
 <body>
 
 <div class="container">
-    <h2>Solicitar acceso IA</h2>
+  <h2>Solicitar acceso IA</h2>
 
-    <form id="leadForm">
-        <input type="email" id="email" placeholder="Tu email" required>
-        <button type="submit">Solicitar acceso</button>
-    </form>
+  <form id="leadForm">
+    <input type="email" id="email" placeholder="Tu email" required>
+    <button type="submit">Solicitar acceso</button>
+  </form>
 
-    <div id="msg"></div>
+  <div id="msg"></div>
 </div>
 
 <script>
-const supabaseUrl = "TU_URL_SUPABASE";
-const supabaseKey = "TU_ANON_KEY";
+const supabaseUrl = "PON_AQUI_TU_URL";
+const supabaseKey = "PON_AQUI_TU_ANON_KEY";
 
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 document.getElementById("leadForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const email = document.getElementById("email").value;
+  const email = document.getElementById("email").value;
 
-    const { error } = await supabase
-        .from("leads")
-        .insert([{ email: email }]);
+  const { error } = await supabase
+    .from("leads")
+    .insert([{ email: email }]);
 
-    const msg = document.getElementById("msg");
+  const msg = document.getElementById("msg");
 
-    if (error) {
-        msg.innerText = "❌ Error al guardar";
-        msg.style.color = "red";
-    } else {
-        msg.innerText = "✅ Solicitud enviada";
-        msg.style.color = "lightgreen";
-        document.getElementById("leadForm").reset();
-    }
+  if (error) {
+    msg.innerText = "❌ Error al guardar";
+    msg.style.color = "red";
+    console.log(error);
+  } else {
+    msg.innerText = "✅ Solicitud enviada";
+    msg.style.color = "lightgreen";
+    document.getElementById("leadForm").reset();
+  }
 });
 </script>
 
 </body>
-  </html>
-
+</html>
 
 
 
