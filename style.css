@@ -112,6 +112,20 @@ nav a {
   padding: 30px;
   color: #666;
 }
+.vortex-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #4f7cff;
+    color: white;
+    padding: 14px 18px;
+    border-radius: 8px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s ease;
+    font-size: 14px;
+    z-index: 9999;
+}
 
 
 
