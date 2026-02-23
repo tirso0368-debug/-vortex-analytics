@@ -32,31 +32,33 @@ body { background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; dis
 .text-neon { color: var(--neon); }
 .text-alert { color: var(--alert); }
 
+.milestones-container { background: var(--card); border: 1px solid var(--border); padding: 20px; }
+.section-title { font-size: 0.6rem; color: var(--dim); margin-bottom: 15px; letter-spacing: 1.5px; text-transform: uppercase; }
+.milestones-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+.milestone-item { padding: 15px; border: 1px solid var(--border); display: flex; flex-direction: column; gap: 5px; transition: 0.3s; }
+.milestone-item.reached { border-color: var(--neon); background: rgba(0, 255, 136, 0.03); }
+.milestone-item.locked { opacity: 0.4; }
+.milestone-item h4 { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px; }
+.milestone-item p { font-size: 0.65rem; color: var(--dim); font-family: 'JetBrains Mono'; }
+
 .control-center { background: var(--card); border: 1px solid var(--border); padding: 20px; }
 .input-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 20px; }
 
 label { display: block; color: var(--dim); font-size: 0.6rem; margin-bottom: 5px; font-weight: 700; }
-
-input[type="number"], select {
-    width: 100%; background: #000; border: 1px solid var(--border);
-    color: #fff; padding: 10px; font-family: 'JetBrains Mono'; outline: none;
-}
-
-input:focus, select:focus { border-color: var(--dim); }
-
+input[type="number"], select { width: 100%; background: #000; border: 1px solid var(--border); color: #fff; padding: 10px; font-family: 'JetBrains Mono'; outline: none; }
+input:focus, select:focus { border-color: var(--neon); }
 input[type="range"] { width: 100%; accent-color: var(--neon); cursor: pointer; }
 
-.btn-neon {
-    width: 100%; background: transparent; border: 1px solid var(--neon);
-    color: var(--neon); padding: 12px; font-family: 'JetBrains Mono';
-    font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.3s;
-}
+.btn-neon { width: 100%; background: transparent; border: 1px solid var(--neon); color: var(--neon); padding: 12px; font-family: 'JetBrains Mono'; font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
 .btn-neon:hover { background: var(--neon); color: #000; }
 
 @media print {
     .control-center, .v-icon, .system-status { display: none; }
-    body { background: #fff; color: #000; }
-    .metric-card, .main-chart { border: 1px solid #ddd; }
+    body { background: #fff; color: #000; padding: 0; }
+    .dashboard-container { max-width: 100%; }
+    .metric-card, .main-chart, .milestones-container, .milestone-item { border: 1px solid #eee; color: #000; }
+    .text-neon, .text-alert { color: #000; font-weight: bold; }
 }
+
 
 
