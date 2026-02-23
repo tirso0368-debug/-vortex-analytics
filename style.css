@@ -188,5 +188,32 @@ body {
     font-weight: 600;
     cursor: pointer;
 }
+.value-alert {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--danger);
+    transition: color 0.2s ease;
+}
+
+/* Animación de pulso suave al actualizar */
+.pulse-active {
+    animation: alertPulse 0.5s ease-out;
+}
+
+@keyframes alertPulse {
+    0% {
+        transform: scale(1);
+        color: var(--danger);
+    }
+    50% {
+        transform: scale(1.02);
+        color: #ff8888; /* Un rojo más claro en el pico del pulso */
+    }
+    100% {
+        transform: scale(1);
+        color: var(--danger);
+    }
+}
+
 
 
