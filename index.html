@@ -1,159 +1,127 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VORTEX Capital | Inversión Inteligente y Trading Profesional</title>
 
-<title>VORTEX — Inteligencia Financiera</title>
+  <meta name="description" content="Invierte con VORTEX Capital. Estrategias profesionales de trading, inversión inteligente y crecimiento financiero. Empieza hoy.">
 
-<meta name="description" content="Plataforma de inteligencia artificial financiera para analizar mercados y descubrir oportunidades de inversión.">
+  <meta name="keywords" content="inversión, trading, invertir dinero, criptomonedas, forex, bolsa, ingresos pasivos, VORTEX Capital">
 
-<meta name="keywords" content="inteligencia artificial financiera, inversión, análisis de mercado, fintech">
+  <meta name="author" content="VORTEX Capital">
 
-<style>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0a0a0a;
+      color: white;
+      text-align: center;
+    }
 
-body{
-    margin:0;
-    font-family:Arial, Helvetica, sans-serif;
-    background:#0b0f1a;
-    color:white;
-}
+    header {
+      padding: 60px 20px;
+    }
 
-nav{
-    display:flex;
-    justify-content:space-between;
-    padding:20px 40px;
-    background:#0e1424;
-}
+    h1 {
+      font-size: 40px;
+      margin-bottom: 10px;
+      color: #00ffcc;
+    }
 
-.logo{
-    font-weight:bold;
-    letter-spacing:2px;
-}
+    p {
+      font-size: 18px;
+      color: #ccc;
+    }
 
-.hero{
-    text-align:center;
-    padding:80px 20px;
-    max-width:800px;
-    margin:auto;
-}
+    .btn {
+      display: inline-block;
+      padding: 15px 30px;
+      margin-top: 20px;
+      background: #00ffcc;
+      color: black;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+    }
 
-.hero h1{
-    font-size:36px;
-    margin-bottom:20px;
-}
+    section {
+      padding: 40px 20px;
+    }
 
-.hero p{
-    opacity:0.8;
-}
+    form {
+      max-width: 400px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
 
-.card{
-    background:#121a2f;
-    padding:30px;
-    border-radius:10px;
-    max-width:380px;
-    margin:40px auto;
-}
+    input, textarea {
+      padding: 12px;
+      border-radius: 6px;
+      border: none;
+    }
 
-input{
-    width:100%;
-    padding:12px;
-    margin-bottom:12px;
-    border-radius:6px;
-    border:none;
-}
+    button {
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      background: #00ffcc;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
-button{
-    width:100%;
-    padding:14px;
-    border:none;
-    border-radius:6px;
-    background:#2563eb;
-    color:white;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-button:hover{
-    background:#1d4ed8;
-}
-
-#mensaje{
-    margin-top:10px;
-    color:#22c55e;
-    display:none;
-}
-
-footer{
-    text-align:center;
-    padding:30px;
-    opacity:0.5;
-    font-size:14px;
-}
-
-</style>
-
+    footer {
+      margin-top: 40px;
+      padding: 20px;
+      color: #777;
+      font-size: 14px;
+    }
+  </style>
 </head>
 
 <body>
 
-<nav>
-<div class="logo">VORTEX</div>
-<div>Acceso anticipado</div>
-</nav>
+<header>
+  <h1>VORTEX Capital</h1>
+  <p>Inversión inteligente. Resultados reales.</p>
+  <a href="#contacto" class="btn">Empezar ahora</a>
+</header>
 
-<section class="hero">
+<section>
+  <h2>¿Por qué elegirnos?</h2>
+  <p>
+    Estrategias profesionales de trading, gestión de capital y oportunidades de inversión
+    diseñadas para maximizar tu crecimiento financiero.
+  </p>
+</section>
 
-<h1>La inteligencia artificial que analiza el mercado por ti</h1>
+<section id="contacto">
+  <h2>Contacto</h2>
 
-<p>
-Plataforma financiera en fase privada.  
-Acceso disponible por tiempo limitado.
-</p>
+  <form action="https://formspree.io/f/mbdapyyv" method="POST">
 
-<div class="card">
+    <input type="text" name="nombre" placeholder="Tu nombre" required>
 
-<form 
-action="https://formspree.io/f/mbdapyvv" 
-method="POST"
-id="form"
->
+    <input type="email" name="email" placeholder="Tu email" required>
 
-<input type="text" name="nombre" placeholder="Nombre" required>
+    <textarea name="mensaje" placeholder="¿En qué podemos ayudarte?" required></textarea>
 
-<input type="email" name="email" placeholder="Correo electrónico" required>
+    <button type="submit">Enviar</button>
 
-<input type="hidden" name="_subject" value="Nuevo registro VORTEX">
-
-<button type="submit">Solicitar acceso</button>
-
-</form>
-
-<div id="mensaje">Registro enviado correctamente ✔</div>
-
-</div>
+  </form>
 
 </section>
 
 <footer>
-© 2026 VORTEX
+  © 2026 VORTEX Capital — Todos los derechos reservados
 </footer>
-0
-<script>
-
-const form = document.getElementById("form");
-const msg = document.getElementById("mensaje");
-
-form.addEventListener("submit", function(){
-    msg.style.display = "block";
-});
-
-</script>
 
 </body>
 </html>
-
 
 
 
