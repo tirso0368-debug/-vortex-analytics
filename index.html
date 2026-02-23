@@ -4,11 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VORTEX | Intelligent Treasury Management</title>
-    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+
+    <div id="vortex-loader" class="loader-overlay" style="display: none;">
+        <div class="loader-content">
+            <div class="spinner"></div>
+            <p>ESCANEANDO MERCADOS GLOBALES...</p>
+            <small id="loader-status">Analizando tipos de interés BCE/FED</small>
+        </div>
+    </div>
+
     <div class="dashboard-container">
         <nav class="sidebar">
             <div class="logo">VORTEX</div>
@@ -37,7 +46,7 @@
             <section class="metrics-grid">
                 <div class="metric-card">
                     <label>CAPITAL EN RIESGO</label>
-                    <div class="input-wrapper">
+                    <div class="input-row">
                         <input type="number" id="capital-input" value="100000">
                         <select id="currency-select">
                             <option value="EUR">EUR</option>
@@ -49,9 +58,9 @@
                     <label>COSTE DE INACCIÓN (HORARIO)</label>
                     <div id="hourly-loss" class="value-alert">-0.00€</div>
                 </div>
-                <div class="metric-card signal-card" id="signal-container">
+                <div class="metric-card">
                     <label>SISTEMA DE DECISIÓN VORTEX</label>
-                    <div id="vortex-signal" class="signal-text">ANALIZANDO...</div>
+                    <div id="vortex-signal" class="signal-box">ANALIZANDO...</div>
                 </div>
             </section>
 
@@ -59,20 +68,20 @@
                 <div class="chart-container">
                     <canvas id="mainChart"></canvas>
                 </div>
-                <div class="action-panel">
-                    <h3>Recomendación de Activos</h3>
-                    <div class="ticker-item">
+                <div class="side-panel">
+                    <h3>Monitor de Activos Refugio</h3>
+                    <div class="ticker-row">
                         <span>XAU (ORO)</span>
-                        <span id="gold-price" class="price">--.--</span>
+                        <span id="gold-price" class="price-text">--.--</span>
                     </div>
-                    <div class="ticker-item">
+                    <div class="ticker-row">
                         <span>BTC (BITCOIN)</span>
-                        <span id="btc-price" class="price">--.--</span>
+                        <span id="btc-price" class="price-text">--.--</span>
                     </div>
                     <div class="cta-box">
                         <p>¿Deseas blindar tu tesorería?</p>
-                        <form action="https://formspree.io/f/mbdapyyv" method="POST">
-                            <input type="email" name="email" placeholder="Email para reporte PDF" required>
+                        <form id="vortex-form">
+                            <input type="email" placeholder="Email para reporte PDF" required>
                             <button type="submit">GENERAR ESTRATEGIA</button>
                         </form>
                     </div>
@@ -80,9 +89,32 @@
             </section>
         </main>
     </div>
+
+    <section id="report-screen" style="display: none;">
+        <div class="report-paper">
+            <div class="report-header">
+                <div class="logo" style="color:#0f172a">VORTEX_STRATEGY</div>
+                <div>FECHA: 23 FEB 2026</div>
+            </div>
+            <div class="report-body">
+                <h2 id="report-title">AUDITORÍA DE RIESGO: NIVEL CRÍTICO</h2>
+                <p>Para el capital analizado de <strong id="rep-cap">---</strong>, se recomienda la siguiente distribución para neutralizar la inflación:</p>
+                
+                <div class="allocation-table" style="background:#f1f5f9; padding:20px; border-radius:8px; margin:20px 0;">
+                    <p><strong>ORO (XAU):</strong> 20%</p>
+                    <p><strong>BITCOIN (BTC):</strong> 5%</p>
+                    <p><strong>EFECTIVO OPERATIVO:</strong> 75%</p>
+                </div>
+
+                <button onclick="window.location.reload()" style="background:#0f172a; color:white; padding:10px 20px; border:none; cursor:pointer;">CERRAR Y VOLVER</button>
+            </div>
+        </div>
+    </section>
+
     <script src="main.js"></script>
 </body>
 </html>
+
 
 
 
