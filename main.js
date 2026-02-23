@@ -1,4 +1,3 @@
-
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
 const supabaseUrl = 'https://zajtohneourkrqtqtobq.supabase.co'
@@ -13,7 +12,7 @@ form.addEventListener('submit', async (e) => {
   const email = document.getElementById('email').value
 
   const { error } = await supabase
-    .from("leads")
+    .from('leads')
     .insert([{ email }])
 
   if (error) {
