@@ -1,62 +1,4 @@
 let chart;
-
-function init() {
-    const ctx = document.getElementById('mainChart').getContext('2d');
-    chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-            datasets: [{
-                label: 'Erosión Proyectada de Caja',
-                data: [],
-                borderColor: '#ef4444',
-                tension: 0.4,
-                fill: false
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: { legend: { display: false } }
-        }
-    });
-    
-    updateAnalysis();
-    startLivePrices();
-}
-
-function updateAnalysis() {
-    const capital = parseFloat(document.getElementById('capital-input').value) || 0;
-    const currency = document.getElementById('currency-select').value;
-    
-    // Tasas estimadas 2026
-    const inflationRates = { 'EUR': 3.2, 'USD': 3.5, 'GBP': 3.8 };
-    const rate = inflationRates[currency] / 100;
-    
-    document.getElementById('inflation-display').innerText = (rate * 100).toFixed(1) + '%';
-
-    // Cálculo de pérdida horaria
-    const hourlyLoss = (capital * rate) / (365 * 24);
-    document.getElementById('hourly-loss').innerText = `-${hourlyLoss.toFixed(2)} ${currency}`;
-
-    // Actualización de gráfico (Erosión en 12 meses)
-    let projection = [];
-    for (let i = 0; i < 12; i++) {
-        projection.push(capital * Math.pow(1 - (rate / 12), i));
-    }
-    chart.data.datasets[0].data = projection;
-    chart.update();
-}
-
-function startLivePrices() {
-    setInterval(() => {
-        const btc = 65000 + (Math.random() * 200);
-        const gold = 2050 + (Math.random() * 5);
-        document.getElementById('btc-price').innerText = `$${btc.toLocaleString()}`;
-        document.getElementById('gold-price').innerText = `$${gold.toLocaleString()}`;
-    }, 3000);
-}
-
-let chart;
 let lossInterval;
 
 function init() {
@@ -64,39 +6,57 @@ function init() {
     chart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+            labels: ['Mes 1', 'Mes 2', 'Mes 3', 'Mes 4', 'Mes 5', 'Mes 6', 'Mes 7', 'Mes 8', 'Mes 9', 'Mes 10', 'Mes 11', 'Mes 12'],
             datasets: [{
-                label: 'Erosión de Caja Proyectada',
+                label: 'Pérdida de Poder Adquisitivo',
                 data: [],
-                borderColor: '#ef4444',
-                backgroundColor: 'rgba(239, 68, 68, 0.05)',
-                borderWidth: 2,
+                borderColor: '#dc2626',
+                backgroundColor: 'rgba(220, 38, 38, 0.05)',
+                borderWidth: 3,
                 tension: 0.4,
-                fill: true
+                fill: true,
+                pointRadius: 0
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
             plugins: { legend: { display: false } },
-            scales: { y: { beginAtZero: false } }
+            scales: {
+                x: { grid: { display: false } },
+                y: { grid: { color: '#f3f4f6' } }
+            }
         }
     });
     
     updateAnalysis();
     startLivePrices();
-    startRealTimeLoss(); // Iniciamos el contador de pérdida real
+    startRealTimeLoss();
 }
 
 function updateAnalysis() {
     const capital = parseFloat(document.getElementById('capital-input').value) || 0;
     const currency = document.getElementById('currency-select').value;
-    const inflationRates = { 'EUR': 3.2, 'USD': 3.5, 'GBP': 3.8 };
-    const rate = inflationRates[currency] / 100;
     
-    document.getElementById('inflation-display').innerText = (rate * 100).toFixed(1) + '%';
+    // Tasas estimadas 2026
+    const rates = { 'EUR': 3.2, 'USD': 3.5 };
+    const rate = rates[currency] / 100;
+    
+    // Actualizar Señal VORTEX
+    const signalElem = document.getElementById('vortex-signal');
+    const signalBox = document.getElementById('signal-container');
+    
+    if (capital > 50000) {
+        signalElem.innerText = "ACCIONAR DEFENSA";
+        signalElem.style.color = "#dc2626";
+        signalBox.style.borderLeft = "5px solid #dc2626";
+    } else {
+        signalElem.innerText = "RIESGO MODERADO";
+        signalElem.style.color = "#f59e0b";
+        signalBox.style.borderLeft = "5px solid #f59e0b";
+    }
 
-    // Actualización de gráfico
+    // Gráfico de erosión
     let projection = [];
     for (let i = 0; i < 12; i++) {
         projection.push(capital * Math.pow(1 - (rate / 12), i));
@@ -107,38 +67,37 @@ function updateAnalysis() {
 
 function startRealTimeLoss() {
     if (lossInterval) clearInterval(lossInterval);
-
     const display = document.getElementById('hourly-loss');
-    
+
     lossInterval = setInterval(() => {
         const capital = parseFloat(document.getElementById('capital-input').value) || 0;
         const currency = document.getElementById('currency-select').value;
-        const rate = (parseFloat(document.getElementById('inflation-display').innerText) / 100) || 0.032;
+        const rate = (currency === 'EUR' ? 3.2 : 3.5) / 100;
 
-        // Pérdida por segundo: (Capital * Tasa) / Segundos en un año (31,536,000)
-        const lossPerSecond = (capital * rate) / 31536000;
+        const lossPerHour = (capital * rate) / (365 * 24);
+        display.innerText = `-${lossPerHour.toFixed(2)} ${currency}`;
         
-        // Simulación de pérdida en el momento actual para impacto visual
-        const displayValue = (lossPerSecond * 3600).toFixed(2); // Mostramos pérdida/hora pero con refresco vivo
-        
-        display.innerText = `-${displayValue} ${currency}`;
-        
-        // Disparamos la animación de pulso
+        // Animación de pulso
         display.classList.remove('pulse-active');
-        void display.offsetWidth; // Trigger reflow
+        void display.offsetWidth; 
         display.classList.add('pulse-active');
-
     }, 1000);
 }
 
 function startLivePrices() {
     setInterval(() => {
-        const btc = 65000 + (Math.random() * 200);
-        const gold = 2050 + (Math.random() * 5);
-        document.getElementById('btc-price').innerText = `$${btc.toLocaleString()}`;
-        document.getElementById('gold-price').innerText = `$${gold.toLocaleString()}`;
+        const btc = 68000 + (Math.random() * 300);
+        const gold = 2150 + (Math.random() * 10);
+        document.getElementById('btc-price').innerText = `$${btc.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+        document.getElementById('gold-price').innerText = `$${gold.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
     }, 3000);
 }
+
+document.getElementById('capital-input').addEventListener('input', updateAnalysis);
+document.getElementById('currency-select').addEventListener('change', updateAnalysis);
+
+window.onload = init;
+
 
 
 
