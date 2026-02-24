@@ -89,7 +89,7 @@ async function continuar(){
     try{
 
         const { error } = await supabase
-        .from("usuarios")
+        .from("leads")
         .insert([{ email: email }]);
 
         if(error){
