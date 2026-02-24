@@ -151,9 +151,45 @@ nav a {
   }
 
 }
-body {
-    background: red !important;
-}
+/* 📱 MOBILE FIX REAL */
+@media (max-width: 900px) {
 
+  body {
+    overflow-x: hidden;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column !important;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    gap: 40px;
+  }
+
+  .left,
+  .right {
+    width: 100% !important;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .login-card {
+    width: 100% !important;
+    max-width: 380px;
+    margin: auto;
+  }
+
+  .features {
+    display: grid !important;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  h1 {
+    font-size: 32px !important;
+  }
+
+}
 
 
