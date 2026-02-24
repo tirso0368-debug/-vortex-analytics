@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>VORTEX — Análisis</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: radial-gradient(circle at top, #0b1c3d, #020617);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Card principal */
+.card {
+    width: 380px;
+    padding: 40px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 40px rgba(0,150,255,0.2);
+    text-align: center;
+    animation: fadeIn 1.2s ease;
+}
+
+h1 {
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.sub {
+    opacity: 0.7;
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+/* Loader circular */
+.loader {
+    width: 80px;
+    height: 80px;
+    border: 4px solid rgba(255,255,255,0.1);
+    border-top: 4px solid #00e0ff;
+    border-radius: 50%;
+    margin: 30px auto;
+    animation: spin 1s linear infinite;
+}
+
+/* Barra progreso */
+.progress {
+    width: 100%;
+    height: 8px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+.bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg,#00e0ff,#4facfe);
+    border-radius: 10px;
+    transition: width 0.4s;
+}
+
+.status {
+    margin-top: 15px;
+    font-size: 13px;
+    opacity: 0.8;
+}
+
+/* Badge */
+.badge {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    background: rgba(0,224,255,0.15);
+    color: #00e0ff;
+}
+
+/* Animaciones */
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px);}
+    to { opacity: 1; transform: translateY(0);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <h1>Motor VORTEX</h1>
+    <div class="sub">Analizando compatibilidad financiera...</div>
+
+    <div class="loader"></div>
+
+    <div class="progress">
+        <div class="bar" id="bar"></div>
+    </div>
+
+    <div class="status" id="status">
+        Inicializando sistema...
+    </div>
+
+    <div class="badge">
+        🔒 Usuario Early Access
+    </div>
+
+</div>
+
+<script>
+
+const messages = [
+    "Inicializando motor de diagnóstico...",
+    "Analizando comportamiento financiero...",
+    "Evaluando capacidad de inversión...",
+    "Calculando nivel de riesgo...",
+    "Verificando compatibilidad con VORTEX...",
+    "Generando perfil exclusivo...",
+    "Acceso aprobado ✔"
+];
+
+let progress = 0;
+let step = 0;
+
+const bar = document.getElementById("bar");
+const status = document.getElementById("status");
+
+const interval = setInterval(() => {
+
+    progress += Math.random() * 18;
+
+    if (progress >= 100) {
+        progress = 100;
+        clearInterval(interval);
+
+        status.innerText = "Perfil aprobado. Accediendo al sistema...";
+
+        setTimeout(() => {
+            window.location.href = "dashboard.html";
+        }, 1500);
+    }
+
+    bar.style.width = progress + "%";
+
+    if (step < messages.length) {
+        status.innerText = messages[step];
+        step++;
+    }
+
+}, 900);
+
+</script>
+
+</body>
+</html>
