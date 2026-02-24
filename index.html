@@ -9,33 +9,99 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-body{
+body {
+    margin:0;
     font-family: Arial, sans-serif;
-    background: linear-gradient(135deg,#0f172a,#020617);
-    color:white;
+    background: radial-gradient(circle at top, #0f172a, #020617);
+    height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
-    height:100vh;
-    margin:0;
+    color:white;
 }
 
-.container{
-    background:#0b1220;
-    padding:30px;
-    border-radius:15px;
+.card {
+    background: rgba(15,23,42,0.85);
+    backdrop-filter: blur(20px);
+    padding:40px;
+    border-radius:20px;
     width:90%;
-    max-width:400px;
+    max-width:420px;
     text-align:center;
-    box-shadow:0 0 20px rgba(0,0,0,0.5);
+    box-shadow:0 0 40px rgba(0,0,0,0.6);
+    border:1px solid rgba(255,255,255,0.1);
 }
 
-<input type="email" id="email" placeholder="Tu correo electrónico" required />
+h1 {
+    margin-bottom:10px;
+    font-size:26px;
+}
+
+p {
+    opacity:0.8;
+    margin-bottom:25px;
+}
+
+input {
+    width:100%;
+    padding:14px;
+    border-radius:10px;
+    border:none;
+    margin-bottom:15px;
+    font-size:16px;
+}
+
+button {
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:bold;
+    background:linear-gradient(45deg,#22c55e,#16a34a);
+    color:white;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover {
+    transform:scale(1.05);
+}
+
+.loading {
+    display:none;
+    margin-top:15px;
+    opacity:0.7;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<h1>💰 Diagnóstico Financiero IA</h1>
+<p>Introduce tu correo para desbloquear tu análisis personalizado</p>
+
+<input type="email" id="email" placeholder="Tu correo electrónico">
 
 <button onclick="continuar()">Desbloquear diagnóstico</button>
 
+<div class="loading" id="loading">
+Analizando perfil...
+</div>
+
+</div>
+
 <script>
-function continuar() {
+
+const SUPABASE_URL = "https://zajtohneourkrqtqtobq.supabase.co";
+const SUPABASE_KEY = "sb_publishable_jlPvHDt6scrsSn_ERTqkEA_YI--0147";
+
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+async function continuar() {
+
     const email = document.getElementById("email").value;
 
     if (!email) {
@@ -43,81 +109,23 @@ function continuar() {
         return;
     }
 
-    // Guardar email
+    document.getElementById("loading").style.display = "block";
+
+    try {
+
+        await supabase
+            .from("usuarios")
+            .insert([{ email: email }]);
+
+    } catch (error) {
+        console.log(error);
+    }
+
     localStorage.setItem("emailUsuario", email);
 
-    // Ir a preguntas
-    window.location.href = "preguntas.html";
-}
-</script>
-}
-
-button{
-    margin-top:20px;
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:8px;
-    background:#22c55e;
-    color:white;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-button:hover{
-    background:#16a34a;
-}
-</style>
-</head>
-
-<body>
-
-<div class="container">
-    <h2>Diagnóstico Financiero IA</h2>
-    <p>Introduce tu correo para desbloquear tu análisis exclusivo.</p>
-
-    <input type="email" id="email" placeholder="Tu correo electrónico">
-    <button onclick="continuar()">Desbloquear diagnóstico</button>
-
-    <p id="msg"></p>
-</div>
-
-<script>
-
-const supabaseUrl = "https://zajtohneourkrqtqtobq.supabase.co";
-const supabaseKey = "sb_publishable_jlPvHDt6scrsSn_ERTqkEA_YI--0147";
-
-const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-async function continuar(){
-
-    const email = document.getElementById("email").value;
-
-    if(!email){
-        document.getElementById("msg").innerText = "Introduce un correo válido";
-        return;
-    }
-
-    document.getElementById("msg").innerText = "Guardando...";
-
-    try{
-
-        const { error } = await supabase
-        .from("leads")
-        .insert([{ email: email }]);
-
-        if(error){
-            console.log(error);
-        }
-
-        localStorage.setItem("email", email);
-
+    setTimeout(() => {
         window.location.href = "preguntas.html";
-
-    }catch(e){
-        console.log(e);
-        document.getElementById("msg").innerText = "Error de conexión";
-    }
+    }, 1500);
 
 }
 
