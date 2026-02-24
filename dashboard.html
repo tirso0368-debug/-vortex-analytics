@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Panel VORTEX</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #020024, #090979, #00d4ff);
+      color: white;
+      text-align: center;
+    }
+
+    .container {
+      padding: 40px;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 300px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    }
+
+    .value {
+      font-size: 28px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 10px;
+      background: #00f0ff;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>Panel VORTEX</h1>
+
+    <p id="welcome"></p>
+
+    <div class="card">
+      <h2>Score financiero</h2>
+      <div class="value" id="score"></div>
+    </div>
+
+    <div class="card">
+      <h2>Potencial de inversión</h2>
+      <div class="value" id="invest"></div>
+    </div>
+
+    <div class="card">
+      <h2>Riesgo detectado</h2>
+      <div class="value" id="risk"></div>
+    </div>
+
+    <button onclick="logout()">Salir</button>
+  </div>
+
+  <script>
+    const name = localStorage.getItem("vortexName");
+    const score = localStorage.getItem("vortexScore");
+    const invest = localStorage.getItem("vortexInvest");
+    const risk = localStorage.getItem("vortexRisk");
+
+    if (!name) {
+      window.location.href = "index.html";
+    }
+
+    document.getElementById("welcome").innerText =
+      "Bienvenido " + name + ". Nivel financiero detectado.";
+
+    document.getElementById("score").innerText = score + "/20";
+    document.getElementById("invest").innerText = invest + "%";
+    document.getElementById("risk").innerText = risk + "%";
+
+    function logout() {
+      localStorage.clear();
+      window.location.href = "index.html";
+    }
+  </script>
+
+</body>
+</html>
