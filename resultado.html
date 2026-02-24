@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resultado — VORTEX</title>
+
+<style>
+
+body{
+background:#020617;
+color:white;
+font-family:Inter,sans-serif;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+margin:0;
+}
+
+.container{
+background:rgba(15,23,42,0.75);
+padding:50px;
+border-radius:20px;
+width:420px;
+text-align:center;
+box-shadow:0 20px 60px rgba(0,0,0,0.6);
+border:1px solid rgba(255,255,255,0.08);
+}
+
+h1{
+font-size:28px;
+margin-bottom:10px;
+}
+
+.perfil{
+font-size:20px;
+margin:15px 0;
+color:#a78bfa;
+font-weight:600;
+}
+
+.probabilidad{
+font-size:42px;
+font-weight:bold;
+margin:20px 0;
+}
+
+.barra{
+width:100%;
+height:12px;
+background:#0f172a;
+border-radius:10px;
+overflow:hidden;
+margin-bottom:25px;
+}
+
+.progreso{
+height:100%;
+width:0%;
+background:linear-gradient(90deg,#6366f1,#8b5cf6);
+transition:width 2s ease;
+}
+
+.mensaje{
+opacity:0.8;
+font-size:14px;
+line-height:1.6;
+margin-top:15px;
+}
+
+.badge{
+display:inline-block;
+padding:6px 12px;
+background:rgba(139,92,246,0.15);
+border:1px solid rgba(139,92,246,0.4);
+border-radius:999px;
+font-size:12px;
+margin-bottom:15px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="badge">ANÁLISIS COMPLETADO</div>
+
+<h1 id="saludo">Hola</h1>
+
+<div class="perfil" id="perfil"></div>
+
+<div class="probabilidad" id="probabilidad">0%</div>
+
+<div class="barra">
+<div class="progreso" id="barra"></div>
+</div>
+
+<p class="mensaje" id="mensaje"></p>
+
+</div>
+
+<script>
+
+/* OBTENER DATOS */
+
+const nombre = localStorage.getItem("nombre") || "Usuario";
+const perfil = localStorage.getItem("perfil") || "Perfil";
+const probabilidad = localStorage.getItem("probabilidad") || 50;
+
+/* SALUDO */
+
+document.getElementById("saludo").innerText = "🔥 " + nombre.toUpperCase() + " 🔥";
+document.getElementById("perfil").innerText = perfil;
+
+/* ANIMAR PROBABILIDAD */
+
+let progreso = 0;
+const objetivo = probabilidad;
+
+const intervalo = setInterval(() => {
+progreso++;
+document.getElementById("probabilidad").innerText = progreso + "%";
+document.getElementById("barra").style.width = progreso + "%";
+
+if(progreso >= objetivo){
+clearInterval(intervalo);
+}
+}, 25);
+
+/* MENSAJE PERSONALIZADO */
+
+let mensajeTexto = "";
+
+if(perfil.includes("Alto")){
+mensajeTexto =
+"Hemos analizado tu perfil y detectamos características poco comunes. Tu combinación de ambición, disciplina y capacidad de ejecución te sitúa por encima de la media de usuarios. Podrías avanzar rápidamente si aplicas el sistema correcto.";
+}
+else if(perfil.includes("Consistente")){
+mensajeTexto =
+"Tu perfil muestra una base sólida de disciplina y compromiso. Con la estrategia adecuada y enfoque continuo, tienes altas probabilidades de lograr resultados superiores a la media.";
+}
+else if(perfil.includes("Explorador")){
+mensajeTexto =
+"Estás en una fase de crecimiento. Aunque aún hay áreas por desarrollar, tu potencial es claro. Con dirección correcta podrías acelerar tu progreso significativamente.";
+}
+else{
+mensajeTexto =
+"Tu perfil indica motivación inicial. Si desarrollas hábitos de disciplina y enfoque, podrías mejorar tus resultados de forma notable en los próximos meses.";
+}
+
+document.getElementById("mensaje").innerText = mensajeTexto;
+
+</script>
+
+</body>
+  </html>
