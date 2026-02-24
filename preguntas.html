@@ -1,143 +1,39 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Diagnóstico Inteligente</title>
-
-<style>
-body{
-    font-family: Arial, sans-serif;
-    background:#0d1117;
-    color:white;
-    padding:20px;
-}
-
-.container{
-    max-width:800px;
-    margin:auto;
-}
-
-h1{
-    text-align:center;
-}
-
-.question{
-    margin:25px 0;
-}
-
-label{
-    display:block;
-    margin:6px 0;
-    cursor:pointer;
-}
-
-button{
-    width:100%;
-    padding:15px;
-    border:none;
-    border-radius:10px;
-    background:#22c55e;
-    color:white;
-    font-size:18px;
-    cursor:pointer;
-}
-
-button:hover{
-    opacity:0.8;
-}
-
-#resultado{
-    margin-top:30px;
-    padding:20px;
-    background:#161b22;
-    border-radius:10px;
-    display:none;
-}
-</style>
+  <meta charset="UTF-8">
+  <title>Preguntas</title>
 </head>
-
 <body>
 
-<div class="container">
+<h1>Detector de IA</h1>
 
-<h1>Diagnóstico Personal con IA</h1>
+<textarea id="texto" placeholder="Escribe aquí"></textarea>
+<br>
+<button onclick="analizar()">Analizar</button>
 
-<p>
-Responde estas preguntas. Nuestra inteligencia artificial analizará tu situación
-y generará un diagnóstico real con recomendaciones personalizadas.
-</p>
+<p id="resultado"></p>
 
-<form id="formulario">
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm"
+import { analizarIA } from "./analizar.js"
 
-<div class="question">
-<p>1. ¿Cómo te sientes últimamente?</p>
-<label><input type="radio" name="estado" value="bien"> Bien</label>
-<label><input type="radio" name="estado" value="normal"> Normal</label>
-<label><input type="radio" name="estado" value="mal"> Mal</label>
-</div>
+const supabase = createClient(
+  "https://zajtohneourkrqtqtobq.supabase.co",
+  "sb_publishable_jlPvHDt6scrsSn_ERTqkEA_YI--0147"
+)
 
-<div class="question">
-<p>2. ¿Nivel de estrés?</p>
-<label><input type="radio" name="estres" value="bajo"> Bajo</label>
-<label><input type="radio" name="estres" value="medio"> Medio</label>
-<label><input type="radio" name="estres" value="alto"> Alto</label>
-</div>
+const { data } = await supabase.auth.getUser()
 
-<div class="question">
-<p>3. ¿Problema principal ahora?</p>
-<label><input type="radio" name="problema" value="dinero"> Dinero</label>
-<label><input type="radio" name="problema" value="relaciones"> Relaciones</label>
-<label><input type="radio" name="problema" value="motivacion"> Motivación</label>
-<label><input type="radio" name="problema" value="ansiedad"> Ansiedad</label>
-</div>
-
-<button type="submit">Analizar con IA</button>
-
-</form>
-
-<div id="resultado"></div>
-
-</div>
-
-<script>
-
-document.getElementById("formulario").addEventListener("submit", async function(e){
-
-e.preventDefault();
-
-const datos = {
-estado: document.querySelector('input[name="estado"]:checked')?.value,
-estres: document.querySelector('input[name="estres"]:checked')?.value,
-problema: document.querySelector('input[name="problema"]:checked')?.value
-};
-
-const resultadoDiv = document.getElementById("resultado");
-
-resultadoDiv.style.display = "block";
-resultadoDiv.innerHTML = "Analizando con inteligencia artificial...";
-
-try{
-
-const res = await fetch("/api/analizar",{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body: JSON.stringify({ respuestas: datos })
-});
-
-const data = await res.json();
-
-resultadoDiv.innerHTML = "<h2>Diagnóstico:</h2><p>" + data.resultado + "</p>";
-
-}catch(err){
-
-resultadoDiv.innerHTML = "Error conectando con la IA";
-
+if (!data.user) {
+  window.location.href = "index.html"
 }
 
-});
-
+window.analizar = async () => {
+  const texto = document.getElementById("texto").value
+  const resultado = await analizarIA(texto)
+  document.getElementById("resultado").innerText = resultado
+}
 </script>
 
 </body>
