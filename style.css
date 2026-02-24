@@ -113,6 +113,7 @@ nav a {
   color: #666;
 }
 .vortex-notification {
+  
     position: fixed;
     bottom: 20px;
     right: 20px;
@@ -125,6 +126,30 @@ nav a {
     transition: all 0.4s ease;
     font-size: 14px;
     z-index: 9999;
+}
+@media (max-width: 900px) {
+
+  .container {
+    flex-direction: column;
+    padding: 20px;
+    gap: 40px;
+  }
+
+  .left {
+    width: 100%;
+    text-align: center;
+  }
+
+  .login-card {
+    width: 100%;
+    max-width: 380px;
+    margin: auto;
+  }
+
+  h1 {
+    font-size: 32px;
+  }
+
 }
 
 
