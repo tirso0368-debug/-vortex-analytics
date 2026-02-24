@@ -2,152 +2,168 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>VORTEX Diagnóstico</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VORTEX — Análisis</title>
 
 <style>
 
-body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg,#0f172a,#020617,#0f172a);
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
+body{
+background:#020617;
+color:white;
+font-family:Inter,sans-serif;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+margin:0;
 }
 
-.card {
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(20px);
-    padding: 40px;
-    border-radius: 20px;
-    width: 350px;
-    box-shadow: 0 0 40px rgba(0,0,0,0.4);
-    text-align: center;
+.container{
+background:rgba(15,23,42,0.7);
+padding:40px;
+border-radius:20px;
+width:420px;
+box-shadow:0 20px 60px rgba(0,0,0,0.6);
+border:1px solid rgba(255,255,255,0.08);
 }
 
-h1 {
-    margin-bottom: 10px;
-    font-size: 26px;
+h1{
+text-align:center;
+margin-bottom:10px;
 }
 
-.subtitle {
-    opacity: 0.7;
-    margin-bottom: 30px;
-    font-size: 14px;
+.subtitle{
+text-align:center;
+opacity:0.6;
+margin-bottom:25px;
+font-size:14px;
 }
 
-select {
-    width: 100%;
-    padding: 12px;
-    margin: 12px 0;
-    border-radius: 10px;
-    border: none;
-    background: rgba(255,255,255,0.08);
-    color: white;
-    font-size: 14px;
+.question{
+margin-bottom:20px;
 }
 
-button {
-    width: 100%;
-    padding: 14px;
-    margin-top: 20px;
-    border-radius: 12px;
-    border: none;
-    background: linear-gradient(90deg,#06b6d4,#3b82f6);
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
+select{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:none;
+background:#0f172a;
+color:white;
 }
 
-button:hover {
-    transform: scale(1.05);
-}
-
-label {
-    font-size: 13px;
-    opacity: 0.8;
-    display: block;
-    text-align: left;
-    margin-top: 15px;
+button{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+background:linear-gradient(135deg,#6366f1,#8b5cf6);
+color:white;
+font-weight:600;
+cursor:pointer;
 }
 
 </style>
 </head>
+
 <body>
 
-<div class="card">
+<div class="container">
 
-<h1>Diagnóstico VORTEX</h1>
-<div class="subtitle">Analizando tu perfil financiero...</div>
+<h1>Analizando tu perfil</h1>
+<p class="subtitle">Nuestro sistema evaluará tu potencial</p>
 
-<form id="quizForm">
-
-<label>Ahorro mensual</label>
-<select id="ahorro">
-    <option value="0">Nada</option>
-    <option value="1">Menos de 100€</option>
-    <option value="2">100€ - 500€</option>
-    <option value="3">Más de 500€</option>
+<div class="question">
+<p>¿Qué tan importante es para ti cambiar tu situación actual?</p>
+<select id="ambicion">
+<option value="1">Poco</option>
+<option value="2">Algo</option>
+<option value="3">Mucho</option>
+<option value="4">Es prioridad absoluta</option>
 </select>
+</div>
 
-<label>Experiencia invirtiendo</label>
-<select id="inversion">
-    <option value="0">Ninguna</option>
-    <option value="2">Básica</option>
-    <option value="3">Avanzada</option>
+<div class="question">
+<p>¿Cuánto tiempo puedes dedicar al día?</p>
+<select id="tiempo">
+<option value="1">Menos de 1 hora</option>
+<option value="2">1-2 horas</option>
+<option value="3">2-4 horas</option>
+<option value="4">Más de 4 horas</option>
 </select>
+</div>
 
-<label>Nivel financiero</label>
-<select id="nivel">
-    <option value="0">Muy bajo</option>
-    <option value="1">Normal</option>
-    <option value="2">Bueno</option>
-    <option value="3">Alto</option>
+<div class="question">
+<p>¿Cómo describirías tu disciplina?</p>
+<select id="disciplina">
+<option value="1">Me cuesta ser constante</option>
+<option value="2">A veces soy constante</option>
+<option value="3">Bastante constante</option>
+<option value="4">Muy disciplinado</option>
 </select>
+</div>
 
-<label>¿Qué harías con 10.000€?</label>
-<select id="decision">
-    <option value="0">Gastarlo</option>
-    <option value="2">Ahorrar</option>
-    <option value="3">Invertir</option>
+<div class="question">
+<p>¿Tienes experiencia previa intentando mejorar tus ingresos?</p>
+<select id="experiencia">
+<option value="1">Ninguna</option>
+<option value="2">Muy poca</option>
+<option value="3">Algo</option>
+<option value="4">Bastante</option>
 </select>
+</div>
 
-<button type="submit">Ver análisis</button>
-
-</form>
+<button onclick="analizar()">
+Analizar perfil
+</button>
 
 </div>
 
+
 <script>
-document.getElementById("quizForm").addEventListener("submit", function(e) {
 
-    e.preventDefault();
+function analizar(){
 
-    const ahorro = parseInt(document.getElementById("ahorro").value);
-    const inversion = parseInt(document.getElementById("inversion").value);
-    const nivel = parseInt(document.getElementById("nivel").value);
-    const decision = parseInt(document.getElementById("decision").value);
+const ambicion = parseInt(document.getElementById("ambicion").value);
+const tiempo = parseInt(document.getElementById("tiempo").value);
+const disciplina = parseInt(document.getElementById("disciplina").value);
+const experiencia = parseInt(document.getElementById("experiencia").value);
 
-    const score = (ahorro + inversion + nivel + decision) * 8;
-    const potencial = Math.min(100, (ahorro * 15) + (decision * 10));
-    const riesgo = Math.max(10, 100 - score);
+const total = ambicion + tiempo + disciplina + experiencia;
 
-    let nivelTexto = "Principiante";
-    if (score > 40) nivelTexto = "Intermedio";
-    if (score > 70) nivelTexto = "Avanzado";
+/* PERFIL */
 
-    localStorage.setItem("vortexScore", score);
-    localStorage.setItem("vortexInvest", potencial);
-    localStorage.setItem("vortexRisk", riesgo);
-    localStorage.setItem("vortexLevel", nivelTexto);
+let perfil = "";
+let probabilidad = 0;
 
-    window.location.href = "analisis.html";
+if(total >= 14){
+perfil = "Estratega de Alto Potencial";
+probabilidad = 92;
+}
+else if(total >= 11){
+perfil = "Ejecutor Consistente";
+probabilidad = 78;
+}
+else if(total >= 8){
+perfil = "Explorador en Crecimiento";
+probabilidad = 64;
+}
+else{
+perfil = "Principiante con Motivación";
+probabilidad = 48;
+}
 
-});
+/* GUARDAR DATOS */
+
+localStorage.setItem("perfil", perfil);
+localStorage.setItem("probabilidad", probabilidad);
+
+/* REDIRIGIR */
+
+window.location.href = "resultado.html";
+
+}
+
 </script>
 
 </body>
