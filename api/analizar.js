@@ -1,58 +1,56 @@
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(200).json({ mensaje: "API funcionando ✅" });
-  }
-
   try {
-    const { respuestas } = req.body;
+    const { respuestas, mensaje } = req.body;
 
     const prompt = `
-Eres un asesor financiero experto en estudiantes jóvenes.
+    Analiza este perfil de estudiante:
 
-Analiza estas respuestas:
-${JSON.stringify(respuestas)}
+    Respuestas:
+    ${JSON.stringify(respuestas)}
 
-Genera:
+    Mensaje del usuario:
+    ${mensaje || "Sin mensaje"}
 
-1. Perfil financiero del estudiante
-2. Nivel de riesgo (bajo, medio, alto)
-3. Recomendaciones personalizadas
-4. Estrategia para generar ingresos
-5. Consejos claros y motivadores
+    Quiero:
+    - Diagnóstico financiero
+    - Mentalidad
+    - Errores principales
+    - Recomendaciones claras
+    - Consejos para generar ingresos
 
-Habla en español.
-Hazlo exclusivo y profesional.
-`;
+    Habla como mentor experto.
+    `;
 
-    const openaiResponse = await fetch(
-      "https://api.openai.com/v1/chat/completions",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-        },
-        body: JSON.stringify({
-          model: "gpt-4o-mini",
-          messages: [
-            {
-              role: "user",
-              content: prompt,
-            },
-          ],
-        }),
-      }
-    );
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: "gpt-4o-mini",
+        messages: [
+          {
+            role: "system",
+            content: "Eres un mentor financiero experto en estudiantes y generación de ingresos."
+          },
+          {
+            role: "user",
+            content: prompt
+          }
+        ],
+      }),
+    });
 
-    const data = await openaiResponse.json();
+    const data = await response.json();
 
-    const texto =
-      data.choices?.[0]?.message?.content ||
-      "No se pudo generar el análisis.";
+    res.status(200).json({
+      resultado: data.choices[0].message.content,
+    });
 
-    return res.status(200).json({ resultado: texto });
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Error interno del servidor" });
+    res.status(500).json({
+      error: "Error en IA",
+    });
   }
 }
