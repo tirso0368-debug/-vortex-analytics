@@ -2,67 +2,57 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VORTEX — Análisis</title>
+<title>Diagnóstico Inteligente</title>
 
 <style>
-
 body{
-background:#020617;
-color:white;
-font-family:Inter,sans-serif;
-display:flex;
-justify-content:center;
-align-items:center;
-min-height:100vh;
-margin:0;
+    font-family: Arial, sans-serif;
+    background:#0d1117;
+    color:white;
+    padding:20px;
 }
 
 .container{
-background:rgba(15,23,42,0.7);
-padding:40px;
-border-radius:20px;
-width:420px;
-box-shadow:0 20px 60px rgba(0,0,0,0.6);
-border:1px solid rgba(255,255,255,0.08);
+    max-width:800px;
+    margin:auto;
 }
 
 h1{
-text-align:center;
-margin-bottom:10px;
-}
-
-.subtitle{
-text-align:center;
-opacity:0.6;
-margin-bottom:25px;
-font-size:14px;
+    text-align:center;
 }
 
 .question{
-margin-bottom:20px;
+    margin:25px 0;
 }
 
-select{
-width:100%;
-padding:12px;
-border-radius:10px;
-border:none;
-background:#0f172a;
-color:white;
+label{
+    display:block;
+    margin:6px 0;
+    cursor:pointer;
 }
 
 button{
-width:100%;
-padding:14px;
-border:none;
-border-radius:12px;
-background:linear-gradient(135deg,#6366f1,#8b5cf6);
-color:white;
-font-weight:600;
-cursor:pointer;
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:10px;
+    background:#22c55e;
+    color:white;
+    font-size:18px;
+    cursor:pointer;
 }
 
+button:hover{
+    opacity:0.8;
+}
+
+#resultado{
+    margin-top:30px;
+    padding:20px;
+    background:#161b22;
+    border-radius:10px;
+    display:none;
+}
 </style>
 </head>
 
@@ -70,99 +60,83 @@ cursor:pointer;
 
 <div class="container">
 
-<h1>Analizando tu perfil</h1>
-<p class="subtitle">Nuestro sistema evaluará tu potencial</p>
+<h1>Diagnóstico Personal con IA</h1>
+
+<p>
+Responde estas preguntas. Nuestra inteligencia artificial analizará tu situación
+y generará un diagnóstico real con recomendaciones personalizadas.
+</p>
+
+<form id="formulario">
 
 <div class="question">
-<p>¿Qué tan importante es para ti cambiar tu situación actual?</p>
-<select id="ambicion">
-<option value="1">Poco</option>
-<option value="2">Algo</option>
-<option value="3">Mucho</option>
-<option value="4">Es prioridad absoluta</option>
-</select>
-</div>
-
-<div class="question">
-<p>¿Cuánto tiempo puedes dedicar al día?</p>
-<select id="tiempo">
-<option value="1">Menos de 1 hora</option>
-<option value="2">1-2 horas</option>
-<option value="3">2-4 horas</option>
-<option value="4">Más de 4 horas</option>
-</select>
+<p>1. ¿Cómo te sientes últimamente?</p>
+<label><input type="radio" name="estado" value="bien"> Bien</label>
+<label><input type="radio" name="estado" value="normal"> Normal</label>
+<label><input type="radio" name="estado" value="mal"> Mal</label>
 </div>
 
 <div class="question">
-<p>¿Cómo describirías tu disciplina?</p>
-<select id="disciplina">
-<option value="1">Me cuesta ser constante</option>
-<option value="2">A veces soy constante</option>
-<option value="3">Bastante constante</option>
-<option value="4">Muy disciplinado</option>
-</select>
+<p>2. ¿Nivel de estrés?</p>
+<label><input type="radio" name="estres" value="bajo"> Bajo</label>
+<label><input type="radio" name="estres" value="medio"> Medio</label>
+<label><input type="radio" name="estres" value="alto"> Alto</label>
 </div>
 
 <div class="question">
-<p>¿Tienes experiencia previa intentando mejorar tus ingresos?</p>
-<select id="experiencia">
-<option value="1">Ninguna</option>
-<option value="2">Muy poca</option>
-<option value="3">Algo</option>
-<option value="4">Bastante</option>
-</select>
+<p>3. ¿Problema principal ahora?</p>
+<label><input type="radio" name="problema" value="dinero"> Dinero</label>
+<label><input type="radio" name="problema" value="relaciones"> Relaciones</label>
+<label><input type="radio" name="problema" value="motivacion"> Motivación</label>
+<label><input type="radio" name="problema" value="ansiedad"> Ansiedad</label>
 </div>
 
-<button onclick="analizar()">
-Analizar perfil
-</button>
+<button type="submit">Analizar con IA</button>
+
+</form>
+
+<div id="resultado"></div>
 
 </div>
-
 
 <script>
 
-function analizar(){
+document.getElementById("formulario").addEventListener("submit", async function(e){
 
-const ambicion = parseInt(document.getElementById("ambicion").value);
-const tiempo = parseInt(document.getElementById("tiempo").value);
-const disciplina = parseInt(document.getElementById("disciplina").value);
-const experiencia = parseInt(document.getElementById("experiencia").value);
+e.preventDefault();
 
-const total = ambicion + tiempo + disciplina + experiencia;
+const datos = {
+estado: document.querySelector('input[name="estado"]:checked')?.value,
+estres: document.querySelector('input[name="estres"]:checked')?.value,
+problema: document.querySelector('input[name="problema"]:checked')?.value
+};
 
-/* PERFIL */
+const resultadoDiv = document.getElementById("resultado");
 
-let perfil = "";
-let probabilidad = 0;
+resultadoDiv.style.display = "block";
+resultadoDiv.innerHTML = "Analizando con inteligencia artificial...";
 
-if(total >= 14){
-perfil = "Estratega de Alto Potencial";
-probabilidad = 92;
-}
-else if(total >= 11){
-perfil = "Ejecutor Consistente";
-probabilidad = 78;
-}
-else if(total >= 8){
-perfil = "Explorador en Crecimiento";
-probabilidad = 64;
-}
-else{
-perfil = "Principiante con Motivación";
-probabilidad = 48;
-}
+try{
 
-/* GUARDAR DATOS */
+const res = await fetch("/api/analizar",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body: JSON.stringify({ respuestas: datos })
+});
 
-localStorage.setItem("perfil", perfil);
-localStorage.setItem("probabilidad", probabilidad);
+const data = await res.json();
 
-/* REDIRIGIR */
+resultadoDiv.innerHTML = "<h2>Diagnóstico:</h2><p>" + data.resultado + "</p>";
 
-window.location.href = "resultado.html";
+}catch(err){
+
+resultadoDiv.innerHTML = "Error conectando con la IA";
 
 }
+
+});
 
 </script>
 
