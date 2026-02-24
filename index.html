@@ -1,64 +1,59 @@
-<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html><html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Login — Detectar IA</title>
-</head>
-<body>
-
-<h2>Login / Registro</h2>
-
-<input type="email" id="email" placeholder="Email">
-<input type="password" id="password" placeholder="Contraseña">
-
-<button onclick="login()">Entrar</button>
-<button onclick="register()">Registrarse</button>
-
-<p id="msg"></p>
-
-<script type="module">
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm"
-
-const supabase = createClient(
-  "https://zajtohneourkrqtqtobq.supabase.co",
-  "sb_publishable_jlPvHDt6scrsSn_ERTqkEA_YI--0147"
-)
-
-window.login = async () => {
-  const email = document.getElementById("email").value
-  const password = document.getElementById("password").value
-
-  const { error } = await supabase.auth.signInWithPassword({
-    email,
-    password
-  })
-
-  if (error) {
-    msg.innerText = error.message
-  } else {
-    window.location.href = "preguntas.html"
-  }
+<meta charset="UTF-8">
+<title>Vortex Intelligence</title><style>
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:linear-gradient(135deg,#020617,#0f172a);
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
 }
 
-window.register = async () => {
-  const email = document.getElementById("email").value
-  const password = document.getElementById("password").value
-
-  const { error } = await supabase.auth.signUp({
-    email,
-    password
-  })
-
-  if (error) {
-    msg.innerText = error.message
-  } else {
-    msg.innerText = "Cuenta creada. Ahora inicia sesión."
-  }
+.container{
+    text-align:center;
+    max-width:650px;
+    padding:40px;
 }
-</script>
 
-</body>
+h1{
+    font-size:44px;
+    margin-bottom:20px;
+}
+
+p{
+    opacity:.7;
+    line-height:1.6;
+    margin-bottom:30px;
+}
+
+button{
+    padding:16px 32px;
+    font-size:18px;
+    border:none;
+    border-radius:10px;
+    background:#22c55e;
+    color:white;
+    cursor:pointer;
+    transition:.2s;
+}
+
+button:hover{
+    background:#16a34a;
+}
+</style></head><body><div class="container"><h1>🧠 Vortex Intelligence</h1><p>
+Un sistema de análisis avanzado que evalúa tu situación personal y profesional
+mediante inteligencia artificial.
+<br><br>
+Obtén un diagnóstico estratégico diseñado exclusivamente para ti.
+</p><button onclick="entrar()">Comenzar análisis</button>
+
+</div><script>
+function entrar(){
+    window.location.href = "preguntas.html";
+}
+</script></body>
 </html>
-
-
-
