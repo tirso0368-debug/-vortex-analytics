@@ -1,288 +1,120 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VORTEX — Private Access</title>
+<title>Acceso Privado</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family: Inter, system-ui, sans-serif;
-}
-
 body{
-background:#020617;
-color:white;
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-overflow:hidden;
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:linear-gradient(135deg,#0f172a,#020617);
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
 }
 
-/* PARTICLES */
-
-canvas{
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-z-index:0;
-}
-
-/* CARD */
-
-.container{
-position:relative;
-z-index:2;
-background:rgba(15,23,42,0.65);
-backdrop-filter:blur(30px);
-padding:45px;
-border-radius:22px;
-width:380px;
-box-shadow:0 25px 80px rgba(0,0,0,0.6);
-border:1px solid rgba(255,255,255,0.08);
-animation:fade 1.2s ease;
-}
-
-@keyframes fade{
-from{opacity:0; transform:translateY(30px);}
-to{opacity:1; transform:translateY(0);}
-}
-
-.logo{
-text-align:center;
-font-size:24px;
-font-weight:700;
-letter-spacing:4px;
-margin-bottom:20px;
-background:linear-gradient(135deg,#818cf8,#c084fc);
--webkit-background-clip:text;
-color:transparent;
+.card{
+  background:#0b1220;
+  padding:40px;
+  border-radius:18px;
+  width:90%;
+  max-width:420px;
+  box-shadow:0 20px 60px rgba(0,0,0,0.6);
+  text-align:center;
 }
 
 h1{
-text-align:center;
-font-size:22px;
-margin-bottom:10px;
+  margin-bottom:20px;
 }
-
-.subtitle{
-text-align:center;
-opacity:0.6;
-margin-bottom:25px;
-font-size:14px;
-}
-
-/* INPUTS */
 
 input{
-width:100%;
-padding:15px;
-margin-bottom:15px;
-border-radius:12px;
-border:none;
-outline:none;
-background:rgba(255,255,255,0.05);
-color:white;
-font-size:14px;
-transition:0.3s;
+  width:100%;
+  padding:14px;
+  margin:10px 0;
+  border-radius:10px;
+  border:none;
+  outline:none;
+  font-size:16px;
 }
-
-input:focus{
-background:rgba(255,255,255,0.08);
-box-shadow:0 0 0 1px #6366f1;
-}
-
-/* BUTTON */
 
 button{
-width:100%;
-padding:15px;
-border:none;
-border-radius:12px;
-background:linear-gradient(135deg,#6366f1,#8b5cf6);
-color:white;
-font-weight:600;
-font-size:15px;
-cursor:pointer;
-transition:0.3s;
+  width:100%;
+  padding:14px;
+  margin-top:15px;
+  border:none;
+  border-radius:12px;
+  background:linear-gradient(135deg,#6366f1,#8b5cf6);
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
 }
 
 button:hover{
-transform:translateY(-2px);
-box-shadow:0 10px 30px rgba(99,102,241,0.4);
+  transform:translateY(-2px);
 }
-
-.loading{
-opacity:0.7;
-pointer-events:none;
-}
-
-.footer{
-text-align:center;
-margin-top:18px;
-font-size:12px;
-opacity:0.5;
-}
-
 </style>
 </head>
 
 <body>
 
-<canvas id="bg"></canvas>
+<div class="card">
 
-<div class="container">
+<h1>Acceso Privado</h1>
 
-<div class="logo">VORTEX</div>
+<form id="form">
 
-<h1>Private Access</h1>
-<p class="subtitle">Solo para usuarios seleccionados</p>
+<input id="nombre" placeholder="Tu nombre" required>
+<input id="correo" placeholder="Tu email" required>
 
-<form id="registroForm">
-
-<input id="nombre" placeholder="Tu nombre">
-<input id="correo" type="email" placeholder="Tu correo">
-
-<button type="submit" id="btn">
-Solicitar acceso
-</button>
+<button type="submit">Solicitar acceso</button>
 
 </form>
-
-<div class="footer">
-© 2026 Vortex Labs
-</div>
 
 </div>
 
 <script>
 
-/* SUPABASE */
-
 const SUPABASE_URL = "https://zajtohneourkrqtqtobq.supabase.co";
 const SUPABASE_KEY = "sb_publishable_jlPvHDt6scrsSn_ERTqkEA_YI--0147";
 
 const supabase = window.supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
+  SUPABASE_URL,
+  SUPABASE_KEY
 );
 
 const form = document.getElementById("form");
-const btn = document.getElementById("btn");
 
-form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+form.addEventListener("submit", async (e)=>{
 
-  const nombre = document.getElementById("nombre").value;
-  const correo = document.getElementById("correo").value;
+e.preventDefault();
 
-  if(!correo){
-    alert("Introduce un correo");
-    return;
-  }
+const nombre = document.getElementById("nombre").value;
+const correo = document.getElementById("correo").value;
 
-  const btn = document.getElementById("btn");
-  btn.innerText = "Procesando...";
-  btn.classList.add("loading");
+localStorage.setItem("nombreUsuario", nombre);
 
-  const { error } = await supabase
-    .from("leads")
-    .insert([
-      { nombre: nombre, email: correo }
-    ]);
+await supabase
+.from("leads")
+.insert([
+  { nombre: nombre, email: correo }
+]);
 
-  if(error){
-    alert("Error guardando");
-    console.error(error);
-
-    btn.innerText = "Solicitar acceso";
-    btn.classList.remove("loading");
-
-  } else {
-
-    window.location.href = "preguntas.html";
-
-  }
+window.location.href = "preguntas.html";
 
 });
-
-
-
-
-if(error){
-
-alert("Error guardando");
-console.error(error);
-
-btn.innerText="Solicitar acceso";
-btn.classList.remove("loading");
-
-}else{
-
-window.location.href="preguntas.html";
-
-}
-
-});
-
-
-/* PARTICLES BACKGROUND */
-
-const canvas = document.getElementById("bg");
-const ctx = canvas.getContext("2d");
-
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-let particles = [];
-
-for(let i=0;i<60;i++){
-particles.push({
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-r:Math.random()*2,
-dx:(Math.random()-0.5)*0.5,
-dy:(Math.random()-0.5)*0.5
-});
-}
-
-function animate(){
-
-ctx.clearRect(0,0,canvas.width,canvas.height);
-
-particles.forEach(p=>{
-p.x+=p.dx;
-p.y+=p.dy;
-
-if(p.x<0||p.x>canvas.width) p.dx*=-1;
-if(p.y<0||p.y>canvas.height) p.dy*=-1;
-
-ctx.beginPath();
-ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-ctx.fillStyle="rgba(139,92,246,0.7)";
-ctx.fill();
-});
-
-requestAnimationFrame(animate);
-}
-
-animate();
 
 </script>
 
 </body>
 </html>
-
-
 
 
 
