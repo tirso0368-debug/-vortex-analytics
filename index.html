@@ -1,107 +1,113 @@
-<!DOCTYPE html><html lang="es">
+<!DOCTYPE html>
+<html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Vortex Intelligence</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Diagnóstico Financiero IA</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
 body{
-    margin:0;
-    font-family:Arial, sans-serif;
-    background:linear-gradient(135deg,#020617,#0f172a);
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg,#0f172a,#020617);
     color:white;
     display:flex;
     justify-content:center;
     align-items:center;
     height:100vh;
+    margin:0;
 }
 
 .container{
+    background:#0b1220;
+    padding:30px;
+    border-radius:15px;
+    width:90%;
+    max-width:400px;
     text-align:center;
-    max-width:650px;
-    padding:40px;
-}
-
-h1{
-    font-size:44px;
-    margin-bottom:20px;
-}
-
-p{
-    opacity:.7;
-    line-height:1.6;
-    margin-bottom:30px;
+    box-shadow:0 0 20px rgba(0,0,0,0.5);
 }
 
 input{
-    padding:15px;
     width:100%;
-    max-width:350px;
+    padding:12px;
+    border-radius:8px;
     border:none;
-    border-radius:10px;
-    margin-bottom:20px;
-    font-size:16px;
+    margin-top:15px;
 }
 
 button{
-    padding:16px 32px;
-    font-size:18px;
+    margin-top:20px;
+    width:100%;
+    padding:12px;
     border:none;
-    border-radius:10px;
+    border-radius:8px;
     background:#22c55e;
     color:white;
+    font-weight:bold;
     cursor:pointer;
-    transition:.2s;
 }
 
 button:hover{
     background:#16a34a;
 }
+</style>
+</head>
 
-.msg{
-    margin-top:15px;
-    opacity:.8;
-}
-</style></head><body><div class="container"><h1>🧠 Vortex Intelligence</h1><p>
-Accede a un análisis estratégico personalizado mediante inteligencia artificial avanzada.
-<br><br>
-Introduce tu correo para desbloquear tu diagnóstico exclusivo.
-</p><input id="email" type="email" placeholder="Tu correo electrónico"><br><button onclick="continuar()">Desbloquear diagnóstico</button>
+<body>
 
-<div class="msg" id="msg"></div></div><script>
+<div class="container">
+    <h2>Diagnóstico Financiero IA</h2>
+    <p>Introduce tu correo para desbloquear tu análisis exclusivo.</p>
 
-const SUPABASE_URL = "https://zajtohneourkrqtqtobq.supabase.co";
-const SUPABASE_KEY = "sb_publishable_jlPvHDt6scrsSn_ERTqkEA_YI--0147";
+    <input type="email" id="email" placeholder="Tu correo electrónico">
+    <button onclick="continuar()">Desbloquear diagnóstico</button>
 
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    <p id="msg"></p>
+</div>
+
+<script>
+
+const supabaseUrl = "https://zajtohneourkrqtqtobq.supabase.co";
+const supabaseKey = "sb_publishable_jlPvHDt6scrsSn_ERTqkEA_YI--0147";
+
+const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 async function continuar(){
 
-const email = document.getElementById("email").value;
+    const email = document.getElementById("email").value;
 
-if(!email){
-document.getElementById("msg").innerText = "Introduce un correo válido";
-return;
+    if(!email){
+        document.getElementById("msg").innerText = "Introduce un correo válido";
+        return;
+    }
+
+    document.getElementById("msg").innerText = "Guardando...";
+
+    try{
+
+        const { error } = await supabase
+        .from("usuarios")
+        .insert([{ email: email }]);
+
+        if(error){
+            console.log(error);
+        }
+
+        localStorage.setItem("email", email);
+
+        window.location.href = "preguntas.html";
+
+    }catch(e){
+        console.log(e);
+        document.getElementById("msg").innerText = "Error de conexión";
+    }
+
 }
 
-document.getElementById("msg").innerText = "⏳ Verificando acceso...";
+</script>
 
-try{
-
-await supabase.from("leads").insert([
-{ email }
-]);
-
-document.getElementById("msg").innerText = "✅ Acceso concedido";
-
-setTimeout(()=>{
-window.location.href = "preguntas.html";
-},1000);
-
-}catch(e){
-
-document.getElementById("msg").innerText = "Error guardando correo";
-
-}
-
-}
-
-</script></body>
+</body>
 </html>
