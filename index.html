@@ -195,8 +195,10 @@ btn.innerText="Procesando...";
 btn.classList.add("loading");
 
 const { error } = await supabase
-.from("leads")
-.insert([{ nombre, correo }]);
+  .from("leads")
+  .insert([
+    { nombre: nombre, email: correo }
+  ]);
 
 if(error){
 
