@@ -17,10 +17,13 @@ form.addEventListener("submit", async (e) => {
     .insert([{ email }]);
 
   if (error) {
-    alert("Error: " + error.message);
-  } else {
-    alert("Solicitud enviada 🚀");
-    form.reset();
+  alert("Error: " + error.message);
+} else {
+  alert("Solicitud enviada 🚀");
+  form.reset();
+
+  window.location.href = "preguntas.html";
+  }
   }
 });
 
