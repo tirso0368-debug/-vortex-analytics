@@ -1,80 +1,127 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>VORTEX • Análisis</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Preguntas VORTEX</title>
 
-<style>
-body{
-    margin:0;
-    font-family:Arial, sans-serif;
-    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-    color:white;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-}
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0a0f2c, #0e1a4d, #102b73);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
 
-.container{
-    background:rgba(255,255,255,0.05);
-    padding:30px;
-    border-radius:20px;
-    width:350px;
-    backdrop-filter:blur(10px);
-}
+    .container {
+      width: 90%;
+      max-width: 500px;
+      padding: 30px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 40px rgba(0,0,0,0.3);
+      text-align: center;
+    }
 
-h2{
-    text-align:center;
-}
+    h1 {
+      margin-bottom: 20px;
+    }
 
-input,select{
-    width:100%;
-    padding:10px;
-    margin:10px 0;
-    border:none;
-    border-radius:8px;
-}
+    .question {
+      margin: 20px 0;
+      text-align: left;
+    }
 
-button{
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:10px;
-    background:#00f5a0;
-    font-weight:bold;
-    cursor:pointer;
-}
-</style>
+    label {
+      display: block;
+      margin-top: 8px;
+      cursor: pointer;
+    }
+
+    button {
+      margin-top: 25px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 10px;
+      background: #00e0ff;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      background: #00c8e0;
+    }
+  </style>
 </head>
-
 <body>
 
 <div class="container">
 
-<h2>Perfil Financiero</h2>
+  <h1>Perfil financiero</h1>
 
-<input type="number" placeholder="Edad">
-<input type="number" placeholder="Ingresos mensuales (€)">
-<input type="number" placeholder="Ahorros (€)">
-<input type="number" placeholder="Gastos mensuales (€)">
+  <form id="quiz-form">
 
-<select>
-<option>Nivel de riesgo</option>
-<option>Bajo</option>
-<option>Medio</option>
-<option>Alto</option>
-</select>
+    <div class="question">
+      <p>¿Tienes ingresos mensuales estables?</p>
+      <label><input type="radio" name="q1" value="5" required> Sí</label>
+      <label><input type="radio" name="q1" value="2"> A veces</label>
+      <label><input type="radio" name="q1" value="0"> No</label>
+    </div>
 
-<button onclick="continuar()">Generar análisis</button>
+    <div class="question">
+      <p>¿Tienes ahorros?</p>
+      <label><input type="radio" name="q2" value="5" required> Más de 6 meses</label>
+      <label><input type="radio" name="q2" value="3"> Algunos</label>
+      <label><input type="radio" name="q2" value="0"> Nada</label>
+    </div>
+
+    <div class="question">
+      <p>¿Tienes deudas?</p>
+      <label><input type="radio" name="q3" value="5" required> No</label>
+      <label><input type="radio" name="q3" value="2"> Pocas</label>
+      <label><input type="radio" name="q3" value="0"> Muchas</label>
+    </div>
+
+    <div class="question">
+      <p>¿Inviertes actualmente?</p>
+      <label><input type="radio" name="q4" value="5" required> Sí</label>
+      <label><input type="radio" name="q4" value="2"> Quiero empezar</label>
+      <label><input type="radio" name="q4" value="0"> No</label>
+    </div>
+
+    <button type="submit">Analizar perfil</button>
+
+  </form>
 
 </div>
 
 <script>
-function continuar(){
-    window.location.href="dashboard.html";
-}
+  const form = document.getElementById("quiz-form");
+
+  form.addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const data = new FormData(form);
+
+    let score = 0;
+
+    for (let value of data.values()) {
+      score += parseInt(value);
+    }
+
+    localStorage.setItem("vortexScore", score);
+
+    window.location.href = "dashboard.html";
+  });
 </script>
 
 </body>
-</html>
+                 </html>
