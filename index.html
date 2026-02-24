@@ -1,121 +1,64 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Acceso Privado</title>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<style>
-body{
-  margin:0;
-  font-family:Arial, Helvetica, sans-serif;
-  background:linear-gradient(135deg,#0f172a,#020617);
-  color:white;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
-}
-
-.card{
-  background:#0b1220;
-  padding:40px;
-  border-radius:18px;
-  width:90%;
-  max-width:420px;
-  box-shadow:0 20px 60px rgba(0,0,0,0.6);
-  text-align:center;
-}
-
-h1{
-  margin-bottom:20px;
-}
-
-input{
-  width:100%;
-  padding:14px;
-  margin:10px 0;
-  border-radius:10px;
-  border:none;
-  outline:none;
-  font-size:16px;
-}
-
-button{
-  width:100%;
-  padding:14px;
-  margin-top:15px;
-  border:none;
-  border-radius:12px;
-  background:linear-gradient(135deg,#6366f1,#8b5cf6);
-  color:white;
-  font-size:16px;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-button:hover{
-  transform:translateY(-2px);
-}
-</style>
+  <meta charset="UTF-8">
+  <title>Login — Detectar IA</title>
 </head>
-
 <body>
 
-<div class="card">
+<h2>Login / Registro</h2>
 
-<h1>Acceso Privado</h1>
+<input type="email" id="email" placeholder="Email">
+<input type="password" id="password" placeholder="Contraseña">
 
-<form id="form">
+<button onclick="login()">Entrar</button>
+<button onclick="register()">Registrarse</button>
 
-<input id="nombre" placeholder="Tu nombre" required>
-<input id="correo" placeholder="Tu email" required>
+<p id="msg"></p>
 
-<button type="submit">Solicitar acceso</button>
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm"
 
-</form>
+const supabase = createClient(
+  "https://zajtohneourkrqtqtobq.supabase.co",
+  "sb_publishable_jlPvHDt6scrsSn_ERTqkEA_YI--0147"
+)
 
-</div>
+window.login = async () => {
+  const email = document.getElementById("email").value
+  const password = document.getElementById("password").value
 
-<script>
+  const { error } = await supabase.auth.signInWithPassword({
+    email,
+    password
+  })
 
-const SUPABASE_URL = "https://zajtohneourkrqtqtobq.supabase.co";
-const SUPABASE_KEY = "sb_publishable_jlPvHDt6scrsSn_ERTqkEA_YI--0147";
+  if (error) {
+    msg.innerText = error.message
+  } else {
+    window.location.href = "preguntas.html"
+  }
+}
 
-const supabase = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
+window.register = async () => {
+  const email = document.getElementById("email").value
+  const password = document.getElementById("password").value
 
-const form = document.getElementById("form");
+  const { error } = await supabase.auth.signUp({
+    email,
+    password
+  })
 
-form.addEventListener("submit", async (e)=>{
-
-e.preventDefault();
-
-const nombre = document.getElementById("nombre").value;
-const correo = document.getElementById("correo").value;
-
-localStorage.setItem("nombreUsuario", nombre);
-
-await supabase
-.from("leads")
-.insert([
-  { nombre: nombre, email: correo }
-]);
-
-window.location.href = "preguntas.html";
-
-});
-
+  if (error) {
+    msg.innerText = error.message
+  } else {
+    msg.innerText = "Cuenta creada. Ahora inicia sesión."
+  }
+}
 </script>
 
 </body>
 </html>
-
 
 
 
