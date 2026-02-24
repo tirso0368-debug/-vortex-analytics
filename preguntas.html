@@ -1,127 +1,104 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Preguntas VORTEX</title>
+<meta charset="UTF-8">
+<title>Preguntas VORTEX</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #0a0f2c, #0e1a4d, #102b73);
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
+<style>
+body {
+  background: #0a0a0f;
+  color: white;
+  font-family: Arial, sans-serif;
+  padding: 30px;
+}
 
-    .container {
-      width: 90%;
-      max-width: 500px;
-      padding: 30px;
-      border-radius: 20px;
-      background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 0 40px rgba(0,0,0,0.3);
-      text-align: center;
-    }
+.container {
+  max-width: 600px;
+  margin: auto;
+}
 
-    h1 {
-      margin-bottom: 20px;
-    }
+.question {
+  margin-bottom: 25px;
+}
 
-    .question {
-      margin: 20px 0;
-      text-align: left;
-    }
+button {
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  margin: 5px;
+  cursor: pointer;
+  width: 100%;
+  background: #6c5cff;
+  color: white;
+  font-size: 16px;
+}
 
-    label {
-      display: block;
-      margin-top: 8px;
-      cursor: pointer;
-    }
-
-    button {
-      margin-top: 25px;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 10px;
-      background: #00e0ff;
-      color: black;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    button:hover {
-      transform: scale(1.05);
-      background: #00c8e0;
-    }
-  </style>
+button:hover {
+  background: #5848e5;
+}
+</style>
 </head>
+
 <body>
 
 <div class="container">
 
-  <h1>Perfil financiero</h1>
+<h2>Configura tu perfil</h2>
 
-  <form id="quiz-form">
+<div class="question">
+<p>¿Has invertido antes?</p>
+<button onclick="answer(10,5,5)">Nunca</button>
+<button onclick="answer(20,10,10)">Un poco</button>
+<button onclick="answer(30,15,15)">Sí bastante</button>
+</div>
 
-    <div class="question">
-      <p>¿Tienes ingresos mensuales estables?</p>
-      <label><input type="radio" name="q1" value="5" required> Sí</label>
-      <label><input type="radio" name="q1" value="2"> A veces</label>
-      <label><input type="radio" name="q1" value="0"> No</label>
-    </div>
+<div class="question">
+<p>¿Qué harías si pierdes dinero?</p>
+<button onclick="answer(5,20,5)">Me asusto</button>
+<button onclick="answer(15,15,10)">Espero</button>
+<button onclick="answer(25,10,20)">Compro más</button>
+</div>
 
-    <div class="question">
-      <p>¿Tienes ahorros?</p>
-      <label><input type="radio" name="q2" value="5" required> Más de 6 meses</label>
-      <label><input type="radio" name="q2" value="3"> Algunos</label>
-      <label><input type="radio" name="q2" value="0"> Nada</label>
-    </div>
+<div class="question">
+<p>¿Cuánto quieres invertir al mes?</p>
+<button onclick="answer(10,10,10)">Menos de 50€</button>
+<button onclick="answer(20,15,15)">50-200€</button>
+<button onclick="answer(30,20,20)">Más de 200€</button>
+</div>
 
-    <div class="question">
-      <p>¿Tienes deudas?</p>
-      <label><input type="radio" name="q3" value="5" required> No</label>
-      <label><input type="radio" name="q3" value="2"> Pocas</label>
-      <label><input type="radio" name="q3" value="0"> Muchas</label>
-    </div>
+<div class="question">
+<p>¿Te gusta aprender de finanzas?</p>
+<button onclick="answer(10,10,10)">No mucho</button>
+<button onclick="answer(20,15,15)">Sí</button>
+<button onclick="answer(30,20,20)">Me encanta</button>
+</div>
 
-    <div class="question">
-      <p>¿Inviertes actualmente?</p>
-      <label><input type="radio" name="q4" value="5" required> Sí</label>
-      <label><input type="radio" name="q4" value="2"> Quiero empezar</label>
-      <label><input type="radio" name="q4" value="0"> No</label>
-    </div>
-
-    <button type="submit">Analizar perfil</button>
-
-  </form>
+<button onclick="finish()">Finalizar</button>
 
 </div>
 
 <script>
-  const form = document.getElementById("quiz-form");
 
-  form.addEventListener("submit", function(e) {
-    e.preventDefault();
+let score = 0;
+let invest = 0;
+let risk = 0;
 
-    const data = new FormData(form);
+function answer(s, i, r) {
+  score += s;
+  invest += i;
+  risk += r;
+}
 
-    let score = 0;
+function finish() {
 
-    for (let value of data.values()) {
-      score += parseInt(value);
-    }
+  localStorage.setItem("vortexScore", score);
+  localStorage.setItem("vortexInvest", invest);
+  localStorage.setItem("vortexRisk", risk);
 
-    localStorage.setItem("vortexScore", score);
+  window.location.href = "dashboard.html";
+}
 
-    window.location.href = "dashboard.html";
-  });
 </script>
 
 </body>
-                 </html>
+</html>
