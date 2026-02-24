@@ -136,16 +136,8 @@ control, claridad y ventaja desde el principio.
 
 
 <!-- SUPABASE -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
-
-const supabase = window.supabase.createClient(
-  "https://zajtohneourkrqtqtobq.supabase.co",
-  "sb_publishable_jlPvHDt6scrsSn_ERTqkEA_YI--0147"
-);
-
-async function guardar(){
+function guardar(){
 
   const email = document.getElementById("email").value;
   const msg = document.getElementById("msg");
@@ -155,26 +147,15 @@ async function guardar(){
     return;
   }
 
-  msg.innerText = "Procesando...";
-
-  const { error } = await supabase
-    .from("leads")
-    .insert([{ email }]);
-
-  if(error){
-    msg.innerText = "❌ Error al registrar";
-    return;
-  }
-
-  msg.innerText = "✅ Acceso concedido";
+  msg.innerText = "Acceso concedido ✅";
 
   setTimeout(() => {
     window.location.href = "preguntas.html";
-  }, 1200);
+  }, 1000);
 
 }
-
 </script>
+
 
 </body>
 </html>
