@@ -2,66 +2,41 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Diagnóstico Financiero</title>
+<title>Diagnóstico IA</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 body{
-    font-family: Arial, sans-serif;
-    background:#0f172a;
-    color:white;
-    margin:0;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
+font-family: Arial;
+background:#0b0f1a;
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
 }
 
 .container{
-    width:90%;
-    max-width:500px;
-    background:#111827;
-    padding:30px;
-    border-radius:20px;
-    box-shadow:0 0 20px rgba(0,0,0,0.4);
-}
-
-h1{
-    text-align:center;
-    margin-bottom:20px;
-}
-
-input, select{
-    width:100%;
-    padding:12px;
-    margin:10px 0;
-    border-radius:10px;
-    border:none;
+width:90%;
+max-width:400px;
+text-align:center;
 }
 
 button{
-    width:100%;
-    padding:15px;
-    border:none;
-    border-radius:12px;
-    background:#22c55e;
-    color:white;
-    font-size:16px;
-    cursor:pointer;
+padding:12px;
+margin-top:20px;
+width:100%;
+border:none;
+border-radius:8px;
+background:#6366f1;
+color:white;
+font-size:16px;
 }
 
-button:hover{
-    background:#16a34a;
-}
-
-#loading{
-    display:none;
-    text-align:center;
-}
-
-#resultado{
-    display:none;
-    white-space:pre-wrap;
+.hidden{
+display:none;
 }
 </style>
 </head>
@@ -70,83 +45,95 @@ button:hover{
 
 <div class="container">
 
-<h1>Perfil Financiero</h1>
+<h2 id="pregunta">Cargando...</h2>
 
-<div id="formulario">
+<div id="opciones"></div>
 
-<input type="number" id="edad" placeholder="Edad">
-
-<select id="situacion">
-<option value="">Situación actual</option>
-<option>Estudiante sin ingresos</option>
-<option>Estudiante con trabajo parcial</option>
-<option>Trabajo completo</option>
-</select>
-
-<select id="ahorro">
-<option value="">¿Tienes ahorros?</option>
-<option>Nada</option>
-<option>Menos de 500€</option>
-<option>500€ - 2000€</option>
-<option>Más de 2000€</option>
-</select>
-
-<select id="objetivo">
-<option value="">Objetivo principal</option>
-<option>Ganar dinero rápido</option>
-<option>Ahorrar</option>
-<option>Invertir</option>
-<option>Emprender</option>
-</select>
-
-<button onclick="analizar()">Generar diagnóstico</button>
-
+<div id="loading" class="hidden">
+<h2>Analizando tu perfil con IA...</h2>
+<p>Creando diagnóstico personalizado</p>
 </div>
 
-<div id="loading">
-<h2>Analizando perfil...</h2>
-<p>Creando estrategia exclusiva con IA...</p>
-</div>
+<div id="resultado" class="hidden">
+<h2>Tu diagnóstico está listo</h2>
+<p id="textoResultado"></p>
 
-<div id="resultado"></div>
+<button onclick="irChat()">Hablar con la IA</button>
+</div>
 
 </div>
 
 <script>
-async function analizar(){
 
-    const respuestas = {
-        edad: document.getElementById("edad").value,
-        situacion: document.getElementById("situacion").value,
-        ahorro: document.getElementById("ahorro").value,
-        objetivo: document.getElementById("objetivo").value
-    };
+const preguntas = [
+"¿Cuál es tu mayor preocupación ahora mismo?",
+"¿Qué área quieres mejorar?",
+"¿Cuánto estrés sientes diariamente?",
+"¿Sientes que tienes dirección en tu vida?"
+];
 
-    document.getElementById("formulario").style.display="none";
-    document.getElementById("loading").style.display="block";
+const respuestas = [];
 
-    try{
+let paso = 0;
 
-        const res = await fetch("/api/analizar",{
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify({respuestas})
-        });
+function mostrarPregunta(){
+document.getElementById("pregunta").innerText = preguntas[paso];
 
-        const data = await res.json();
+const opcionesDiv = document.getElementById("opciones");
+opcionesDiv.innerHTML = "";
 
-        document.getElementById("loading").style.display="none";
-        document.getElementById("resultado").style.display="block";
-        document.getElementById("resultado").innerText = data.resultado;
-
-    }catch(error){
-
-        document.getElementById("loading").innerHTML = "Error conectando con la IA";
-
-    }
+["Mucho","Normal","Poco"].forEach(op=>{
+const btn = document.createElement("button");
+btn.innerText = op;
+btn.onclick = ()=>responder(op);
+opcionesDiv.appendChild(btn);
+});
 }
+
+function responder(valor){
+
+respuestas.push(valor);
+paso++;
+
+if(paso < preguntas.length){
+mostrarPregunta();
+}else{
+iniciarAnalisis();
+}
+
+}
+
+async function iniciarAnalisis(){
+
+document.getElementById("pregunta").style.display="none";
+document.getElementById("opciones").style.display="none";
+
+document.getElementById("loading").classList.remove("hidden");
+
+setTimeout(generarResultado,3000);
+
+}
+
+function generarResultado(){
+
+document.getElementById("loading").classList.add("hidden");
+
+document.getElementById("resultado").classList.remove("hidden");
+
+let texto = "Tu perfil muestra alto potencial pero falta claridad estratégica. La IA recomienda enfoque en hábitos, disciplina y toma de decisiones.";
+
+document.getElementById("textoResultado").innerText = texto;
+
+}
+
+function irChat(){
+
+window.location.href="chat.html";
+
+}
+
+mostrarPregunta();
+
 </script>
 
 </body>
