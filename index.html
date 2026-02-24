@@ -167,6 +167,96 @@ window.location.href = "preguntas.html";
 });
 </script>
 </body>
+  <body style="
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:linear-gradient(135deg,#050505,#0a0a0a,#111111);
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+">
+
+<div style="
+  background:rgba(255,255,255,0.04);
+  backdrop-filter:blur(25px);
+  border-radius:22px;
+  padding:45px;
+  width:340px;
+  text-align:center;
+  box-shadow:0 0 60px rgba(0,0,0,0.9);
+  border:1px solid rgba(255,255,255,0.08);
+">
+
+  <h2 style="margin-bottom:10px;">Acceso exclusivo</h2>
+  <p style="opacity:0.7;">Introduce tu correo para continuar</p>
+
+  <input 
+    type="email" 
+    id="email" 
+    placeholder="Tu correo"
+    style="
+      width:100%;
+      padding:13px;
+      border-radius:12px;
+      border:none;
+      margin-top:18px;
+      background:rgba(255,255,255,0.08);
+      color:white;
+      outline:none;
+    "
+  >
+
+<button onclick="registrar()" style="
+    margin-top:22px;
+    width:100%;
+    padding:13px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(90deg,#6366f1,#8b5cf6);
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+  ">
+    Continuar
+  </button>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const supabaseUrl = "https://zajtohneourkrqtqtobq.supabase.co";
+const supabaseKey = "sb_publishable_jlPvHDt6scrsSn_ERTqkEA_YI--0147";
+
+const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+async function registrar(){
+
+  const email = document.getElementById("email").value;
+
+  if(!email){
+    alert("Introduce un email");
+    return;
+  }
+
+  const { error } = await supabase
+    .from("leads")
+    .insert([
+      { email: email }
+    ]);
+
+  if(error){
+    alert("Error guardando");
+    console.log(error);
+  }else{
+    window.location.href = "preguntas.html";
+  }
+}
+</script>
+
+</body>
 </html>
 
 
