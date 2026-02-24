@@ -280,15 +280,37 @@ control, claridad y ventaja desde el principio.
 <footer>
 © 2026 VORTEX — Built for the next generation
 </footer>
-
 <script>
 
 const supabase = window.supabase.createClient(
-"https://zajtohneourkrqtqtobq.supabase.co",
-"sb_publishable_jlPvHDt6scrsSn_ERTqkEA_YI--0147"
+  "https://zajtohneourkrqtqtobq.supabase.co",
+  "sb_publishable_jlPvHDt6scrsSn_ERTqkEA_YI--0147"
 );
 
 async function guardar(){
+
+  const email = document.getElementById("email").value;
+
+  const { error } = await supabase
+    .from("leads")
+    .insert([{ email }]);
+
+  const msg = document.getElementById("msg");
+
+  if(error){
+    msg.innerText = "❌ Error al registrar";
+    return;
+  }
+
+  msg.innerText = "✅ Acceso concedido";
+
+  setTimeout(() => {
+    window.location.href = "dashboard.html";
+  }, 1500);
+
+}
+
+</script>
 
 const email = document.getElementById("email").value;
 
