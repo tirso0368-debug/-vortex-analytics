@@ -176,29 +176,47 @@ SUPABASE_URL,
 SUPABASE_KEY
 );
 
-const form = document.getElementById("registroForm");
+const form = document.getElementById("form");
 const btn = document.getElementById("btn");
 
 form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-e.preventDefault();
+  const nombre = document.getElementById("nombre").value;
+  const correo = document.getElementById("correo").value;
 
-const nombre = document.getElementById("nombre").value;
-const correo = document.getElementById("correo").value;
+  if(!correo){
+    alert("Introduce un correo");
+    return;
+  }
 
-if(!correo){
-alert("Introduce un correo");
-return;
-}
+  const btn = document.getElementById("btn");
+  btn.innerText = "Procesando...";
+  btn.classList.add("loading");
 
-btn.innerText="Procesando...";
-btn.classList.add("loading");
+  const { error } = await supabase
+    .from("leads")
+    .insert([
+      { nombre: nombre, email: correo }
+    ]);
 
-const { error } = await supabase
-  .from("leads")
-  .insert([
-    { nombre: nombre, email: correo }
-  ]);
+  if(error){
+    alert("Error guardando");
+    console.error(error);
+
+    btn.innerText = "Solicitar acceso";
+    btn.classList.remove("loading");
+
+  } else {
+
+    window.location.href = "preguntas.html";
+
+  }
+
+});
+
+
+
 
 if(error){
 
