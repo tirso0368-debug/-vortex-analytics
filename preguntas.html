@@ -2,46 +2,91 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Preguntas VORTEX</title>
+<title>VORTEX Diagnóstico</title>
 
 <style>
+
 body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg,#0f172a,#020617,#0f172a);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     color: white;
-    text-align: center;
-    padding: 40px;
 }
 
-.container {
-    max-width: 500px;
-    margin: auto;
+.card {
     background: rgba(255,255,255,0.05);
-    padding: 30px;
-    border-radius: 15px;
+    backdrop-filter: blur(20px);
+    padding: 40px;
+    border-radius: 20px;
+    width: 350px;
+    box-shadow: 0 0 40px rgba(0,0,0,0.4);
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 10px;
+    font-size: 26px;
+}
+
+.subtitle {
+    opacity: 0.7;
+    margin-bottom: 30px;
+    font-size: 14px;
+}
+
+select {
+    width: 100%;
+    padding: 12px;
+    margin: 12px 0;
+    border-radius: 10px;
+    border: none;
+    background: rgba(255,255,255,0.08);
+    color: white;
+    font-size: 14px;
 }
 
 button {
-    background: #00e5ff;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 10px;
-    font-size: 16px;
-    cursor: pointer;
+    width: 100%;
+    padding: 14px;
     margin-top: 20px;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(90deg,#06b6d4,#3b82f6);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
 }
-</style>
 
+button:hover {
+    transform: scale(1.05);
+}
+
+label {
+    font-size: 13px;
+    opacity: 0.8;
+    display: block;
+    text-align: left;
+    margin-top: 15px;
+}
+
+</style>
 </head>
 <body>
 
-<div class="container">
+<div class="card">
 
-<h2>Diagnóstico financiero</h2>
+<h1>Diagnóstico VORTEX</h1>
+<div class="subtitle">Analizando tu perfil financiero...</div>
 
 <form id="quizForm">
 
-<p>¿Cuánto dinero ahorras al mes?</p>
+<label>Ahorro mensual</label>
 <select id="ahorro">
     <option value="0">Nada</option>
     <option value="1">Menos de 100€</option>
@@ -49,14 +94,14 @@ button {
     <option value="3">Más de 500€</option>
 </select>
 
-<p>¿Tienes inversiones actualmente?</p>
+<label>Experiencia invirtiendo</label>
 <select id="inversion">
-    <option value="0">No</option>
-    <option value="2">Sí, básicas</option>
-    <option value="3">Sí, avanzadas</option>
+    <option value="0">Ninguna</option>
+    <option value="2">Básica</option>
+    <option value="3">Avanzada</option>
 </select>
 
-<p>¿Qué nivel crees que tienes en finanzas?</p>
+<label>Nivel financiero</label>
 <select id="nivel">
     <option value="0">Muy bajo</option>
     <option value="1">Normal</option>
@@ -64,14 +109,14 @@ button {
     <option value="3">Alto</option>
 </select>
 
-<p>¿Qué harías con 10.000€?</p>
+<label>¿Qué harías con 10.000€?</label>
 <select id="decision">
     <option value="0">Gastarlo</option>
     <option value="2">Ahorrar</option>
     <option value="3">Invertir</option>
 </select>
 
-<button type="submit">Ver resultado</button>
+<button type="submit">Ver análisis</button>
 
 </form>
 
@@ -87,28 +132,19 @@ document.getElementById("quizForm").addEventListener("submit", function(e) {
     const nivel = parseInt(document.getElementById("nivel").value);
     const decision = parseInt(document.getElementById("decision").value);
 
-    // SCORE REAL (0 a 100)
     const score = (ahorro + inversion + nivel + decision) * 8;
-
-    // POTENCIAL INVERSIÓN
     const potencial = Math.min(100, (ahorro * 15) + (decision * 10));
-
-    // RIESGO
     const riesgo = Math.max(10, 100 - score);
 
-    // NIVEL TEXTO
     let nivelTexto = "Principiante";
-
     if (score > 40) nivelTexto = "Intermedio";
     if (score > 70) nivelTexto = "Avanzado";
 
-    // GUARDAR DATOS
     localStorage.setItem("vortexScore", score);
     localStorage.setItem("vortexInvest", potencial);
     localStorage.setItem("vortexRisk", riesgo);
     localStorage.setItem("vortexLevel", nivelTexto);
 
-    // REDIRIGIR
     window.location.href = "dashboard.html";
 
 });
