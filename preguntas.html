@@ -4,6 +4,23 @@
   <meta charset="UTF-8">
   <title>Preguntas</title>
 </head>
+  <script>
+async function analizarTexto() {
+  const texto = document.getElementById("texto").value;
+
+  const res = await fetch("/api/analizar", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ texto })
+  });
+
+  const data = await res.json();
+
+  alert(data.resultado || "Sin respuesta");
+}
+  </script>
 <body>
 
 <h1>Detector de IA</h1>
