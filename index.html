@@ -97,11 +97,19 @@
     Solicitar acceso
   </button>
 
-</form>  
+</form>
+
+
+<div id="success-message" style="display:none;">
+  <p id="welcome-text"></p>
+</div>
+
+<span class="note">Acceso exclusivo — plazas limitadas</span>
+
 
   
 
-  <span class="note">Acceso exclusivo — plazas limitadas</span>
+  
 
 </section>
 
@@ -112,8 +120,25 @@
 
 
 <script type="module" src="main.js"></script>
+
+
+<script>
+document.getElementById("lead-form").addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  const name = document.getElementById("name").value;
+  const randomLevel = Math.floor(Math.random() * 10) + 10;
+
+  document.getElementById("welcome-text").innerText =
+    "Bienvenido " + name + ". Nivel financiero detectado: " + randomLevel + "/20";
+
+  document.getElementById("success-message").style.display = "block";
+});
+</script>
+
 </body>
 </html>
+
 
 
 
