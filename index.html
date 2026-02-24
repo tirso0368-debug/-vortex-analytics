@@ -1,263 +1,266 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>VORTEX — Inteligencia Financiera</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VORTEX — Private Access</title>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- SEO -->
-  <meta name="description" content="VORTEX es la nueva plataforma de inteligencia financiera que optimiza tu dinero, predice tu crecimiento y te ayuda a alcanzar la libertad financiera.">
-  <meta name="keywords" content="finanzas, invertir, dinero, ahorro, inteligencia financiera, fintech, libertad financiera">
+<style>
 
-  <link rel="stylesheet" href="style.css">
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family: Inter, system-ui, sans-serif;
+}
+
+body{
+background:#020617;
+color:white;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+overflow:hidden;
+}
+
+/* PARTICLES */
+
+canvas{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:0;
+}
+
+/* CARD */
+
+.container{
+position:relative;
+z-index:2;
+background:rgba(15,23,42,0.65);
+backdrop-filter:blur(30px);
+padding:45px;
+border-radius:22px;
+width:380px;
+box-shadow:0 25px 80px rgba(0,0,0,0.6);
+border:1px solid rgba(255,255,255,0.08);
+animation:fade 1.2s ease;
+}
+
+@keyframes fade{
+from{opacity:0; transform:translateY(30px);}
+to{opacity:1; transform:translateY(0);}
+}
+
+.logo{
+text-align:center;
+font-size:24px;
+font-weight:700;
+letter-spacing:4px;
+margin-bottom:20px;
+background:linear-gradient(135deg,#818cf8,#c084fc);
+-webkit-background-clip:text;
+color:transparent;
+}
+
+h1{
+text-align:center;
+font-size:22px;
+margin-bottom:10px;
+}
+
+.subtitle{
+text-align:center;
+opacity:0.6;
+margin-bottom:25px;
+font-size:14px;
+}
+
+/* INPUTS */
+
+input{
+width:100%;
+padding:15px;
+margin-bottom:15px;
+border-radius:12px;
+border:none;
+outline:none;
+background:rgba(255,255,255,0.05);
+color:white;
+font-size:14px;
+transition:0.3s;
+}
+
+input:focus{
+background:rgba(255,255,255,0.08);
+box-shadow:0 0 0 1px #6366f1;
+}
+
+/* BUTTON */
+
+button{
+width:100%;
+padding:15px;
+border:none;
+border-radius:12px;
+background:linear-gradient(135deg,#6366f1,#8b5cf6);
+color:white;
+font-weight:600;
+font-size:15px;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+transform:translateY(-2px);
+box-shadow:0 10px 30px rgba(99,102,241,0.4);
+}
+
+.loading{
+opacity:0.7;
+pointer-events:none;
+}
+
+.footer{
+text-align:center;
+margin-top:18px;
+font-size:12px;
+opacity:0.5;
+}
+
+</style>
 </head>
 
 <body>
 
-<header class="header">
-  <div class="logo">VORTEX</div>
-  <nav>
-    <a href="#features">Funciones</a>
-    <a href="#about">Tecnología</a>
-    <a href="#register" class="btn-nav">Acceder</a>
-  </nav>
-</header>
+<canvas id="bg"></canvas>
 
+<div class="container">
 
-<section class="hero">
+<div class="logo">VORTEX</div>
 
-  <h1>Controla tu dinero como nunca antes.</h1>
+<h1>Private Access</h1>
+<p class="subtitle">Solo para usuarios seleccionados</p>
 
-  <p>
-    VORTEX utiliza inteligencia financiera para analizar, optimizar y predecir tu crecimiento económico.
-    Diseñado para la nueva generación.
-  </p>
+<form id="registroForm">
 
-  <a href="#register" class="cta">Crear cuenta gratis</a>
+<input id="nombre" placeholder="Tu nombre">
+<input id="correo" type="email" placeholder="Tu correo">
 
-</section>
-
-
-<section id="features" class="features">
-
-  <div class="feature">
-    <h3>Predicción financiera</h3>
-    <p>Visualiza tu futuro económico con simulaciones inteligentes en tiempo real.</p>
-  </div>
-
-  <div class="feature">
-    <h3>Optimización automática</h3>
-    <p>Descubre oportunidades de ahorro y mejora financiera basadas en tus hábitos.</p>
-  </div>
-
-  <div class="feature">
-    <h3>Panel profesional</h3>
-    <p>Un dashboard avanzado con métricas claras y crecimiento de patrimonio.</p>
-  </div>
-
-</section>
-
-
-<section id="about" class="about">
-
-  <h2>Tecnología diseñada para el futuro</h2>
-
-  <p>
-    Nuestro sistema combina análisis de datos, automatización e inteligencia artificial
-    para ofrecer una experiencia financiera avanzada, segura y eficiente.
-  </p>
-
-</section>
-
-
-<section id="register" class="register">
-
-  <h2>Acceso anticipado</h2>
-
-  <p>Únete a los primeros usuarios de VORTEX.</p>
-
-<form id="lead-form">
-
-  <input
-    type="text"
-    id="name"
-    placeholder="Tu nombre"
-    required
-  >
-
-  <input
-    type="email"
-    id="email"
-    placeholder="Tu correo electrónico"
-    required
-  >
-
-  <button type="submit">
-    Solicitar acceso
-  </button>
+<button type="submit" id="btn">
+Solicitar acceso
+</button>
 
 </form>
 
-
-<div id="success-message" style="display:none;">
-  <p id="welcome-text"></p>
+<div class="footer">
+© 2026 Vortex Labs
 </div>
-  <div id="dashboard" style="display:none;">
-
-  <h2>Panel VORTEX</h2>
-
-  <div class="cards">
-
-    <div class="card">
-      <h3>Score financiero</h3>
-      <p id="score-value">0</p>
-    </div>
-
-    <div class="card">
-      <h3>Potencial de inversión</h3>
-      <p id="invest-value">0%</p>
-    </div>
-
-    <div class="card">
-      <h3>Riesgo detectado</h3>
-      <p id="risk-value">0%</p>
-    </div>
-
-  </div>
-
-  </div>
-
-<span class="note">Acceso exclusivo — plazas limitadas</span>
-
-
-  
-
-  
-
-</section>
-
-
-<footer class="footer">
-  © 2026 VORTEX Technologies
-</footer>
-
-
-<script type="module" src="main.js"></script>
-
-
-
-<script>
-document.getElementById("lead-form").addEventListener("submit", function(event) {
-  event.preventDefault();
-
-  const name = document.getElementById("name").value;
-
-  const randomLevel = Math.floor(Math.random() * 10) + 10;
-  const invest = Math.floor(Math.random() * 40) + 60;
-  const risk = Math.floor(Math.random() * 30) + 10;
-
-  // Guardar datos
-  localStorage.setItem("vortexName", name);
-  localStorage.setItem("vortexScore", randomLevel);
-  localStorage.setItem("vortexInvest", invest);
-  localStorage.setItem("vortexRisk", risk);
-
-window.location.href = "preguntas.html";
-});
-</script>
-</body>
-  <body style="
-  margin:0;
-  font-family:Arial, Helvetica, sans-serif;
-  background:linear-gradient(135deg,#050505,#0a0a0a,#111111);
-  color:white;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
-">
-
-<div style="
-  background:rgba(255,255,255,0.04);
-  backdrop-filter:blur(25px);
-  border-radius:22px;
-  padding:45px;
-  width:340px;
-  text-align:center;
-  box-shadow:0 0 60px rgba(0,0,0,0.9);
-  border:1px solid rgba(255,255,255,0.08);
-">
-
-  <h2 style="margin-bottom:10px;">Acceso exclusivo</h2>
-  <p style="opacity:0.7;">Introduce tu correo para continuar</p>
-
-  <input 
-    type="email" 
-    id="email" 
-    placeholder="Tu correo"
-    style="
-      width:100%;
-      padding:13px;
-      border-radius:12px;
-      border:none;
-      margin-top:18px;
-      background:rgba(255,255,255,0.08);
-      color:white;
-      outline:none;
-    "
-  >
-
-<button onclick="registrar()" style="
-    margin-top:22px;
-    width:100%;
-    padding:13px;
-    border:none;
-    border-radius:12px;
-    background:linear-gradient(90deg,#6366f1,#8b5cf6);
-    color:white;
-    font-weight:bold;
-    cursor:pointer;
-  ">
-    Continuar
-  </button>
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
-const supabaseUrl = "https://zajtohneourkrqtqtobq.supabase.co";
-const supabaseKey = "sb_publishable_jlPvHDt6scrsSn_ERTqkEA_YI--0147";
 
-const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+/* SUPABASE */
 
-async function registrar(){
+const SUPABASE_URL = "https://zajtohneourkrqtqtobq.supabase.co";
+const SUPABASE_KEY = "sb_publishable_jlPvHDt6scrsSn_ERTqkEA_YI--0147";
 
-  const email = document.getElementById("email").value;
+const supabase = window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
 
-  if(!email){
-    alert("Introduce un email");
-    return;
-  }
+const form = document.getElementById("registroForm");
+const btn = document.getElementById("btn");
 
-  const { error } = await supabase
-    .from("leads")
-    .insert([
-      { email: email }
-    ]);
+form.addEventListener("submit", async (e) => {
 
-  if(error){
-    alert("Error guardando");
-    console.log(error);
-  }else{
-    window.location.href = "preguntas.html";
-  }
+e.preventDefault();
+
+const nombre = document.getElementById("nombre").value;
+const correo = document.getElementById("correo").value;
+
+if(!correo){
+alert("Introduce un correo");
+return;
 }
+
+btn.innerText="Procesando...";
+btn.classList.add("loading");
+
+const { error } = await supabase
+.from("leads")
+.insert([{ nombre, correo }]);
+
+if(error){
+
+alert("Error guardando");
+console.error(error);
+
+btn.innerText="Solicitar acceso";
+btn.classList.remove("loading");
+
+}else{
+
+window.location.href="preguntas.html";
+
+}
+
+});
+
+
+/* PARTICLES BACKGROUND */
+
+const canvas = document.getElementById("bg");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for(let i=0;i<60;i++){
+particles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*2,
+dx:(Math.random()-0.5)*0.5,
+dy:(Math.random()-0.5)*0.5
+});
+}
+
+function animate(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+particles.forEach(p=>{
+p.x+=p.dx;
+p.y+=p.dy;
+
+if(p.x<0||p.x>canvas.width) p.dx*=-1;
+if(p.y<0||p.y>canvas.height) p.dy*=-1;
+
+ctx.beginPath();
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+ctx.fillStyle="rgba(139,92,246,0.7)";
+ctx.fill();
+});
+
+requestAnimationFrame(animate);
+}
+
+animate();
+
 </script>
 
 </body>
-</html>
+  </html>
 
 
 
