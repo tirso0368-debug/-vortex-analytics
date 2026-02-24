@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>VORTEX • Análisis</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.container{
+    background:rgba(255,255,255,0.05);
+    padding:30px;
+    border-radius:20px;
+    width:350px;
+    backdrop-filter:blur(10px);
+}
+
+h2{
+    text-align:center;
+}
+
+input,select{
+    width:100%;
+    padding:10px;
+    margin:10px 0;
+    border:none;
+    border-radius:8px;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#00f5a0;
+    font-weight:bold;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Perfil Financiero</h2>
+
+<input type="number" placeholder="Edad">
+<input type="number" placeholder="Ingresos mensuales (€)">
+<input type="number" placeholder="Ahorros (€)">
+<input type="number" placeholder="Gastos mensuales (€)">
+
+<select>
+<option>Nivel de riesgo</option>
+<option>Bajo</option>
+<option>Medio</option>
+<option>Alto</option>
+</select>
+
+<button onclick="continuar()">Generar análisis</button>
+
+</div>
+
+<script>
+function continuar(){
+    window.location.href="dashboard.html";
+}
+</script>
+
+</body>
+</html>
