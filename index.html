@@ -114,7 +114,7 @@ async function continuar() {
     try {
 
         await supabase
-            .from("usuarios")
+            .from("leads")
             .insert([{ email: email }]);
 
     } catch (error) {
