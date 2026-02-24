@@ -1,55 +1,151 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Preguntas</title>
-</head>
-  <script>
-async function analizarTexto() {
-  const texto = document.getElementById("texto").value;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnóstico Financiero</title>
 
-  const res = await fetch("/api/analizar", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ texto })
-  });
-
-  const data = await res.json();
-
-  alert(data.resultado || "Sin respuesta");
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#0f172a;
+    color:white;
+    margin:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
 }
-  </script>
+
+.container{
+    width:90%;
+    max-width:500px;
+    background:#111827;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 0 20px rgba(0,0,0,0.4);
+}
+
+h1{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+input, select{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border-radius:10px;
+    border:none;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    background:#22c55e;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#16a34a;
+}
+
+#loading{
+    display:none;
+    text-align:center;
+}
+
+#resultado{
+    display:none;
+    white-space:pre-wrap;
+}
+</style>
+</head>
+
 <body>
 
-<h1>Detector de IA</h1>
+<div class="container">
 
-<textarea id="texto" placeholder="Escribe aquí"></textarea>
-<br>
-<button onclick="analizar()">Analizar</button>
+<h1>Perfil Financiero</h1>
 
-<p id="resultado"></p>
+<div id="formulario">
 
-<script type="module">
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm"
-import { analizarIA } from "./analizar.js"
+<input type="number" id="edad" placeholder="Edad">
 
-const supabase = createClient(
-  "https://zajtohneourkrqtqtobq.supabase.co",
-  "sb_publishable_jlPvHDt6scrsSn_ERTqkEA_YI--0147"
-)
+<select id="situacion">
+<option value="">Situación actual</option>
+<option>Estudiante sin ingresos</option>
+<option>Estudiante con trabajo parcial</option>
+<option>Trabajo completo</option>
+</select>
 
-const { data } = await supabase.auth.getUser()
+<select id="ahorro">
+<option value="">¿Tienes ahorros?</option>
+<option>Nada</option>
+<option>Menos de 500€</option>
+<option>500€ - 2000€</option>
+<option>Más de 2000€</option>
+</select>
 
-if (!data.user) {
-  window.location.href = "index.html"
-}
+<select id="objetivo">
+<option value="">Objetivo principal</option>
+<option>Ganar dinero rápido</option>
+<option>Ahorrar</option>
+<option>Invertir</option>
+<option>Emprender</option>
+</select>
 
-window.analizar = async () => {
-  const texto = document.getElementById("texto").value
-  const resultado = await analizarIA(texto)
-  document.getElementById("resultado").innerText = resultado
+<button onclick="analizar()">Generar diagnóstico</button>
+
+</div>
+
+<div id="loading">
+<h2>Analizando perfil...</h2>
+<p>Creando estrategia exclusiva con IA...</p>
+</div>
+
+<div id="resultado"></div>
+
+</div>
+
+<script>
+async function analizar(){
+
+    const respuestas = {
+        edad: document.getElementById("edad").value,
+        situacion: document.getElementById("situacion").value,
+        ahorro: document.getElementById("ahorro").value,
+        objetivo: document.getElementById("objetivo").value
+    };
+
+    document.getElementById("formulario").style.display="none";
+    document.getElementById("loading").style.display="block";
+
+    try{
+
+        const res = await fetch("/api/analizar",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({respuestas})
+        });
+
+        const data = await res.json();
+
+        document.getElementById("loading").style.display="none";
+        document.getElementById("resultado").style.display="block";
+        document.getElementById("resultado").innerText = data.resultado;
+
+    }catch(error){
+
+        document.getElementById("loading").innerHTML = "Error conectando con la IA";
+
+    }
 }
 </script>
 
