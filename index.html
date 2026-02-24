@@ -30,12 +30,26 @@ body{
     box-shadow:0 0 20px rgba(0,0,0,0.5);
 }
 
-input{
-    width:100%;
-    padding:12px;
-    border-radius:8px;
-    border:none;
-    margin-top:15px;
+<input type="email" id="email" placeholder="Tu correo electrónico" required />
+
+<button onclick="continuar()">Desbloquear diagnóstico</button>
+
+<script>
+function continuar() {
+    const email = document.getElementById("email").value;
+
+    if (!email) {
+        alert("Introduce tu correo");
+        return;
+    }
+
+    // Guardar email
+    localStorage.setItem("emailUsuario", email);
+
+    // Ir a preguntas
+    window.location.href = "preguntas.html";
+}
+</script>
 }
 
 button{
