@@ -130,8 +130,11 @@ color:white;
 <p id="plan"></p>
 </div>
 
+<button onclick="guardar()">Guardar mi perfil</button>
+<br><br>
 <button onclick="reiniciar()">Repetir análisis</button>
-
+  
+  
 </div>
 
 </div>
@@ -141,6 +144,9 @@ color:white;
 let datos = JSON.parse(localStorage.getItem("vortexDatos"));
 
 setTimeout(mostrarResultado, 2000);
+  function guardar(){
+window.location.href="registro.html";
+  }
 
 function mostrarResultado(){
 
