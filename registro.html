@@ -2,119 +2,128 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Registro VORTEX</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VORTEX — Registro</title>
 
 <style>
-
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #0b0f1a, #05070d);
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+body{
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background:linear-gradient(135deg,#0f172a,#1e293b);
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
 }
 
-.container {
-    background: rgba(255,255,255,0.05);
-    padding: 40px;
-    border-radius: 15px;
-    width: 300px;
-    text-align: center;
-    backdrop-filter: blur(10px);
+.card{
+background:rgba(255,255,255,0.05);
+padding:40px;
+border-radius:20px;
+width:350px;
+backdrop-filter:blur(10px);
+box-shadow:0 0 40px rgba(0,0,0,0.3);
 }
 
-h2 {
-    margin-bottom: 20px;
+h1{
+text-align:center;
+margin-bottom:20px;
 }
 
-input {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border: none;
-    border-radius: 8px;
-    background: #1f2937;
-    color: white;
+input{
+width:100%;
+padding:12px;
+margin:10px 0;
+border-radius:10px;
+border:none;
+outline:none;
 }
 
-button {
-    width: 100%;
-    padding: 12px;
-    margin-top: 15px;
-    border: none;
-    border-radius: 8px;
-    background: #2563eb;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.2s;
+button{
+width:100%;
+padding:14px;
+margin-top:15px;
+border:none;
+border-radius:12px;
+background:linear-gradient(90deg,#6366f1,#06b6d4);
+color:white;
+font-size:16px;
+cursor:pointer;
 }
 
-button:hover {
-    background: #1d4ed8;
+button:hover{
+opacity:0.9;
 }
 
+.benefits{
+font-size:14px;
+margin-bottom:15px;
+line-height:1.6;
+}
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="card">
 
-    <h2>Registro VORTEX</h2>
+<h1>Desbloquea tu perfil VORTEX</h1>
 
-    <form id="registroForm">
+<div class="benefits">
+✅ Guardar tu progreso<br>
+✅ Acceder a tu plan personalizado<br>
+✅ Mejorar tu rendimiento académico
+</div>
 
-        <input type="text" id="name" placeholder="Tu nombre" required>
+<form id="registro-form">
 
-        <input type="email" id="email" placeholder="Tu correo" required>
+<input type="text" id="name" name="name" placeholder="Tu nombre" required>
 
-        <button type="submit">Crear cuenta</button>
+<input type="email" id="email" name="email" required>
 
-    </form>
+<input type="password" name="password" placeholder="Contraseña" required>
+
+
+
+<button type="submit">Crear cuenta gratuita</button>
+
+</form>
+
+
 
 </div>
 
-<!-- EMAILJS -->
+<script>
+function crearCuenta(){
 
+alert("Cuenta creada correctamente 🚀");
+
+// luego iremos al dashboard
+window.location.href = "dashboard.html";
+
+}
+</script>
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
 <script>
-
 (function(){
-    emailjs.init("vKMNiPqmaCvct9MaR");
+  emailjs.init("vKMNiPqmaCvct9MaR");
 })();
 
-document.getElementById("registroForm").addEventListener("submit", function(e) {
+document.getElementById("registro-form").addEventListener("submit", function(event) {
+  event.preventDefault();
+var nombre = document.getElementById("name").value;
+localStorage.setItem("nombreUsuario", nombre);
 
-    e.preventDefault();
+emailjs.send("service_eo3z01f", "template_gs7b0xt", {
+    name: nombre,
+    email: document.getElementById("email").value
+})
+.then(function(response) {
 
-    var nombre = document.getElementById("name").value;
-    var email = document.getElementById("email").value;
-
-    localStorage.setItem("nombreUsuario", nombre);
-
-    emailjs.send("service_eo3z01f", "template_gs7b0xt", {
-        name: nombre,
-        email: email
-    })
-    .then(function() {
-
-        window.location.href = "dashboard.html";
-
-    }, function(error) {
-
-        alert("Error al enviar correo");
-
-    });
+    window.location.href = "dashboard.html";
 
 });
-
 </script>
-
 </body>
-</html>
+                                   </html>
