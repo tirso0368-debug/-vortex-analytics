@@ -144,79 +144,41 @@ Desbloquear mi plan personalizado
 
 let datos = JSON.parse(localStorage.getItem("vortexDatos")) || {};
 
-setTimeout(mostrarResultado,2000);
-
-function mostrarResultado(){
-
-document.getElementById("loading").style.display="none";
-document.getElementById("resultado").classList.remove("hidden");
-
-
-let nota = parseFloat(datos.nota) || 5;
-let horas = parseFloat(datos.horas) || 2;
-let motivacion = parseFloat(datos.motivacion) || 5;
-
-let frustracion = parseFloat(datos.frustracion) || 5;
-let procrastinacion = parseFloat(datos.procrastinacion) || 5;
-let confianza = parseFloat(datos.confianza) || 5;
-
-let potencial = Math.min(100,
-    Math.round(
-        nota*10 +
-        horas*5 +
-        motivacion*8 +
-        confianza*6 -
-        procrastinacion*4 -
-        frustracion*3
-    )
-);
-
-document.getElementById("potencial").innerText = potencial + "%";
-
-
 let perfil = "";
 let diagnostico = "";
 let recomendacion = "";
 
+// ANALISIS INTELIGENTE
 
-if(potencial >= 80){
+let nota = parseFloat(datos.nota || 5);
+let horas = parseFloat(datos.horas || 1);
+let motivacion = parseFloat(datos.motivacion || 5);
 
-perfil = "Alto rendimiento";
-diagnostico = "Tienes hábitos sólidos y buena disciplina. Tu crecimiento depende de mantener constancia.";
-recomendacion = "Optimiza tu método de estudio y apunta a objetivos ambiciosos.";
+let puntuacion = (nota * 0.4) + (horas * 0.3) + (motivacion * 0.3);
 
-}else if(potencial >= 60){
+// PERFIL
 
-perfil = "Buen potencial con margen";
-diagnostico = "Tienes capacidad real pero existen bloqueos como organización o consistencia.";
-recomendacion = "Mejora tu planificación diaria y reduce distracciones.";
-
-}else if(potencial >= 40){
-
-perfil = "Potencial medio";
-diagnostico = "Hay falta de disciplina estable y motivación irregular.";
-recomendacion = "Empieza con hábitos pequeños diarios y metas claras.";
-
-}else{
-
-perfil = "Fase de riesgo";
-diagnostico = "Actualmente tus hábitos limitan tu rendimiento académico.";
-recomendacion = "Prioriza rutina, sueño y constancia antes que intensidad.";
-
+if(puntuacion >= 8){
+    perfil = "Alto rendimiento";
+    diagnostico = "Tienes hábitos sólidos y buena disciplina. Tu problema no es la capacidad, sino la optimización.";
+    recomendacion = "Vamos a llevarte a nivel élite con estrategias avanzadas de estudio y foco.";
+}
+else if(puntuacion >= 5){
+    perfil = "Potencial desaprovechado";
+    diagnostico = "Tu rendimiento no refleja tu capacidad real. Existen bloqueos en hábitos y organización.";
+    recomendacion = "Necesitas un sistema estructurado que aumente tu constancia y enfoque.";
+}
+else{
+    perfil = "Riesgo académico";
+    diagnostico = "Tus hábitos actuales están frenando tu progreso. Sin cambios, el rendimiento seguirá bajo.";
+    recomendacion = "Debemos reconstruir tu rutina desde la base para crear disciplina real.";
 }
 
+// MOSTRAR RESULTADO
 
 document.getElementById("perfil").innerText = perfil;
 document.getElementById("diagnostico").innerText = diagnostico;
 document.getElementById("recomendacion").innerText = recomendacion;
-
-}
-
-
-function reiniciar(){
-localStorage.removeItem("vortexDatos");
-window.location.href="index.html";
-}
 
 </script>
 
