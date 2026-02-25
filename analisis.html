@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>VORTEX — Análisis</title>
+
+<style>
+body{
+    background:#070b1a;
+    color:white;
+    font-family:Arial, sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    margin:0;
+}
+
+.card{
+    background:#0f172a;
+    padding:40px;
+    border-radius:20px;
+    max-width:500px;
+    text-align:center;
+    box-shadow:0 0 40px rgba(0,0,0,0.5);
+}
+
+h1{
+    color:#3b82f6;
+}
+
+button{
+    margin-top:20px;
+    padding:12px 20px;
+    border:none;
+    border-radius:10px;
+    background:#3b82f6;
+    color:white;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <h1>Tu resultado financiero</h1>
+    <p id="texto"></p>
+    <button onclick="volver()">Volver</button>
+</div>
+
+<script>
+const puntos = parseInt(localStorage.getItem("puntuacion")) || 0;
+const texto = document.getElementById("texto");
+
+let mensaje = "";
+
+if(puntos <= 2){
+    mensaje = "Necesitas mejorar tu organización financiera. Empieza controlando gastos.";
+}
+else if(puntos <= 4){
+    mensaje = "Vas por buen camino, pero puedes optimizar ahorro e ingresos.";
+}
+else{
+    mensaje = "Excelente mentalidad financiera. Estás listo para invertir y crecer.";
+}
+
+texto.innerText = mensaje;
+
+function volver(){
+    window.location.href = "index.html";
+}
+</script>
+
+</body>
+</html>
