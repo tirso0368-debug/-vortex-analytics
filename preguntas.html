@@ -2,102 +2,75 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>VORTEX — Evaluación</title>
+<title>VORTEX - Preguntas</title>
 
 <style>
 body{
-    margin:0;
-    font-family:Arial, Helvetica, sans-serif;
-    background:#0b0f1a;
-    color:white;
+  margin:0;
+  font-family:Arial;
+  background:#020617;
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
 }
 
-.container{
-    max-width:600px;
-    margin:auto;
-    padding:40px;
+.card{
+  background:#0f172a;
+  padding:30px;
+  border-radius:20px;
+  width:350px;
+  box-shadow:0 0 30px rgba(0,0,0,0.4);
 }
 
-h1{
-    text-align:center;
+h2{
+  margin-bottom:20px;
 }
 
-.question{
-    margin-top:30px;
-}
-
-select{
-    width:100%;
-    padding:12px;
-    border-radius:8px;
-    border:none;
-    margin-top:10px;
+input{
+  width:100%;
+  padding:12px;
+  margin-bottom:15px;
+  border-radius:10px;
+  border:none;
+  background:#020617;
+  color:white;
 }
 
 button{
-    margin-top:30px;
-    width:100%;
-    padding:15px;
-    border:none;
-    border-radius:8px;
-    background:linear-gradient(90deg,#4facfe,#00f2fe);
-    color:white;
-    font-size:16px;
-    cursor:pointer;
+  width:100%;
+  padding:15px;
+  border:none;
+  border-radius:12px;
+  font-weight:bold;
+  cursor:pointer;
+  background:linear-gradient(90deg,#38bdf8,#22c55e);
+  color:white;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="card">
+  <h2>Tu perfil financiero</h2>
 
-<h1>Evaluación Financiera</h1>
+  <input id="dinero" placeholder="¿Cuánto dinero tienes ahorrado? €">
+  <input id="ingresos" placeholder="¿Ingresos mensuales? €">
+  <input id="edad" placeholder="Edad">
 
-<div class="question">
-<label>¿Cuánto dinero ahorras al mes?</label>
-<select id="ahorro">
-<option value="0">Nada</option>
-<option value="1">Menos de 50€</option>
-<option value="2">50€ - 200€</option>
-<option value="3">Más de 200€</option>
-</select>
-</div>
-
-<div class="question">
-<label>¿Tienes ingresos propios?</label>
-<select id="ingresos">
-<option value="0">No</option>
-<option value="1">A veces</option>
-<option value="2">Sí</option>
-</select>
-</div>
-
-<div class="question">
-<label>¿Sabes invertir?</label>
-<select id="invertir">
-<option value="0">No</option>
-<option value="1">Un poco</option>
-<option value="2">Sí</option>
-</select>
-</div>
-
-<button onclick="continuar()">Ver análisis</button>
-
+  <button onclick="analizar()">Analizar</button>
 </div>
 
 <script>
-function continuar(){
+function analizar(){
 
-    const ahorro = parseInt(document.getElementById("ahorro").value);
-    const ingresos = parseInt(document.getElementById("ingresos").value);
-    const invertir = parseInt(document.getElementById("invertir").value);
+  localStorage.setItem("dinero", document.getElementById("dinero").value);
+  localStorage.setItem("ingresos", document.getElementById("ingresos").value);
+  localStorage.setItem("edad", document.getElementById("edad").value);
 
-    const total = ahorro + ingresos + invertir;
-
-    localStorage.setItem("puntuacion", total);
-
-    window.location.href = "analisis.html";
+  window.location.href="analisis.html";
 }
 </script>
 
