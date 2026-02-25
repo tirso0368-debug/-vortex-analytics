@@ -1,1 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>VORTEX — Resultado</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Inter',sans-serif;
+background: radial-gradient(circle at 30% 20%, #0b1120, #020617 70%);
+color:white;
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+overflow:hidden;
+}
+
+/* glow */
+body::before{
+content:"";
+position:absolute;
+width:600px;
+height:600px;
+background: radial-gradient(circle, rgba(99,102,241,0.25), transparent 70%);
+filter: blur(120px);
+top:-120px;
+left:-120px;
+}
+
+/* contenedor */
+.container{
+width:90%;
+max-width:700px;
+background: rgba(255,255,255,0.05);
+padding:40px;
+border-radius:20px;
+backdrop-filter: blur(20px);
+box-shadow:0 0 40px rgba(0,0,0,0.4);
+text-align:center;
+z-index:2;
+}
+
+/* animacion */
+.loader{
+font-size:18px;
+opacity:0.7;
+}
+
+.hidden{
+display:none;
+}
+
+/* titulo */
+h1{
+font-size:32px;
+margin-bottom:10px;
+}
+
+.porcentaje{
+font-size:48px;
+font-weight:800;
+margin:20px 0;
+background: linear-gradient(90deg,#6366f1,#8b5cf6,#22d3ee);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.card{
+background: rgba(255,255,255,0.05);
+padding:20px;
+border-radius:14px;
+margin-top:20px;
+text-align:left;
+}
+
+.card h3{
+margin-bottom:10px;
+}
+
+button{
+margin-top:30px;
+padding:14px 40px;
+font-size:16px;
+border:none;
+border-radius:12px;
+cursor:pointer;
+background: linear-gradient(90deg,#6366f1,#8b5cf6);
+color:white;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div id="loading" class="loader">
+🧠 Analizando perfil cognitivo...
+</div>
+
+<div id="resultado" class="hidden">
+
+<h1>Resultado VORTEX</h1>
+
+<div class="porcentaje" id="potencial">0%</div>
+
+<div class="card">
+<h3>Perfil detectado</h3>
+<p id="perfil"></p>
+</div>
+
+<div class="card">
+<h3>Diagnóstico</h3>
+<p id="diagnostico"></p>
+</div>
+
+<div class="card">
+<h3>Plan recomendado</h3>
+<p id="plan"></p>
+</div>
+
+<button onclick="reiniciar()">Repetir análisis</button>
+
+</div>
+
+</div>
+
+<script>
+
+let datos = JSON.parse(localStorage.getItem("vortexDatos"));
+
+setTimeout(mostrarResultado, 2000);
+
+function mostrarResultado(){
+
+document.getElementById("loading").style.display="none";
+document.getElementById("resultado").classList.remove("hidden");
+
+let nota = parseFloat(datos.nota) || 5;
+let horas = parseFloat(datos.horas) || 1;
+let motivacion = parseFloat(datos.motivacion) || 5;
+
+let potencial = Math.min(100, Math.round((nota*10 + horas*5 + motivacion*8)/2));
+
+document.getElementById("potencial").innerText = potencial + "%";
+
+let perfil = "";
+let diagnostico = "";
+let plan = "";
+
+if(motivacion >= 8 && horas >= 3){
+
+perfil = "Alto rendimiento disciplinado";
+diagnostico = "Tienes una combinación poco común de motivación y constancia. Tu potencial es superior a la media estudiantil.";
+plan = "Mantén tu rutina actual, optimiza técnicas de estudio avanzadas y establece objetivos mensuales progresivos.";
+
+}else if(motivacion >= 7 && horas < 2){
+
+perfil = "Alto potencial desaprovechado";
+diagnostico = "Tu capacidad es buena, pero la falta de constancia está limitando tu rendimiento real.";
+plan = "Incrementa tus horas de estudio gradualmente y crea un horario fijo diario para activar disciplina.";
+
+}else if(motivacion < 5){
+
+perfil = "Riesgo de estancamiento";
+diagnostico = "La baja motivación puede afectar tus resultados futuros si no se corrige pronto.";
+plan = "Define metas claras a corto plazo y utiliza recompensas para generar hábitos de estudio.";
+
+}else{
+
+perfil = "Perfil en desarrollo";
+diagnostico = "Tu situación actual es estable, pero existe margen de mejora en organización y enfoque.";
+plan = "Optimiza tus horarios y elimina distracciones durante las sesiones de estudio.";
+
+}
+
+document.getElementById("perfil").innerText = perfil;
+document.getElementById("diagnostico").innerText = diagnostico;
+document.getElementById("plan").innerText = plan;
+
+}
+
+function reiniciar(){
+window.location.href="index.html";
+}
+
+</script>
+
+</body>
+</html>
