@@ -2,202 +2,204 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VORTEX — Resultado</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
 body{
-font-family:'Inter',sans-serif;
-background: radial-gradient(circle at 30% 20%, #0b1120, #020617 70%);
-color:white;
-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-overflow:hidden;
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:linear-gradient(135deg,#0b1020,#111a3a);
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
 }
 
-/* glow */
-body::before{
-content:"";
-position:absolute;
-width:600px;
-height:600px;
-background: radial-gradient(circle, rgba(99,102,241,0.25), transparent 70%);
-filter: blur(120px);
-top:-120px;
-left:-120px;
-}
-
-/* contenedor */
 .container{
-width:90%;
-max-width:700px;
-background: rgba(255,255,255,0.05);
-padding:40px;
-border-radius:20px;
-backdrop-filter: blur(20px);
-box-shadow:0 0 40px rgba(0,0,0,0.4);
-text-align:center;
-z-index:2;
+    width:90%;
+    max-width:600px;
+    background:rgba(255,255,255,0.05);
+    backdrop-filter:blur(20px);
+    border-radius:20px;
+    padding:30px;
+    box-shadow:0 0 40px rgba(0,0,0,0.6);
 }
 
-/* animacion */
-.loader{
-font-size:18px;
-opacity:0.7;
+h1{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.progress{
+    width:100%;
+    height:8px;
+    background:#1c254a;
+    border-radius:10px;
+    overflow:hidden;
+    margin-bottom:25px;
+}
+
+.bar{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,#6a5cff,#00d4ff);
+    animation:load 2s forwards;
+}
+
+@keyframes load{
+    to{width:100%;}
 }
 
 .hidden{
-display:none;
-}
-
-/* titulo */
-h1{
-font-size:32px;
-margin-bottom:10px;
-}
-
-.porcentaje{
-font-size:48px;
-font-weight:800;
-margin:20px 0;
-background: linear-gradient(90deg,#6366f1,#8b5cf6,#22d3ee);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
+    display:none;
 }
 
 .card{
-background: rgba(255,255,255,0.05);
-padding:20px;
-border-radius:14px;
-margin-top:20px;
-text-align:left;
-}
-
-.card h3{
-margin-bottom:10px;
+    background:rgba(255,255,255,0.05);
+    padding:20px;
+    border-radius:15px;
+    margin-bottom:15px;
 }
 
 button{
-margin-top:30px;
-padding:14px 40px;
-font-size:16px;
-border:none;
-border-radius:12px;
-cursor:pointer;
-background: linear-gradient(90deg,#6366f1,#8b5cf6);
-color:white;
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    font-size:16px;
+    font-weight:bold;
+    background:linear-gradient(90deg,#6a5cff,#00d4ff);
+    color:white;
+    cursor:pointer;
 }
 
+button:hover{
+    opacity:0.9;
+}
 </style>
-</head>
 
+</head>
 <body>
 
 <div class="container">
 
-<div id="loading" class="loader">
-🧠 Analizando perfil cognitivo...
+<div id="loading">
+    <h1>Analizando tu perfil...</h1>
+    <div class="progress">
+        <div class="bar"></div>
+    </div>
+    <p style="text-align:center;opacity:0.7">
+        Procesando comportamiento, hábitos y mentalidad...
+    </p>
 </div>
 
 <div id="resultado" class="hidden">
 
-<h1>Resultado VORTEX</h1>
+    <h1>Tu Análisis VORTEX</h1>
 
-<div class="porcentaje" id="potencial">0%</div>
+    <div class="card">
+        <strong>Potencial estimado:</strong>
+        <h2 id="potencial">0%</h2>
+    </div>
 
-<div class="card">
-<h3>Perfil detectado</h3>
-<p id="perfil"></p>
-</div>
+    <div class="card">
+        <strong>Perfil detectado:</strong>
+        <p id="perfil"></p>
+    </div>
 
-<div class="card">
-<h3>Diagnóstico</h3>
-<p id="diagnostico"></p>
-</div>
+    <div class="card">
+        <strong>Diagnóstico:</strong>
+        <p id="diagnostico"></p>
+    </div>
 
-<div class="card">
-<h3>Plan recomendado</h3>
-<p id="plan"></p>
-</div>
+    <div class="card">
+        <strong>Recomendación:</strong>
+        <p id="recomendacion"></p>
+    </div>
 
-<button onclick="guardar()">Guardar mi perfil</button>
-<br><br>
-<button onclick="reiniciar()">Repetir análisis</button>
-  
-  
+    <button onclick="reiniciar()">Repetir análisis</button>
+
 </div>
 
 </div>
 
 <script>
 
-let datos = JSON.parse(localStorage.getItem("vortexDatos"));
+let datos = JSON.parse(localStorage.getItem("vortexDatos")) || {};
 
-setTimeout(mostrarResultado, 2000);
-  function guardar(){
-window.location.href="registro.html";
-  }
+setTimeout(mostrarResultado,2000);
 
 function mostrarResultado(){
 
 document.getElementById("loading").style.display="none";
 document.getElementById("resultado").classList.remove("hidden");
 
+
 let nota = parseFloat(datos.nota) || 5;
-let horas = parseFloat(datos.horas) || 1;
+let horas = parseFloat(datos.horas) || 2;
 let motivacion = parseFloat(datos.motivacion) || 5;
 
-let potencial = Math.min(100, Math.round((nota*10 + horas*5 + motivacion*8)/2));
+let frustracion = parseFloat(datos.frustracion) || 5;
+let procrastinacion = parseFloat(datos.procrastinacion) || 5;
+let confianza = parseFloat(datos.confianza) || 5;
+
+let potencial = Math.min(100,
+    Math.round(
+        nota*10 +
+        horas*5 +
+        motivacion*8 +
+        confianza*6 -
+        procrastinacion*4 -
+        frustracion*3
+    )
+);
 
 document.getElementById("potencial").innerText = potencial + "%";
 
+
 let perfil = "";
 let diagnostico = "";
-let plan = "";
+let recomendacion = "";
 
-if(motivacion >= 8 && horas >= 3){
 
-perfil = "Alto rendimiento disciplinado";
-diagnostico = "Tienes una combinación poco común de motivación y constancia. Tu potencial es superior a la media estudiantil.";
-plan = "Mantén tu rutina actual, optimiza técnicas de estudio avanzadas y establece objetivos mensuales progresivos.";
+if(potencial >= 80){
 
-}else if(motivacion >= 7 && horas < 2){
+perfil = "Alto rendimiento";
+diagnostico = "Tienes hábitos sólidos y buena disciplina. Tu crecimiento depende de mantener constancia.";
+recomendacion = "Optimiza tu método de estudio y apunta a objetivos ambiciosos.";
 
-perfil = "Alto potencial desaprovechado";
-diagnostico = "Tu capacidad es buena, pero la falta de constancia está limitando tu rendimiento real.";
-plan = "Incrementa tus horas de estudio gradualmente y crea un horario fijo diario para activar disciplina.";
+}else if(potencial >= 60){
 
-}else if(motivacion < 5){
+perfil = "Buen potencial con margen";
+diagnostico = "Tienes capacidad real pero existen bloqueos como organización o consistencia.";
+recomendacion = "Mejora tu planificación diaria y reduce distracciones.";
 
-perfil = "Riesgo de estancamiento";
-diagnostico = "La baja motivación puede afectar tus resultados futuros si no se corrige pronto.";
-plan = "Define metas claras a corto plazo y utiliza recompensas para generar hábitos de estudio.";
+}else if(potencial >= 40){
+
+perfil = "Potencial medio";
+diagnostico = "Hay falta de disciplina estable y motivación irregular.";
+recomendacion = "Empieza con hábitos pequeños diarios y metas claras.";
 
 }else{
 
-perfil = "Perfil en desarrollo";
-diagnostico = "Tu situación actual es estable, pero existe margen de mejora en organización y enfoque.";
-plan = "Optimiza tus horarios y elimina distracciones durante las sesiones de estudio.";
+perfil = "Fase de riesgo";
+diagnostico = "Actualmente tus hábitos limitan tu rendimiento académico.";
+recomendacion = "Prioriza rutina, sueño y constancia antes que intensidad.";
 
 }
+
 
 document.getElementById("perfil").innerText = perfil;
 document.getElementById("diagnostico").innerText = diagnostico;
-document.getElementById("plan").innerText = plan;
+document.getElementById("recomendacion").innerText = recomendacion;
 
 }
 
+
 function reiniciar(){
+localStorage.removeItem("vortexDatos");
 window.location.href="index.html";
 }
 
