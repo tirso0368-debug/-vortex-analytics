@@ -1,156 +1,113 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Resultado - VORTEX</title>
+  <meta charset="UTF-8">
+  <title>Resultado</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body{
-    margin:0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg,#0f172a,#1e293b);
-    color:white;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-}
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
 
-/* Pantalla carga */
+    .card {
+      background: white;
+      color: #333;
+      padding: 40px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      animation: aparecer 0.6s ease;
+    }
 
-#pantallaCarga{
-    text-align:center;
-}
+    @keyframes aparecer {
+      from { opacity: 0; transform: translateY(20px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
 
-.loader{
-    margin-top:20px;
-    border:5px solid #1e293b;
-    border-top:5px solid #22c55e;
-    border-radius:50%;
-    width:50px;
-    height:50px;
-    animation:spin 1s linear infinite;
-    margin-left:auto;
-    margin-right:auto;
-}
+    h1 {
+      margin-bottom: 10px;
+    }
 
-@keyframes spin{
-    0%{transform:rotate(0deg);}
-    100%{transform:rotate(360deg);}
-}
+    p {
+      font-size: 18px;
+      line-height: 1.5;
+    }
 
-/* Resultado */
+    .btn {
+      margin-top: 25px;
+      padding: 14px 25px;
+      border: none;
+      border-radius: 10px;
+      background: #667eea;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
 
-.card{
-    display:none;
-    background:#1e293b;
-    padding:40px;
-    border-radius:20px;
-    width:90%;
-    max-width:600px;
-    text-align:center;
-    box-shadow:0 0 40px rgba(0,0,0,0.4);
-    animation:fade 1s ease;
-}
+    .btn:hover {
+      background: #5563d6;
+      transform: scale(1.05);
+    }
 
-h1{
-    color:#22c55e;
-    margin-bottom:20px;
-}
-
-p{
-    font-size:18px;
-    line-height:1.6;
-    margin-bottom:15px;
-}
-
-button{
-    margin-top:20px;
-    padding:15px 25px;
-    border:none;
-    border-radius:10px;
-    background:#22c55e;
-    color:white;
-    font-size:16px;
-    cursor:pointer;
-    transition:0.3s;
-}
-
-button:hover{
-    background:#16a34a;
-    transform:scale(1.05);
-}
-
-@keyframes fade{
-    from{opacity:0; transform:translateY(20px);}
-    to{opacity:1; transform:translateY(0);}
-}
-</style>
-
+    .loader {
+      font-size: 18px;
+      opacity: 0.8;
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- Pantalla IA -->
-<div id="pantallaCarga">
-    <h2>Analizando tu perfil...</h2>
-    <p>La IA está procesando tus respuestas</p>
-    <div class="loader"></div>
-</div>
-
-<!-- Resultado -->
-<div class="card" id="resultadoBox">
-
-    <h1 id="perfil"></h1>
-    <p id="diagnostico"></p>
-    <p id="recomendacion"></p>
-
-    <button onclick="reiniciar()">Repetir test</button>
-
+<div class="card" id="contenido">
+  <div class="loader">Calculando tu resultado...</div>
 </div>
 
 <script>
+  // Simulación de resultado guardado
+  const puntos = localStorage.getItem("puntos") || 0;
 
-let puntuacion = localStorage.getItem("puntuacion") || 0;
-puntuacion = Number(puntuacion);
+  setTimeout(() => {
 
-let perfil="";
-let diagnostico="";
-let recomendacion="";
+    let mensaje = "";
+    let titulo = "";
 
-if(puntuacion >= 8){
-    perfil="Alto rendimiento";
-    diagnostico="Tienes hábitos sólidos y buena disciplina. Tu problema no es la capacidad, sino la optimización.";
-    recomendacion="Vamos a llevarte a nivel élite con estrategias avanzadas de estudio y foco.";
-}
-else if(puntuacion >=5){
-    perfil="Potencial desaprovechado";
-    diagnostico="Tu rendimiento no refleja tu capacidad real. Existen bloqueos en hábitos y organización.";
-    recomendacion="Necesitas un sistema estructurado que aumente tu constancia y enfoque.";
-}
-else{
-    perfil="Riesgo académico";
-    diagnostico="Tus hábitos actuales están frenando tu progreso. Sin cambios, el rendimiento seguirá bajo.";
-    recomendacion="Debemos reconstruir tu rutina desde la base para crear disciplina real.";
-}
+    if (puntos <= 5) {
+      titulo = "Nivel Bajo";
+      mensaje = "Tienes buen control académico, pero aún puedes mejorar hábitos.";
+    } 
+    else if (puntos <= 10) {
+      titulo = "Nivel Medio";
+      mensaje = "Hay señales de riesgo. Es buen momento para organizarte mejor.";
+    } 
+    else {
+      titulo = "Nivel Alto";
+      mensaje = "Detectamos dificultades importantes. Un plan te ayudará mucho.";
+    }
 
-function mostrarResultado(){
+    document.getElementById("contenido").innerHTML = `
+      <h1>${titulo}</h1>
+      <p>${mensaje}</p>
+      <button class="btn" onclick="iniciarPlan()">Iniciar Plan</button>
+    `;
 
-    document.getElementById("perfil").innerText = perfil;
-    document.getElementById("diagnostico").innerText = diagnostico;
-    document.getElementById("recomendacion").innerText = recomendacion;
+  }, 2000); // ⬅️ LOS 2000 ms IMPORTANTES
 
-    document.getElementById("pantallaCarga").style.display="none";
-    document.getElementById("resultadoBox").style.display="block";
-}
 
-/* 🔥 AQUÍ ESTÁ EL 2000 */
-setTimeout(mostrarResultado, 2000);
-
-function reiniciar(){
-    window.location.href="index.html";
-}
-
+  function iniciarPlan() {
+    alert("Próximamente podrás crear tu cuenta y guardar tu progreso 🚀");
+  }
 </script>
 
 </body>
-</html>
+</html>9
