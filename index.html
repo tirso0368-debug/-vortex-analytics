@@ -124,7 +124,7 @@ control, claridad y ventaja desde el principio.
 
 <div class="form">
 <input id="email" placeholder="Tu email">
-<button onclick="guardar()">Solicitar acceso</button>
+<button onclick="guardar()">Entrar</button>
 <div id="msg"></div>
 </div>
 
@@ -135,40 +135,25 @@ control, claridad y ventaja desde el principio.
 </footer>
 
 
-<!-- SUPABASE -->
- <script>
+
+<!-- LOGIN SCRIPT -->
+<script>
 function guardar(){
 
-  const email = document.getElementById("email").value;
-  const msg = document.getElementById("msg");
+    const email = document.getElementById("email").value;
+    const msg = document.getElementById("msg");
 
-  if(!email){
-    msg.innerText = "Introduce un email";
-    return;
-  }
+    if(!email){
+        msg.innerText = "Introduce un email";
+        return;
+    }
 
-  msg.innerText = "Acceso concedido ✅";
+    msg.innerText = "Acceso concedido ✅";
 
-  window.location.href = "preguntas.html";
-
-}
- <script>
-function guardar(){
-
-const email = document.getElementById("email").value;
-const msg = document.getElementById("msg");
-
-if(!email){
-    msg.innerText = "Introduce un email";
-    return;
-}
-
-msg.innerText = "Acceso concedido ✅";
-
-window.location.href = "preguntas.html";
-
+    window.location.href = "preguntas.html";
 }
 </script>
+ 
 
 
 
