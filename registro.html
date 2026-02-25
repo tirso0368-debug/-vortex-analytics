@@ -75,11 +75,21 @@ line-height:1.6;
 ✅ Mejorar tu rendimiento académico
 </div>
 
-<input type="text" placeholder="Nombre">
-<input type="email" placeholder="Email">
-<input type="password" placeholder="Contraseña">
+<form action="https://formspree.io/f/mbdapyyv" method="POST">
 
-<button onclick="crearCuenta()">Crear cuenta gratuita</button>
+<input type="text" name="nombre" placeholder="Nombre" required>
+
+<input type="email" name="email" placeholder="Email" required>
+
+<input type="password" name="password" placeholder="Contraseña" required>
+
+<input type="hidden" name="_next" value="resultado.html">
+
+<button type="submit">Crear cuenta gratuita</button>
+
+</form>
+
+
 
 </div>
 
