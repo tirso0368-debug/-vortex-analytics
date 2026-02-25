@@ -5,47 +5,75 @@
 <title>Resultado - VORTEX</title>
 
 <style>
-body {
+body{
+    margin:0;
     font-family: Arial, sans-serif;
-    background: #0f172a;
-    color: white;
-    text-align: center;
-    padding: 40px;
+    background: linear-gradient(135deg,#0f172a,#020617);
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
 }
 
-.card {
-    background: #1e293b;
-    padding: 30px;
-    border-radius: 12px;
-    max-width: 600px;
-    margin: auto;
+.card{
+    background:#111827;
+    padding:40px;
+    border-radius:20px;
+    width:90%;
+    max-width:600px;
+    text-align:center;
+    box-shadow:0 0 30px rgba(0,0,0,0.5);
 }
 
-#pantallaCarga {
-    font-size: 20px;
+h1{
+    color:#22c55e;
+    margin-bottom:20px;
 }
 
-h1 {
-    color: #22c55e;
+p{
+    opacity:0.9;
+    line-height:1.5;
+}
+
+.loader{
+    font-size:18px;
+    opacity:0.8;
+}
+
+button{
+    margin-top:25px;
+    padding:12px 25px;
+    border:none;
+    border-radius:10px;
+    background:#22c55e;
+    color:black;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:hover{
+    opacity:0.8;
 }
 </style>
-</head>
 
+</head>
 <body>
 
-<!-- Pantalla de carga -->
-<div id="pantallaCarga">
-    <h1>Analizando tu perfil...</h1>
-    <p>La IA está procesando tus respuestas</p>
+<!-- Pantalla carga -->
+<div id="pantallaCarga" class="card">
+    <div class="loader">🧠 Analizando tu perfil...</div>
 </div>
 
 <!-- Resultado -->
-<div id="contenidoResultado" style="display:none;">
-    <div class="card">
-        <h1 id="perfil"></h1>
-        <p id="diagnostico"></p>
-        <p id="recomendacion"></p>
-    </div>
+<div id="contenidoResultado" class="card" style="display:none;">
+    <h1 id="perfil"></h1>
+    <p id="diagnostico"></p>
+    <p id="recomendacion"></p>
+
+    <button onclick="window.location.href='index.html'">
+        Volver
+    </button>
 </div>
 
 <script>
@@ -53,55 +81,39 @@ h1 {
 let puntuacion = localStorage.getItem("puntuacion") || 0;
 puntuacion = Number(puntuacion);
 
-let perfil = "";
-let diagnostico = "";
-let recomendacion = "";
+let perfil="";
+let diagnostico="";
+let recomendacion="";
 
-if (puntuacion >= 8) {
-
-    perfil = "Alto rendimiento";
-
-    diagnostico = "Tienes hábitos sólidos y buena disciplina. Tu problema no es la capacidad, sino la optimización.";
-
-    recomendacion = "Vamos a llevarte a nivel élite con estrategias avanzadas de estudio y foco.";
-
+if(puntuacion >= 8){
+    perfil="Alto rendimiento";
+    diagnostico="Tienes hábitos sólidos y buena disciplina. Tu problema no es la capacidad, sino la optimización.";
+    recomendacion="Vamos a llevarte a nivel élite con estrategias avanzadas de estudio y foco.";
 }
-else if (puntuacion >= 5) {
-
-    perfil = "Potencial desaprovechado";
-
-    diagnostico = "Tu rendimiento no refleja tu capacidad real. Existen bloqueos en hábitos y organización.";
-
-    recomendacion = "Necesitas un sistema estructurado que aumente tu constancia y enfoque.";
-
+else if(puntuacion >=5){
+    perfil="Potencial desaprovechado";
+    diagnostico="Tu rendimiento no refleja tu capacidad real. Existen bloqueos en hábitos y organización.";
+    recomendacion="Necesitas un sistema estructurado que aumente tu constancia y enfoque.";
 }
-else {
-
-    perfil = "Riesgo académico";
-
-    diagnostico = "Tus hábitos actuales están frenando tu progreso. Sin cambios, el rendimiento seguirá bajo.";
-
-    recomendacion = "Debemos reconstruir tu rutina desde la base para crear disciplina real.";
-
+else{
+    perfil="Riesgo académico";
+    diagnostico="Tus hábitos actuales están frenando tu progreso. Sin cambios, el rendimiento seguirá bajo.";
+    recomendacion="Debemos reconstruir tu rutina desde la base para crear disciplina real.";
 }
 
+function mostrarResultado(){
 
-function mostrarResultado() {
+    document.getElementById("perfil").innerText=perfil;
+    document.getElementById("diagnostico").innerText=diagnostico;
+    document.getElementById("recomendacion").innerText=recomendacion;
 
-    document.getElementById("perfil").innerText = perfil;
-    document.getElementById("diagnostico").innerText = diagnostico;
-    document.getElementById("recomendacion").innerText = recomendacion;
-
-    document.getElementById("pantallaCarga").style.display = "none";
-    document.getElementById("contenidoResultado").style.display = "block";
+    document.getElementById("pantallaCarga").style.display="none";
+    document.getElementById("contenidoResultado").style.display="block";
 }
 
-
-// Simular análisis IA
-setTimeout(mostrarResultado, 2000);
+setTimeout(mostrarResultado,2000);
 
 </script>
 
 </body>
 </html>
-    
