@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>VORTEX — Hábitos</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+margin:0;
+font-family:'Inter',sans-serif;
+background: radial-gradient(circle at 30% 20%, #0b1120, #020617 70%);
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+overflow:hidden;
+}
+
+.container{
+width:90%;
+max-width:520px;
+background: rgba(255,255,255,0.05);
+backdrop-filter: blur(25px);
+border-radius:22px;
+padding:35px;
+box-shadow:0 0 60px rgba(0,0,0,0.6);
+animation:fade 0.8s ease;
+}
+
+@keyframes fade{
+from{opacity:0; transform:translateY(25px);}
+to{opacity:1; transform:translateY(0);}
+}
+
+h1{
+text-align:center;
+margin-bottom:5px;
+font-weight:700;
+letter-spacing:1px;
+}
+
+.subtitle{
+text-align:center;
+opacity:0.7;
+margin-bottom:25px;
+}
+
+.progress{
+height:6px;
+background:#1e293b;
+border-radius:10px;
+margin-bottom:30px;
+overflow:hidden;
+}
+
+.bar{
+height:100%;
+width:45%;
+background:linear-gradient(90deg,#6366f1,#22d3ee);
+transition:0.4s;
+}
+
+.question{
+display:none;
+animation:fade 0.5s ease;
+}
+
+.question.active{
+display:block;
+}
+
+label{
+display:block;
+margin-bottom:10px;
+font-size:15px;
+opacity:0.9;
+}
+
+input, select{
+width:100%;
+padding:15px;
+border:none;
+border-radius:12px;
+background:#0f172a;
+color:white;
+font-size:15px;
+margin-bottom:20px;
+}
+
+button{
+width:100%;
+padding:15px;
+border:none;
+border-radius:12px;
+font-size:16px;
+font-weight:600;
+background:linear-gradient(90deg,#6366f1,#22d3ee);
+color:white;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+transform:scale(1.04);
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>VORTEX</h1>
+<div class="subtitle">Módulo 2 — Hábitos de estudio</div>
+
+<div class="progress">
+<div class="bar" id="bar"></div>
+</div>
+
+<!-- Pregunta 1 -->
+<div class="question active" id="q1">
+<label>¿Cuántas horas duermes normalmente?</label>
+<input type="number" id="sueno">
+<button onclick="next(1)">Continuar</button>
+</div>
+
+<!-- Pregunta 2 -->
+<div class="question" id="q2">
+<label>¿Cuánto usas el móvil mientras estudias?</label>
+<select id="movil">
+<option>Casi nada</option>
+<option>A veces</option>
+<option>Bastante</option>
+<option>Mucho</option>
+</select>
+<button onclick="next(2)">Continuar</button>
+</div>
+
+<!-- Pregunta 3 -->
+<div class="question" id="q3">
+<label>¿Tienes un horario de estudio fijo?</label>
+<select id="horario">
+<option>Sí</option>
+<option>A veces</option>
+<option>No</option>
+</select>
+<button onclick="next(3)">Continuar</button>
+</div>
+
+<!-- Pregunta 4 -->
+<div class="question" id="q4">
+<label>¿Te distraes fácilmente?</label>
+<select id="distraccion">
+<option>Poco</option>
+<option>Normal</option>
+<option>Bastante</option>
+<option>Mucho</option>
+</select>
+<button onclick="next(4)">Continuar</button>
+</div>
+
+<!-- Pregunta 5 -->
+<div class="question" id="q5">
+<label>¿Dónde estudias normalmente?</label>
+<select id="lugar">
+<option>Habitación tranquila</option>
+<option>Casa con ruido</option>
+<option>Biblioteca</option>
+<option>Donde puedo</option>
+</select>
+<button onclick="guardar()">Finalizar módulo</button>
+</div>
+
+</div>
+
+<script>
+
+let total = 5;
+
+function next(num){
+
+document.getElementById("q"+num).classList.remove("active");
+document.getElementById("q"+(num+1)).classList.add("active");
+
+}
+
+function guardar(){
+
+let datos = JSON.parse(localStorage.getItem("vortexDatos")) || {};
+
+datos.sueno = document.getElementById("sueno").value;
+datos.movil = document.getElementById("movil").value;
+datos.horario = document.getElementById("horario").value;
+datos.distraccion = document.getElementById("distraccion").value;
+datos.lugar = document.getElementById("lugar").value;
+
+localStorage.setItem("vortexDatos", JSON.stringify(datos));
+
+setTimeout(()=>{
+window.location.href="modulo3.html";
+},600);
+
+}
+
+</script>
+
+</body>
+</html>
