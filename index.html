@@ -152,14 +152,23 @@ function guardar(){
   window.location.href = "preguntas.html";
 
 }
- </script>
+ <script>
+function guardar(){
 
-  msg.innerText = "Acceso concedido ✅";
+const email = document.getElementById("email").value;
+const msg = document.getElementById("msg");
 
-  window.location.href = "preguntas.html";
+if(!email){
+    msg.innerText = "Introduce un email";
+    return;
+}
 
-   
- </script>
+msg.innerText = "Acceso concedido ✅";
+
+window.location.href = "preguntas.html";
+
+}
+</script>
 
 
 
