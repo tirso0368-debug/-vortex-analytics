@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>VORTEX Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0b0f1a;
+    color: white;
+}
+
+/* HEADER */
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 40px;
+    background: #111827;
+}
+
+.logo {
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.container {
+    padding: 30px;
+}
+
+/* CARDS */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: #1f2937;
+    padding: 25px;
+    border-radius: 12px;
+}
+
+.value {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* LEVEL */
+
+.level {
+    margin-top: 30px;
+    padding: 20px;
+    background: #1f2937;
+    border-radius: 12px;
+}
+
+.bar {
+    height: 10px;
+    background: #374151;
+    border-radius: 10px;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    width: 60%;
+    background: #2563eb;
+}
+
+/* PLAN */
+
+.plan {
+    margin-top: 30px;
+    padding: 20px;
+    background: #1f2937;
+    border-radius: 12px;
+}
+
+button {
+    margin-top: 15px;
+    padding: 10px 15px;
+    border: none;
+    background: #2563eb;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <div class="logo">VORTEX</div>
+    <div id="userName">Usuario</div>
+</div>
+
+<div class="container">
+
+    <h2>Panel principal</h2>
+
+    <div class="grid">
+
+        <div class="card">
+            <div>Horas hoy</div>
+            <div class="value">2.5h</div>
+        </div>
+
+        <div class="card">
+            <div>Racha</div>
+            <div class="value">3 días</div>
+        </div>
+
+        <div class="card">
+            <div>Productividad</div>
+            <div class="value">78%</div>
+        </div>
+
+        <div class="card">
+            <div>Nivel</div>
+            <div class="value">2</div>
+        </div>
+
+    </div>
+
+    <div class="level">
+        <h3>XP</h3>
+        <div>320 / 500</div>
+
+        <div class="bar">
+            <div class="progress"></div>
+        </div>
+    </div>
+
+    <div class="plan">
+        <h3>Plan recomendado</h3>
+        <p>2 sesiones de 45 min + 15 min repaso</p>
+
+        <button>Iniciar sesión de estudio</button>
+    </div>
+
+</div>
+
+<script>
+
+var nombre = localStorage.getItem("nombreUsuario");
+
+if(nombre){
+    document.getElementById("userName").innerText = nombre;
+}
+
+</script>
+
+</body>
+  </html>
