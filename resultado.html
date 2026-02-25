@@ -8,7 +8,7 @@
 body{
     margin:0;
     font-family: Arial, sans-serif;
-    background: linear-gradient(135deg,#0f172a,#020617);
+    background: linear-gradient(135deg,#0f172a,#1e293b);
     color:white;
     display:flex;
     justify-content:center;
@@ -16,14 +16,41 @@ body{
     height:100vh;
 }
 
+/* Pantalla carga */
+
+#pantallaCarga{
+    text-align:center;
+}
+
+.loader{
+    margin-top:20px;
+    border:5px solid #1e293b;
+    border-top:5px solid #22c55e;
+    border-radius:50%;
+    width:50px;
+    height:50px;
+    animation:spin 1s linear infinite;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+@keyframes spin{
+    0%{transform:rotate(0deg);}
+    100%{transform:rotate(360deg);}
+}
+
+/* Resultado */
+
 .card{
-    background:#111827;
+    display:none;
+    background:#1e293b;
     padding:40px;
     border-radius:20px;
     width:90%;
     max-width:600px;
     text-align:center;
-    box-shadow:0 0 30px rgba(0,0,0,0.5);
+    box-shadow:0 0 40px rgba(0,0,0,0.4);
+    animation:fade 1s ease;
 }
 
 h1{
@@ -32,48 +59,53 @@ h1{
 }
 
 p{
-    opacity:0.9;
-    line-height:1.5;
-}
-
-.loader{
     font-size:18px;
-    opacity:0.8;
+    line-height:1.6;
+    margin-bottom:15px;
 }
 
 button{
-    margin-top:25px;
-    padding:12px 25px;
+    margin-top:20px;
+    padding:15px 25px;
     border:none;
     border-radius:10px;
     background:#22c55e;
-    color:black;
-    font-weight:bold;
+    color:white;
+    font-size:16px;
     cursor:pointer;
+    transition:0.3s;
 }
 
 button:hover{
-    opacity:0.8;
+    background:#16a34a;
+    transform:scale(1.05);
+}
+
+@keyframes fade{
+    from{opacity:0; transform:translateY(20px);}
+    to{opacity:1; transform:translateY(0);}
 }
 </style>
 
 </head>
 <body>
 
-<!-- Pantalla carga -->
-<div id="pantallaCarga" class="card">
-    <div class="loader">🧠 Analizando tu perfil...</div>
+<!-- Pantalla IA -->
+<div id="pantallaCarga">
+    <h2>Analizando tu perfil...</h2>
+    <p>La IA está procesando tus respuestas</p>
+    <div class="loader"></div>
 </div>
 
 <!-- Resultado -->
-<div id="contenidoResultado" class="card" style="display:none;">
+<div class="card" id="resultadoBox">
+
     <h1 id="perfil"></h1>
     <p id="diagnostico"></p>
     <p id="recomendacion"></p>
 
-    <button onclick="window.location.href='index.html'">
-        Volver
-    </button>
+    <button onclick="reiniciar()">Repetir test</button>
+
 </div>
 
 <script>
@@ -103,15 +135,20 @@ else{
 
 function mostrarResultado(){
 
-    document.getElementById("perfil").innerText=perfil;
-    document.getElementById("diagnostico").innerText=diagnostico;
-    document.getElementById("recomendacion").innerText=recomendacion;
+    document.getElementById("perfil").innerText = perfil;
+    document.getElementById("diagnostico").innerText = diagnostico;
+    document.getElementById("recomendacion").innerText = recomendacion;
 
     document.getElementById("pantallaCarga").style.display="none";
-    document.getElementById("contenidoResultado").style.display="block";
+    document.getElementById("resultadoBox").style.display="block";
 }
 
-setTimeout(mostrarResultado,2000);
+/* 🔥 AQUÍ ESTÁ EL 2000 */
+setTimeout(mostrarResultado, 2000);
+
+function reiniciar(){
+    window.location.href="index.html";
+}
 
 </script>
 
