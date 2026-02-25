@@ -1,1 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>VORTEX — Análisis</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Inter',sans-serif;
+background: radial-gradient(circle at 20% 20%, #0b1120, #020617 70%);
+color:white;
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+overflow:hidden;
+}
+
+/* glow fondo */
+body::before{
+content:"";
+position:absolute;
+width:500px;
+height:500px;
+background: radial-gradient(circle, rgba(99,102,241,0.25), transparent 70%);
+filter: blur(120px);
+top:-120px;
+left:-120px;
+}
+
+/* contenedor */
+.container{
+width:90%;
+max-width:600px;
+background: rgba(255,255,255,0.05);
+padding:40px;
+border-radius:20px;
+backdrop-filter: blur(20px);
+box-shadow:0 0 40px rgba(0,0,0,0.4);
+text-align:center;
+z-index:2;
+}
+
+/* titulo */
+h1{
+font-size:26px;
+margin-bottom:10px;
+}
+
+.subtitle{
+font-size:14px;
+opacity:0.6;
+margin-bottom:30px;
+}
+
+/* progreso */
+.progress{
+width:100%;
+height:8px;
+background:rgba(255,255,255,0.1);
+border-radius:10px;
+margin-bottom:30px;
+overflow:hidden;
+}
+
+.bar{
+height:100%;
+width:0%;
+background:linear-gradient(90deg,#6366f1,#8b5cf6,#22d3ee);
+transition:0.4s;
+}
+
+/* preguntas */
+.question{
+font-size:20px;
+margin-bottom:20px;
+}
+
+/* inputs */
+input, select{
+width:100%;
+padding:14px;
+margin:10px 0;
+border-radius:10px;
+border:none;
+font-size:16px;
+}
+
+/* boton */
+button{
+margin-top:20px;
+padding:14px 40px;
+font-size:16px;
+border:none;
+border-radius:12px;
+cursor:pointer;
+background: linear-gradient(90deg,#6366f1,#8b5cf6);
+color:white;
+transition:0.3s;
+}
+
+button:hover{
+transform:scale(1.05);
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>VORTEX Analysis</h1>
+<div class="subtitle">Evaluando perfil cognitivo y rendimiento</div>
+
+<div class="progress">
+<div class="bar" id="bar"></div>
+</div>
+
+<div id="form">
+
+<div class="question">¿Cuál es tu edad?</div>
+<input type="number" id="edad">
+
+<div class="question">Nivel de estudios actual</div>
+<select id="nivel">
+<option>ESO</option>
+<option>Bachillerato</option>
+<option>Universidad</option>
+<option>Otro</option>
+</select>
+
+<div class="question">Nota media aproximada</div>
+<input type="number" id="nota" step="0.1">
+
+<div class="question">Horas de estudio al día</div>
+<input type="number" id="horas">
+
+<div class="question">Motivación para mejorar (1-10)</div>
+<input type="number" id="motivacion" min="1" max="10">
+
+<div class="question">¿Qué te preocupa más?</div>
+<select id="preocupacion">
+<option>Notas</option>
+<option>Futuro profesional</option>
+<option>Dinero</option>
+<option>Organización</option>
+</select>
+
+<button onclick="analizar()">Analizar perfil</button>
+
+</div>
+
+</div>
+
+<script>
+
+let progreso = 0;
+let bar = document.getElementById("bar");
+
+let interval = setInterval(()=>{
+progreso += 10;
+bar.style.width = progreso + "%";
+if(progreso >= 100) clearInterval(interval);
+},200);
+
+
+function analizar(){
+
+let datos = {
+edad: document.getElementById("edad").value,
+nivel: document.getElementById("nivel").value,
+nota: document.getElementById("nota").value,
+horas: document.getElementById("horas").value,
+motivacion: document.getElementById("motivacion").value,
+preocupacion: document.getElementById("preocupacion").value
+};
+
+localStorage.setItem("vortexDatos", JSON.stringify(datos));
+
+window.location.href = "resultado.html";
+
+}
+
+</script>
+
+</body>
+</html>
