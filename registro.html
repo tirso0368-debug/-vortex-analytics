@@ -77,9 +77,9 @@ line-height:1.6;
 
 <form id="registro-form">
 
-<input type="text" name="nombre" placeholder="Nombre" required>
+<input type="text" id="name" name="name" placeholder="Tu nombre" required>
 
-<input type="email" name="email" placeholder="Email" required>
+<input type="email" id="email" name="email" required>
 
 <input type="password" name="password" placeholder="Contraseña" required>
 
@@ -112,11 +112,18 @@ window.location.href = "dashboard.html";
 
 document.getElementById("registro-form").addEventListener("submit", function(event) {
   event.preventDefault();
+var nombre = document.getElementById("name").value;
+localStorage.setItem("nombreUsuario", nombre);
 
 emailjs.send("service_eo3z01f", "template_gs7b0xt", {
-    name: document.getElementById("name").value,
+    name: nombre,
     email: document.getElementById("email").value
 })
+.then(function(response) {
+
+    window.location.href = "dashboard.html";
+
+});
 </script>
 </body>
                                    </html>
