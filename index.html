@@ -2,46 +2,27 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VORTEX — Inteligencia financiera</title>
- 
-<style>
+<title>VORTEX</title>
 
+<style>
 body{
     margin:0;
     font-family:Arial, Helvetica, sans-serif;
     background:#0b0f1a;
     color:white;
-}
-
-nav{
     display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:20px 40px;
-}
-
-.logo{
-    font-weight:700;
-    font-size:20px;
-    letter-spacing:2px;
-}
-
-.hero{
-    height:85vh;
-    display:flex;
-    flex-direction:column;
     justify-content:center;
     align-items:center;
+    height:100vh;
+}
+
+.container{
     text-align:center;
-    padding:20px;
 }
 
 h1{
-    font-size:52px;
-    max-width:800px;
-    line-height:1.2;
-    margin-bottom:20px;
+    font-size:48px;
+    margin-bottom:10px;
 }
 
 .gradient{
@@ -50,93 +31,44 @@ h1{
     -webkit-text-fill-color:transparent;
 }
 
-p{
-    max-width:600px;
-    opacity:0.8;
-    margin-bottom:30px;
-    font-size:18px;
-}
-
-.form{
-    display:flex;
-    flex-direction:column;
-    gap:15px;
-    width:280px;
-}
-
 input{
-    padding:14px;
+    padding:15px;
+    width:250px;
     border-radius:8px;
     border:none;
-    outline:none;
-    font-size:16px;
+    margin-top:20px;
 }
 
 button{
-    padding:14px;
+    padding:15px 30px;
+    margin-top:15px;
     border:none;
     border-radius:8px;
     background:linear-gradient(90deg,#4facfe,#00f2fe);
     color:white;
     font-size:16px;
     cursor:pointer;
-    font-weight:600;
-    transition:0.3s;
 }
-
-button:hover{
-    transform:scale(1.05);
-}
-
-#msg{
-    margin-top:10px;
-    font-size:14px;
-    height:20px;
-}
-
-footer{
-    text-align:center;
-    padding:30px;
-    opacity:0.5;
-    font-size:14px;
-}
-
 </style>
 </head>
 
 <body>
 
-<nav>
-<div class="logo">VORTEX</div>
-</nav>
-
-<section class="hero">
+<div class="container">
 
 <h1>
 El dinero no se aprende tarde.<br>
 <span class="gradient">Se domina antes.</span>
 </h1>
 
-<p>
-VORTEX es la herramienta financiera diseñada para estudiantes que quieren
-control, claridad y ventaja desde el principio.
-</p>
+<input type="email" id="email" placeholder="Tu email"><br>
 
-<div class="form">
-<input id="email" placeholder="Tu email">
-<button onclick="guardar()">Entrar</button>
+<button onclick="guardar()">Solicitar acceso</button>
+
 <div id="msg"></div>
+
 </div>
 
-</section>
-
-<footer>
-© 2026 VORTEX — Built for the next generation
-</footer>
-
-
-
-<!-- LOGIN SCRIPT -->
 <script>
 function guardar(){
 
@@ -153,9 +85,6 @@ function guardar(){
     window.location.href = "preguntas.html";
 }
 </script>
- 
-
-
 
 </body>
 </html>
