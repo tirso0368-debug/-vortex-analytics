@@ -175,13 +175,25 @@ else{
     recomendacion = "Debemos reconstruir tu rutina desde la base para crear disciplina real.";
 }
 
+
+
 // MOSTRAR RESULTADO
 
-document.getElementById("perfil").innerText = perfil;
-document.getElementById("diagnostico").innerText = diagnostico;
-document.getElementById("recomendacion").innerText = recomendacion;
+function mostrarResultado() {
+
+   document.getElementById("perfil").innerText = perfil;
+   document.getElementById("diagnostico").innerText = diagnostico;
+   document.getElementById("recomendacion").innerText = recomendacion;
+
+   document.getElementById("pantallaCarga").style.display = "none";
+   document.getElementById("contenidoResultado").style.display = "block";
+
+}
 
 </script>
+
+
+
 
 </body>
 </html>
