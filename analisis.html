@@ -2,41 +2,57 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>VORTEX — Análisis</title>
+<title>VORTEX - Resultado</title>
 
 <style>
 body{
-    background:#070b1a;
-    color:white;
-    font-family:Arial, sans-serif;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-    margin:0;
+  margin:0;
+  font-family:Arial;
+  background:#020617;
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
 }
 
 .card{
-    background:#0f172a;
-    padding:40px;
-    border-radius:20px;
-    max-width:500px;
-    text-align:center;
-    box-shadow:0 0 40px rgba(0,0,0,0.5);
+  background:#0f172a;
+  padding:30px;
+  border-radius:20px;
+  width:380px;
+  text-align:center;
+  box-shadow:0 0 30px rgba(0,0,0,0.4);
 }
 
-h1{
-    color:#3b82f6;
+.nivel{
+  font-size:28px;
+  margin:20px 0;
+  font-weight:bold;
+}
+
+.bar{
+  width:100%;
+  height:12px;
+  background:#020617;
+  border-radius:10px;
+  overflow:hidden;
+  margin-bottom:20px;
+}
+
+.fill{
+  height:100%;
+  background:linear-gradient(90deg,#38bdf8,#22c55e);
 }
 
 button{
-    margin-top:20px;
-    padding:12px 20px;
-    border:none;
-    border-radius:10px;
-    background:#3b82f6;
-    color:white;
-    cursor:pointer;
+  padding:12px 25px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  background:linear-gradient(90deg,#38bdf8,#22c55e);
+  color:white;
+  font-weight:bold;
 }
 </style>
 </head>
@@ -44,32 +60,59 @@ button{
 <body>
 
 <div class="card">
-    <h1>Tu resultado financiero</h1>
-    <p id="texto"></p>
-    <button onclick="volver()">Volver</button>
+
+  <h2>Resultado financiero</h2>
+
+  <div class="nivel" id="nivel"></div>
+
+  <div class="bar">
+    <div class="fill" id="barra"></div>
+  </div>
+
+  <p id="mensaje"></p>
+
+  <button onclick="location.href='index.html'">
+    Volver
+  </button>
+
 </div>
 
 <script>
-const puntos = parseInt(localStorage.getItem("puntuacion")) || 0;
-const texto = document.getElementById("texto");
 
+let dinero = parseInt(localStorage.getItem("dinero")) || 0;
+let ingresos = parseInt(localStorage.getItem("ingresos")) || 0;
+
+let score = dinero + ingresos * 2;
+
+let nivel = "";
 let mensaje = "";
+let progreso = 0;
 
-if(puntos <= 2){
-    mensaje = "Necesitas mejorar tu organización financiera. Empieza controlando gastos.";
+if(score < 1000){
+  nivel="Nivel Inicial";
+  mensaje="Estás empezando. Aprende a ahorrar e invertir poco a poco.";
+  progreso=25;
 }
-else if(puntos <= 4){
-    mensaje = "Vas por buen camino, pero puedes optimizar ahorro e ingresos.";
+else if(score < 5000){
+  nivel="Nivel Medio";
+  mensaje="Buen camino. Podrías mejorar optimizando gastos.";
+  progreso=55;
+}
+else if(score < 15000){
+  nivel="Nivel Avanzado";
+  mensaje="Tienes ventaja financiera respecto a la media.";
+  progreso=80;
 }
 else{
-    mensaje = "Excelente mentalidad financiera. Estás listo para invertir y crecer.";
+  nivel="Nivel Élite";
+  mensaje="Perfil financiero muy fuerte para tu edad.";
+  progreso=100;
 }
 
-texto.innerText = mensaje;
+document.getElementById("nivel").innerText=nivel;
+document.getElementById("mensaje").innerText=mensaje;
+document.getElementById("barra").style.width=progreso+"%";
 
-function volver(){
-    window.location.href = "index.html";
-}
 </script>
 
 </body>
