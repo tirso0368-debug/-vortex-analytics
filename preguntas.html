@@ -1,23 +1,103 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>VORTEX</title>
+<title>VORTEX — Evaluación</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:#0b0f1a;
+    color:white;
+}
+
+.container{
+    max-width:600px;
+    margin:auto;
+    padding:40px;
+}
+
+h1{
+    text-align:center;
+}
+
+.question{
+    margin-top:30px;
+}
+
+select{
+    width:100%;
+    padding:12px;
+    border-radius:8px;
+    border:none;
+    margin-top:10px;
+}
+
+button{
+    margin-top:30px;
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:8px;
+    background:linear-gradient(90deg,#4facfe,#00f2fe);
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+</style>
 </head>
 
-<body style="background:black;color:white;font-family:sans-serif;text-align:center;padding-top:100px">
+<body>
 
-<h1>Bienvenido a VORTEX</h1>
-<p>Has entrado correctamente 🚀</p>
+<div class="container">
 
-<button onclick="terminar()" 
-style="margin-top:30px;padding:15px 30px;font-size:18px;background:#2563eb;color:white;border:none;border-radius:8px;cursor:pointer;">
-Ver resultados
-</button>
+<h1>Evaluación Financiera</h1>
+
+<div class="question">
+<label>¿Cuánto dinero ahorras al mes?</label>
+<select id="ahorro">
+<option value="0">Nada</option>
+<option value="1">Menos de 50€</option>
+<option value="2">50€ - 200€</option>
+<option value="3">Más de 200€</option>
+</select>
+</div>
+
+<div class="question">
+<label>¿Tienes ingresos propios?</label>
+<select id="ingresos">
+<option value="0">No</option>
+<option value="1">A veces</option>
+<option value="2">Sí</option>
+</select>
+</div>
+
+<div class="question">
+<label>¿Sabes invertir?</label>
+<select id="invertir">
+<option value="0">No</option>
+<option value="1">Un poco</option>
+<option value="2">Sí</option>
+</select>
+</div>
+
+<button onclick="continuar()">Ver análisis</button>
+
+</div>
 
 <script>
-function terminar(){
-    window.location.href = "./analisis.html";
+function continuar(){
+
+    const ahorro = parseInt(document.getElementById("ahorro").value);
+    const ingresos = parseInt(document.getElementById("ingresos").value);
+    const invertir = parseInt(document.getElementById("invertir").value);
+
+    const total = ahorro + ingresos + invertir;
+
+    localStorage.setItem("resultadoVortex", total);
+
+    window.location.href = "analisis.html";
 }
 </script>
 
