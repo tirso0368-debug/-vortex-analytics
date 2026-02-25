@@ -75,7 +75,7 @@ line-height:1.6;
 ✅ Mejorar tu rendimiento académico
 </div>
 
-<form action="https://formspree.io/f/mdalboda" method="POST">
+<form id="registro-form">
 
 <input type="text" name="nombre" placeholder="Nombre" required>
 
@@ -83,7 +83,7 @@ line-height:1.6;
 
 <input type="password" name="password" placeholder="Contraseña" required>
 
-<input type="hidden" name="_redirect" value="https://tirso0368-debug.github.io/vortex-analytics/resultado.html">
+
 
 <button type="submit">Crear cuenta gratuita</button>
 
@@ -103,6 +103,24 @@ window.location.href = "dashboard.html";
 
 }
 </script>
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
+<script>
+(function(){
+  emailjs.init("vKMNiPqmaCvct9MaR");
+})();
+
+document.getElementById("registro-form").addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  emailjs.sendForm("service_eo3z01f", "template_gs7b0xt", this)
+    .then(function() {
+      alert("✅ Mensaje enviado correctamente");
+    }, function(error) {
+      alert("❌ Error al enviar");
+      console.log(error);
+    });
+});
+</script>
 </body>
                                    </html>
