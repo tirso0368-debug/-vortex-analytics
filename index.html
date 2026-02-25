@@ -4,88 +4,99 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>VORTEX — Sistema de Análisis</title>
+<title>VORTEX — Análisis Académico</title>
 
 <style>
 
 body{
     margin:0;
-    font-family: 'Segoe UI', sans-serif;
-    background: radial-gradient(circle at 20% 20%, #0f172a, #020617);
-    color:white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg,#0f172a,#1e293b,#312e81);
+    height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
-    height:100vh;
+    color:white;
 }
+
+/* Contenedor principal */
 
 .container{
     width:90%;
-    max-width:600px;
-    background: rgba(15,23,42,0.6);
-    backdrop-filter: blur(20px);
-    border-radius:20px;
+    max-width:520px;
     padding:40px;
-    box-shadow:0 0 40px rgba(0,0,0,0.6);
+    border-radius:20px;
+
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(20px);
+
+    box-shadow:
+        0 10px 40px rgba(0,0,0,0.4),
+        inset 0 0 0 1px rgba(255,255,255,0.05);
+
     text-align:center;
-    animation:fade 1s ease;
+
+    animation: aparecer 1s ease;
 }
 
-@keyframes fade{
-    from{opacity:0; transform:translateY(20px);}
-    to{opacity:1; transform:translateY(0);}
+@keyframes aparecer{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 }
+
+/* Logo */
 
 .logo{
-    font-size:14px;
-    letter-spacing:3px;
-    opacity:0.7;
-    margin-bottom:20px;
-}
-
-h1{
-    font-size:32px;
-    margin-bottom:15px;
-}
-
-.subtitle{
-    opacity:0.8;
-    margin-bottom:25px;
-    line-height:1.5;
-}
-
-.features{
-    text-align:left;
-    margin:30px 0;
-    opacity:0.9;
-}
-
-.features div{
+    font-size:28px;
+    font-weight:bold;
+    letter-spacing:2px;
     margin-bottom:10px;
 }
 
+/* Subtitulo */
+
+.subtitle{
+    opacity:0.8;
+    margin-bottom:30px;
+    line-height:1.5;
+}
+
+/* Botón */
+
 button{
-    width:100%;
-    padding:18px;
+    background: linear-gradient(135deg,#6366f1,#8b5cf6);
     border:none;
+    padding:16px 28px;
     border-radius:12px;
-    font-size:18px;
-    font-weight:bold;
-    cursor:pointer;
-    background:linear-gradient(90deg,#6366f1,#06b6d4);
+    font-size:16px;
     color:white;
+    cursor:pointer;
+    font-weight:600;
     transition:0.3s;
 }
 
 button:hover{
-    transform:scale(1.05);
-    box-shadow:0 0 20px rgba(99,102,241,0.6);
+    transform:translateY(-2px);
+    box-shadow:0 10px 25px rgba(99,102,241,0.4);
 }
 
-.footer{
-    margin-top:25px;
-    font-size:12px;
-    opacity:0.6;
+/* Features */
+
+.features{
+    margin-top:30px;
+    text-align:left;
+    opacity:0.85;
+    font-size:14px;
+}
+
+.features div{
+    margin-bottom:8px;
 }
 
 </style>
@@ -95,32 +106,28 @@ button:hover{
 
 <div class="container">
 
-<div class="logo">VORTEX SYSTEM</div>
+    <div class="logo">VORTEX</div>
 
-<h1>Descubre tu potencial real</h1>
+    <p class="subtitle">
+        Descubre tu perfil académico real mediante análisis conductual avanzado.
+        Obtén un diagnóstico preciso y un plan de mejora personalizado.
+    </p>
 
-<div class="subtitle">
-Analizamos tu mentalidad, hábitos y rendimiento para crear un perfil de mejora personalizado.
-</div>
+    <button onclick="empezar()">
+        Empezar Análisis
+    </button>
 
-<div class="features">
-<div>⚡ Análisis psicológico y académico</div>
-<div>📊 Perfil de rendimiento real</div>
-<div>🎯 Plan personalizado de mejora</div>
-<div>🚀 Optimización de hábitos</div>
-</div>
-
-<button onclick="start()">Iniciar análisis</button>
-
-<div class="footer">
-© VORTEX — Human Performance System
-</div>
+    <div class="features">
+        <div>✔ Análisis inteligente</div>
+        <div>✔ Resultados personalizados</div>
+        <div>✔ Plan de mejora adaptado</div>
+    </div>
 
 </div>
 
 <script>
 
-function start(){
+function empezar(){
     window.location.href = "modulo1.html";
 }
 
