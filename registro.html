@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>VORTEX — Registro</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background:linear-gradient(135deg,#0f172a,#1e293b);
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.card{
+background:rgba(255,255,255,0.05);
+padding:40px;
+border-radius:20px;
+width:350px;
+backdrop-filter:blur(10px);
+box-shadow:0 0 40px rgba(0,0,0,0.3);
+}
+
+h1{
+text-align:center;
+margin-bottom:20px;
+}
+
+input{
+width:100%;
+padding:12px;
+margin:10px 0;
+border-radius:10px;
+border:none;
+outline:none;
+}
+
+button{
+width:100%;
+padding:14px;
+margin-top:15px;
+border:none;
+border-radius:12px;
+background:linear-gradient(90deg,#6366f1,#06b6d4);
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+opacity:0.9;
+}
+
+.benefits{
+font-size:14px;
+margin-bottom:15px;
+line-height:1.6;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<h1>Desbloquea tu perfil VORTEX</h1>
+
+<div class="benefits">
+✅ Guardar tu progreso<br>
+✅ Acceder a tu plan personalizado<br>
+✅ Mejorar tu rendimiento académico
+</div>
+
+<input type="text" placeholder="Nombre">
+<input type="email" placeholder="Email">
+<input type="password" placeholder="Contraseña">
+
+<button onclick="crearCuenta()">Crear cuenta gratuita</button>
+
+</div>
+
+<script>
+function crearCuenta(){
+
+alert("Cuenta creada correctamente 🚀");
+
+// luego iremos al dashboard
+window.location.href = "dashboard.html";
+
+}
+</script>
+
+</body>
+                                   </html>
