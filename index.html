@@ -4,71 +4,152 @@
 <meta charset="UTF-8">
 <title>VORTEX</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
 <style>
-body {
-  margin:0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg,#0f172a,#020617);
-  color:white;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
-.container {
-  text-align:center;
-  max-width:500px;
+body{
+font-family:'Inter',sans-serif;
+background: radial-gradient(circle at 30% 20%, #0b1120, #020617 60%);
+color:white;
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+overflow:hidden;
 }
 
-h1 {
-  font-size:42px;
-  margin-bottom:10px;
+/* fondo glow */
+body::before{
+content:"";
+position:absolute;
+width:600px;
+height:600px;
+background: radial-gradient(circle, rgba(99,102,241,0.25), transparent 70%);
+filter: blur(120px);
+top:-100px;
+left:-100px;
 }
 
-.gradient {
-  background: linear-gradient(90deg,#38bdf8,#22c55e);
-  -webkit-background-clip:text;
-  color:transparent;
+/* contenedor */
+.container{
+max-width:1000px;
+text-align:center;
+padding:40px;
+z-index:2;
 }
 
-p {
-  opacity:0.8;
-  margin-bottom:30px;
+/* logo */
+.logo{
+font-size:14px;
+letter-spacing:6px;
+opacity:0.6;
+margin-bottom:30px;
 }
 
-button {
-  padding:15px 30px;
-  border:none;
-  border-radius:12px;
-  font-size:16px;
-  cursor:pointer;
-  background:linear-gradient(90deg,#38bdf8,#22c55e);
-  color:white;
-  font-weight:bold;
-  transition:0.3s;
+/* titulo brutal */
+h1{
+font-size:72px;
+font-weight:800;
+background: linear-gradient(90deg,#6366f1,#8b5cf6,#22d3ee);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
 }
 
-button:hover {
-  transform:scale(1.05);
+/* subtitulo */
+.subtitle{
+font-size:24px;
+margin-top:20px;
+opacity:0.9;
 }
+
+/* descripcion */
+.desc{
+margin-top:25px;
+font-size:18px;
+opacity:0.6;
+line-height:1.6;
+}
+
+/* boton */
+button{
+margin-top:45px;
+padding:18px 46px;
+font-size:18px;
+font-weight:600;
+border:none;
+border-radius:16px;
+cursor:pointer;
+color:white;
+background: linear-gradient(90deg,#6366f1,#8b5cf6);
+box-shadow:0 0 30px rgba(99,102,241,0.6);
+transition:0.35s;
+}
+
+button:hover{
+transform:scale(1.07);
+box-shadow:0 0 60px rgba(139,92,246,0.9);
+}
+
+/* stats */
+.stats{
+margin-top:50px;
+display:flex;
+justify-content:center;
+gap:40px;
+opacity:0.7;
+font-size:14px;
+}
+
+.footer{
+position:absolute;
+bottom:20px;
+width:100%;
+text-align:center;
+font-size:13px;
+opacity:0.4;
+}
+
 </style>
 </head>
 
 <body>
 
 <div class="container">
-  <h1>VORTEX</h1>
-  <h1 class="gradient">Domina tu dinero antes</h1>
 
-  <p>
-    Análisis financiero inteligente para estudiantes.
-    Descubre tu nivel económico y cómo mejorar.
-  </p>
+<div class="logo">VORTEX SYSTEM</div>
 
-  <button onclick="location.href='preguntas.html'">
-    Empezar análisis
-  </button>
+<h1>Optimiza tu futuro.</h1>
+
+<div class="subtitle">
+El primer sistema de análisis de rendimiento para estudiantes.
+</div>
+
+<div class="desc">
+Detecta tu potencial real, identifica lo que te frena y recibe un plan personalizado
+basado en tu perfil mental, hábitos y objetivos.
+</div>
+
+<a href="test.html">
+<button>Iniciar análisis</button>
+</a>
+
+<div class="stats">
+<div>⚡ 2 minutos</div>
+<div>🧠 Perfil inteligente</div>
+<div>📈 Mejora real</div>
+</div>
+
+</div>
+
+<div class="footer">
+© VORTEX — Human Performance System
 </div>
 
 </body>
