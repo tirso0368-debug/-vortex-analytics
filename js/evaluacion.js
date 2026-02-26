@@ -1,6 +1,6 @@
 import { auth } from "./firebase.js";
 import { db } from "./firebase.js";
-import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 window.finalizarTest = async function () {
 
@@ -12,37 +12,52 @@ window.finalizarTest = async function () {
     return;
   }
 
-  const q1 = document.querySelector('input[name="q1"]:checked');
-  const q2 = document.querySelector('input[name="q2"]:checked');
-  const q3 = document.querySelector('input[name="q3"]:checked');
+  let respuestas = [];
 
-  if (!q1 || !q2 || !q3) {
-    alert("Responde todas las preguntas");
-    return;
+  for (let i = 1; i <= 12; i++) {
+    const seleccion = document.querySelector(`input[name="q${i}"]:checked`);
+    if (!seleccion) {
+      alert("Responde todas las preguntas");
+      return;
+    }
+    respuestas.push(parseInt(seleccion.value));
   }
 
-  let analitico = 0;
-  let creativo = 0;
+  // Dimensiones
+  const disciplina = respuestas[0] + respuestas[1] + respuestas[2];
+  const enfoque = respuestas[3] + respuestas[4] + respuestas[5];
+  const estrategia = respuestas[6] + respuestas[7] + respuestas[8];
+  const ejecucion = respuestas[9] + respuestas[10] + respuestas[11];
 
-  [q1, q2, q3].forEach(q => {
-    if (q.value === "analitico") analitico++;
-    if (q.value === "creativo") creativo++;
-  });
+  const convertir = (score) => Math.round((score / 15) * 100);
 
-  const resultado = analitico > creativo ? "Analítico" : "Creativo";
+  const perfil = {
+    disciplina: convertir(disciplina),
+    enfoque: convertir(enfoque),
+    estrategia: convertir(estrategia),
+    ejecucion: convertir(ejecucion)
+  };
+
+  const scoreGlobal = Math.round(
+    (perfil.disciplina +
+     perfil.enfoque +
+     perfil.estrategia +
+     perfil.ejecucion) / 4
+  );
 
   try {
     await setDoc(doc(db, "resultados", user.uid), {
       email: user.email,
-      resultado: resultado,
+      perfil: perfil,
+      scoreGlobal: scoreGlobal,
       fecha: new Date()
     });
 
-    alert("Evaluación guardada correctamente");
+    alert("Evaluación completada correctamente");
     window.location.href = "dashboard.html";
 
   } catch (error) {
     console.error(error);
-    alert("Error guardando resultado");
+    alert("Error guardando resultados");
   }
 };
