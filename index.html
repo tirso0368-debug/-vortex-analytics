@@ -2,126 +2,198 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>VORTEX</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VORTEX</title>
 
 <style>
-* {
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
 }
 
-body {
-  background:#ffffff;
-  color:#111;
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
+body{
+background:#ffffff;
+color:#111827;
+min-height:100vh;
+display:flex;
+flex-direction:column;
 }
 
-header {
-  padding:20px 40px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+/* HEADER */
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 60px;
 }
 
-.logo {
-  font-weight:600;
-  font-size:20px;
-  letter-spacing:2px;
+.logo{
+font-weight:600;
+font-size:20px;
+letter-spacing:2px;
 }
 
-.hero {
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  padding:40px;
+.login-btn{
+background:none;
+border:1px solid #2563EB;
+color:#2563EB;
+padding:8px 18px;
+border-radius:6px;
+cursor:pointer;
+transition:0.3s;
 }
 
-.hero h1 {
-  font-size:48px;
-  font-weight:600;
-  margin-bottom:20px;
-  max-width:800px;
+.login-btn:hover{
+background:#2563EB;
+color:white;
 }
 
-.hero p {
-  font-size:18px;
-  color:#555;
-  max-width:600px;
-  margin-bottom:40px;
+/* HERO */
+
+.hero{
+flex:1;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:40px;
 }
 
-.btn-primary {
-  padding:14px 28px;
-  font-size:16px;
-  border:none;
-  background:#111;
-  color:white;
-  cursor:pointer;
-  border-radius:6px;
-  transition:0.3s;
+.hero h1{
+font-size:48px;
+max-width:850px;
+margin-bottom:20px;
+font-weight:600;
 }
 
-.btn-primary:hover {
-  background:#333;
+.hero p{
+font-size:18px;
+color:#6B7280;
+max-width:600px;
+margin-bottom:40px;
+}
+
+.cta{
+background:#2563EB;
+color:white;
+padding:14px 28px;
+border:none;
+border-radius:8px;
+font-size:16px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.cta:hover{
+background:#1E40AF;
+}
+
+/* METRICS */
+
+.metrics{
+display:flex;
+justify-content:center;
+gap:60px;
+padding:60px 20px;
+border-top:1px solid #eee;
+}
+
+.metric{
+text-align:center;
+}
+
+.metric h2{
+font-size:32px;
+color:#2563EB;
+margin-bottom:10px;
+}
+
+.metric p{
+color:#6B7280;
+font-size:14px;
 }
 
 /* MODAL */
 
-.modal {
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.4);
-  display:none;
-  justify-content:center;
-  align-items:center;
+.modal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.4);
+backdrop-filter:blur(6px);
+display:none;
+justify-content:center;
+align-items:center;
+animation:fadeIn 0.3s ease;
 }
 
-.modal-content {
-  background:white;
-  padding:40px;
-  border-radius:10px;
-  width:320px;
-  display:flex;
-  flex-direction:column;
-  gap:15px;
+.modal-content{
+background:white;
+padding:40px;
+border-radius:12px;
+width:350px;
+display:flex;
+flex-direction:column;
+gap:15px;
+box-shadow:0 20px 40px rgba(0,0,0,0.1);
 }
 
-.modal-content input {
-  padding:10px;
-  border:1px solid #ddd;
-  border-radius:6px;
+.modal-content h3{
+text-align:center;
+margin-bottom:10px;
 }
 
-.modal-content button {
-  padding:10px;
-  border:none;
-  background:#111;
-  color:white;
-  border-radius:6px;
-  cursor:pointer;
+.modal-content input{
+padding:12px;
+border:1px solid #ddd;
+border-radius:6px;
+font-size:14px;
 }
 
-.close {
-  position:absolute;
-  top:20px;
-  right:30px;
-  font-size:22px;
-  cursor:pointer;
+.primary{
+background:#2563EB;
+color:white;
+border:none;
+padding:12px;
+border-radius:6px;
+cursor:pointer;
+transition:0.3s;
 }
 
-footer {
-  padding:20px;
-  text-align:center;
-  font-size:12px;
-  color:#888;
+.primary:hover{
+background:#1E40AF;
+}
+
+.secondary{
+background:none;
+border:none;
+color:#2563EB;
+cursor:pointer;
+font-size:14px;
+}
+
+.close{
+position:absolute;
+top:25px;
+right:35px;
+font-size:22px;
+cursor:pointer;
+color:white;
+}
+
+footer{
+text-align:center;
+padding:20px;
+font-size:12px;
+color:#9CA3AF;
+}
+
+@keyframes fadeIn{
+from{opacity:0;}
+to{opacity:1;}
 }
 </style>
 </head>
@@ -129,38 +201,58 @@ footer {
 <body>
 
 <header>
-  <div class="logo">VORTEX</div>
+<div class="logo">VORTEX</div>
+<button class="login-btn" onclick="openModal()">Iniciar sesión</button>
 </header>
 
 <section class="hero">
-  <h1>Optimiza tu rendimiento académico con datos reales.</h1>
-  <p>Analiza tu disciplina, enfoque y ejecución con métricas reales.</p>
-  <button class="btn-primary" onclick="abrirModal()">Comenzar</button>
+<h1>Sistema de optimización académica basado en métricas conductuales.</h1>
+<p>Analiza disciplina, enfoque y ejecución para generar un perfil cuantificable de rendimiento.</p>
+<button class="cta" onclick="openModal()">Comenzar evaluación</button>
+</section>
+
+<section class="metrics">
+<div class="metric">
+<h2>2 min</h2>
+<p>Evaluación rápida</p>
+</div>
+
+<div class="metric">
+<h2>4 métricas</h2>
+<p>Modelo conductual</p>
+</div>
+
+<div class="metric">
+<h2>100%</h2>
+<p>Resultados personalizados</p>
+</div>
 </section>
 
 <div class="modal" id="modal">
-  <div class="modal-content">
-    <input type="email" id="email" placeholder="Correo">
-    <input type="password" id="password" placeholder="Contraseña">
-    <button onclick="login()">Entrar</button>
-    <button onclick="register()">Crear cuenta</button>
-  </div>
-  <div class="close" onclick="cerrarModal()">✕</div>
+<div class="modal-content">
+<h3>Acceder a VORTEX</h3>
+<input type="email" id="email" placeholder="Correo electrónico">
+<input type="password" id="password" placeholder="Contraseña">
+<button class="primary" onclick="login()">Entrar</button>
+<button class="secondary" onclick="register()">Crear cuenta</button>
+</div>
+<div class="close" onclick="closeModal()">✕</div>
 </div>
 
 <footer>
 © 2026 VORTEX Analytics
 </footer>
 
+<script type="module" src="firebase.js"></script>
 <script type="module" src="auth.js"></script>
 
 <script>
-function abrirModal(){
-  document.getElementById("modal").style.display="flex";
+function openModal(){
+document.getElementById("modal").style.display="flex";
 }
 
-function cerrarModal(){
-  document.getElementById("modal").style.display="none";
+function closeModal(){
+document.getElementById("modal").style.display="none";
 }
 </script>
 
