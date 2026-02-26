@@ -186,8 +186,12 @@ texto="No te preocupes. Detectamos puntos clave que, si se trabajan correctament
 
 }
 
-document.getElementById("level").innerText=nivel;
-document.getElementById("desc").innerText=texto;
+
+  document.getElementById("level").innerText = nivel;
+document.getElementById("desc").innerText = texto;
+
+localStorage.setItem("perfil_usuario", nivel);
+localStorage.setItem("descripcion_usuario", texto);
 
 }
 
