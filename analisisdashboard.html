@@ -6,49 +6,59 @@
 
 <style>
 body{
-  margin:0;
-  font-family:Arial;
-  display:flex;
-  background:#0f172a;
-  color:white;
+margin:0;
+font-family:Inter, sans-serif;
+background:#0b1020;
+color:white;
+display:flex;
+height:100vh;
 }
 
 .sidebar{
-  width:220px;
-  background:#1e293b;
-  height:100vh;
-  padding:20px;
+width:230px;
+background:#11182e;
+padding:25px;
 }
 
 .sidebar h2{
-  color:#7b2cff;
+color:#a855f7;
+margin-bottom:30px;
 }
 
 .sidebar button{
-  width:100%;
-  margin:10px 0;
-  padding:10px;
-  background:#334155;
-  border:none;
-  color:white;
-  border-radius:8px;
-  cursor:pointer;
+width:100%;
+margin:10px 0;
+padding:12px;
+border:none;
+border-radius:10px;
+background:#1f2947;
+color:white;
+cursor:pointer;
+transition:.3s;
 }
 
 .sidebar button:hover{
-  background:#475569;
+background:#2d3a66;
 }
 
 .content{
-  flex:1;
-  padding:40px;
+flex:1;
+padding:50px;
 }
 
 .card{
-  background:#1e293b;
-  padding:25px;
-  border-radius:12px;
-  margin-bottom:20px;
+background:#12182f;
+padding:35px;
+border-radius:18px;
+box-shadow:0 0 40px rgba(123,44,255,.3);
+max-width:700px;
+}
+
+.center{
+display:flex;
+justify-content:center;
+align-items:center;
+height:100%;
 }
 </style>
 </head>
@@ -57,9 +67,9 @@ body{
 
 <div class="sidebar">
 <h2>VORTEX</h2>
-<button onclick="mostrarSeccion('inicio')">Inicio</button>
-<button onclick="mostrarSeccion('plan')">Plan</button>
-<button onclick="mostrarSeccion('progreso')">Progreso</button>
+<button onclick="mostrar('inicio')">Inicio</button>
+<button onclick="mostrar('plan')">Plan</button>
+<button onclick="mostrar('progreso')">Progreso</button>
 <button onclick="reiniciar()">Reiniciar Perfil</button>
 </div>
 
@@ -67,49 +77,83 @@ body{
 
 <script>
 
-const perfil = localStorage.getItem("perfil");
 const contenido = document.getElementById("contenido");
+const evaluacionCompleta = localStorage.getItem("evaluacion_completa");
+const perfil = localStorage.getItem("perfil");
 
-if(!perfil){
-contenido.innerHTML=`
-<h1>🔓 Acceso Bloqueado</h1>
-<p>Necesitas completar el Test Avanzado.</p>
-<button onclick="window.location.href='evaluacion.html'">Hacer Test</button>
+if(evaluacionCompleta !== "si"){
+mostrarPantallaBloqueo();
+}else{
+mostrar("inicio");
+}
+
+function mostrarPantallaBloqueo(){
+contenido.innerHTML = `
+<div class="center">
+<div class="card">
+<h1>🔒 Dashboard Bloqueado</h1>
+<p>Para activar tu sistema personalizado necesitamos completar
+una evaluación cognitiva avanzada.</p>
+<br>
+<button onclick="window.location.href='evaluacion.html'"
+style="padding:14px 24px;background:#7b2cff;border:none;border-radius:10px;color:white;cursor:pointer;">
+Comenzar Evaluación
+</button>
+</div>
+</div>
 `;
 }
 
-function mostrarSeccion(seccion){
+function mostrar(seccion){
+
+if(evaluacionCompleta !== "si"){
+mostrarPantallaBloqueo();
+return;
+}
 
 if(seccion==="inicio"){
 
 if(perfil==1){
-contenido.innerHTML=`<div class="card"><h1>📊 Estratégico</h1><p>Planificación estructurada semanal.</p></div>`;
+contenido.innerHTML=`<div class="card">
+<h1>📊 Perfil Estratégico</h1>
+<p>Sistema optimizado para planificación estructurada.</p>
+</div>`;
 }
 else if(perfil==2){
-contenido.innerHTML=`<div class="card"><h1>⚡ Productivo</h1><p>Bloques intensivos y retos diarios.</p></div>`;
+contenido.innerHTML=`<div class="card">
+<h1>⚡ Perfil Intensivo</h1>
+<p>Bloques de alto rendimiento y presión controlada.</p>
+</div>`;
 }
 else{
-contenido.innerHTML=`<div class="card"><h1>🎨 Creativo</h1><p>Rotación dinámica y mapas mentales.</p></div>`;
+contenido.innerHTML=`<div class="card">
+<h1>🎨 Perfil Creativo</h1>
+<p>Rotación dinámica y estímulo cognitivo variable.</p>
+</div>`;
 }
 
 }
 
 if(seccion==="plan"){
-contenido.innerHTML=`<div class="card"><h2>📅 Plan Personalizado</h2><p>Tu sistema adaptado al perfil ${perfil}</p></div>`;
+contenido.innerHTML=`<div class="card">
+<h2>📅 Plan Personalizado</h2>
+<p>Tu sistema adaptado según tu perfil ${perfil}.</p>
+</div>`;
 }
 
 if(seccion==="progreso"){
-contenido.innerHTML=`<div class="card"><h2>📈 Métricas</h2><p>Seguimiento en construcción.</p></div>`;
+contenido.innerHTML=`<div class="card">
+<h2>📈 Métricas</h2>
+<p>Seguimiento avanzado en desarrollo.</p>
+</div>`;
 }
 
 }
 
 function reiniciar(){
-localStorage.removeItem("perfil");
+localStorage.clear();
 location.reload();
 }
-
-mostrarSeccion("inicio");
 
 </script>
 
