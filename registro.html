@@ -90,18 +90,12 @@ line-height:1.6;
 </form>
 
 
-
-</div>
-
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
-    (function(){
-        emailjs.init("n4uT_9fvDQC9y5eoW");
-    })();
+    emailjs.init("n4uT_9fvDQC9y5eoW"); // tu public key
 
     document.getElementById("registro-form").addEventListener("submit", function(event) {
         event.preventDefault();
@@ -110,24 +104,31 @@ document.addEventListener("DOMContentLoaded", function () {
         var email = document.getElementById("email").value;
         var password = document.getElementById("password").value;
 
+        // Guardar en localStorage
         localStorage.setItem("nombreUsuario", nombre);
         localStorage.setItem("emailUsuario", email);
 
+        // Enviar email
         emailjs.send("service_aksfq65", "template_gs7boxt", {
-    name: nombre,
-    email: email,
-    password: password
-})
-        .then(function() {
+            name: nombre,
+            email: email,
+            password: password
+        })
+        .then(function(response) {
+            console.log("Email enviado ✅", response);
             window.location.href = "dashboard.html";
         }, function(error) {
-            alert("Error al enviar");
-            console.log(error);
+            console.log("Error ❌", error);
+            alert("Error al enviar correo");
         });
 
     });
 
 });
-</script>
+
+
+
+<script>
+
 </body>
                                    </html>
