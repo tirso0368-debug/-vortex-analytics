@@ -1,263 +1,218 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>VORTEX | Evaluación Cognitiva</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VORTEX | Evaluación Estratégica</title>
 
 <style>
-*{box-sizing:border-box}
-
 body{
-margin:0;
-font-family:Inter,system-ui,sans-serif;
-background:#0b1020;
-color:white;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
-overflow:hidden;
+  margin:0;
+  font-family:'Segoe UI',sans-serif;
+  background:#0f1117;
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
 }
 
 .container{
-width:720px;
-max-width:92%;
-background:#12182f;
-padding:60px;
-border-radius:22px;
-box-shadow:0 0 80px rgba(123,44,255,.25);
-position:relative;
-overflow:hidden;
+  width:90%;
+  max-width:600px;
+  background:#1a1d26;
+  padding:30px;
+  border-radius:20px;
+  box-shadow:0 0 40px rgba(0,255,200,0.15);
+  text-align:center;
 }
 
-h1,h2{margin:0 0 20px}
-
-p{color:#9ca3af}
-
-.progress{
-height:4px;
-background:#1f2947;
-border-radius:10px;
-margin-bottom:40px;
-overflow:hidden;
+h1{
+  margin-bottom:20px;
+  font-size:22px;
 }
 
-.bar{
-height:100%;
-width:0%;
-background:linear-gradient(90deg,#7b2cff,#a855f7);
-transition:.5s ease;
-}
-
-.option{
-padding:16px;
-margin:14px 0;
-background:#1f2947;
-border-radius:14px;
-cursor:pointer;
-transition:.25s;
-}
-
-.option:hover{
-background:#2d3a66;
-transform:translateY(-2px);
-}
-
-.selected{
-background:#7b2cff !important;
+.question{
+  margin:20px 0;
 }
 
 button{
-margin-top:30px;
-padding:14px 28px;
-border:none;
-border-radius:12px;
-background:#7b2cff;
-color:white;
-font-weight:600;
-cursor:pointer;
-transition:.3s;
+  width:100%;
+  padding:12px;
+  margin:8px 0;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:bold;
+  transition:0.2s;
 }
 
-button:hover{
-background:#9f67ff;
+.option{
+  background:#252a36;
+  color:white;
+}
+
+.option:hover{
+  background:#00ffc8;
+  color:black;
 }
 
 .hidden{
-display:none;
+  display:none;
 }
 
-.log{
-margin-top:40px;
-font-size:14px;
-color:#9ca3af;
-line-height:1.8;
-min-height:150px;
+.loader{
+  font-size:18px;
+  animation:pulse 1.5s infinite;
 }
 
-.status-title{
-margin-bottom:30px;
+@keyframes pulse{
+  0%{opacity:0.4;}
+  50%{opacity:1;}
+  100%{opacity:0.4;}
 }
-
 </style>
 </head>
 
 <body>
 
-<div class="container" id="app">
+<div class="container">
 
-<!-- INTRO -->
-<div id="intro">
-<h1>Evaluación Cognitiva Avanzada</h1>
-<p>Este proceso analizará tu arquitectura de estudio y generará un sistema personalizado.</p>
-<button onclick="iniciar()">Iniciar Evaluación</button>
-</div>
+  <div id="loadingScreen">
+    <div class="loader">Analizando perfil estratégico...</div>
+  </div>
 
-<!-- TEST -->
-<div id="test" class="hidden">
-<div class="progress"><div class="bar" id="bar"></div></div>
-<h2 id="question"></h2>
-<div id="answers"></div>
-<button onclick="next()">Continuar</button>
-</div>
-
-<!-- ANALISIS -->
-<div id="analisis" class="hidden">
-<h2 class="status-title" id="statusTitle">Inicializando Motor Cognitivo</h2>
-<div class="progress"><div class="bar" id="analysisBar"></div></div>
-<div class="log" id="log"></div>
-</div>
+  <div id="quizScreen" class="hidden">
+    <h1 id="questionText"></h1>
+    <div id="optionsContainer"></div>
+  </div>
 
 </div>
 
-<script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-const preguntas=[
-{
-q:"Cuando enfrentas un examen importante...",
-a:[
-{text:"Planifico cada fase con precisión",v:1},
-{text:"Trabajo en bloques intensivos",v:2},
-{text:"Adapto según inspiración",v:3}
-]
-},
-{
-q:"Tu rendimiento aumenta cuando...",
-a:[
-{text:"Existe estructura clara",v:1},
-{text:"Hay presión controlada",v:2},
-{text:"Hay estímulo y variación",v:3}
-]
-},
-{
-q:"Tu mayor fricción mental es...",
-a:[
-{text:"Desorganización",v:1},
-{text:"Pérdida de constancia",v:2},
-{text:"Distracciones",v:3}
-]
-},
-{
-q:"Prefieres estudiar en...",
-a:[
-{text:"Ambiente estructurado",v:1},
-{text:"Entornos intensos",v:2},
-{text:"Entornos flexibles",v:3}
-]
-}
-];
-
-let actual=0;
-let puntos={1:0,2:0,3:0};
-let seleccion=null;
-
-function iniciar(){
-document.getElementById("intro").classList.add("hidden");
-document.getElementById("test").classList.remove("hidden");
-render();
-}
-
-function render(){
-let p=preguntas[actual];
-document.getElementById("question").innerText=p.q;
-let cont=document.getElementById("answers");
-cont.innerHTML="";
-
-p.a.forEach(op=>{
-let div=document.createElement("div");
-div.className="option";
-div.innerText=op.text;
-div.onclick=()=>{
-document.querySelectorAll(".option").forEach(o=>o.classList.remove("selected"));
-div.classList.add("selected");
-seleccion=op.v;
+const firebaseConfig = {
+  apiKey: "AIzaSyCSa3xZ2iKtvnPaXeNQMluaoa27iiOEyeM",
+  authDomain: "vortex-app-c8b00.firebaseapp.com",
+  projectId: "vortex-app-c8b00",
+  storageBucket: "vortex-app-c8b00.firebasestorage.app",
+  messagingSenderId: "174144803653",
+  appId: "1:174144803653:web:eeb421bd5770ee1f69a42c"
 };
-cont.appendChild(div);
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+let currentUser = null;
+
+onAuthStateChanged(auth, async (user)=>{
+  if(!user){
+    window.location.href="login.html";
+  }else{
+    currentUser = user;
+    const ref = doc(db,"users",user.uid);
+    const snap = await getDoc(ref);
+
+    if(snap.exists() && snap.data().evaluationCompleted){
+      window.location.href="analisisdashboard.html";
+    }else{
+      startQuiz();
+    }
+  }
 });
 
-document.getElementById("bar").style.width=(actual/preguntas.length)*100+"%";
-}
-
-function next(){
-if(!seleccion){alert("Selecciona una opción");return;}
-puntos[seleccion]++;
-seleccion=null;
-actual++;
-
-if(actual>=preguntas.length){
-analizar();
-return;
-}
-
-render();
-}
-
-function analizar(){
-document.getElementById("test").classList.add("hidden");
-document.getElementById("analisis").classList.remove("hidden");
-
-const pasos=[
-"Validando patrones de respuesta...",
-"Evaluando consistencia cognitiva...",
-"Mapeando estructura de concentración...",
-"Detectando puntos críticos de fricción...",
-"Optimizando arquitectura estratégica...",
-"Asignando modelo personalizado...",
-"Encriptando perfil...",
-"Sincronizando entorno..."
+const questions = [
+  {
+    text:"Cuando enfrentas un reto académico, tú:",
+    options:[
+      {text:"Analizo profundamente antes de actuar",type:"Analítico"},
+      {text:"Actúo rápido y ajusto después",type:"Ejecutor"},
+      {text:"Busco apoyo y colaboro",type:"Colaborativo"}
+    ]
+  },
+  {
+    text:"Tu mayor fortaleza es:",
+    options:[
+      {text:"Estrategia y lógica",type:"Analítico"},
+      {text:"Acción y disciplina",type:"Ejecutor"},
+      {text:"Empatía y comunicación",type:"Colaborativo"}
+    ]
+  },
+  {
+    text:"Prefieres trabajar:",
+    options:[
+      {text:"Solo y concentrado",type:"Analítico"},
+      {text:"Con objetivos claros y presión",type:"Ejecutor"},
+      {text:"En equipo",type:"Colaborativo"}
+    ]
+  }
 ];
 
-const log=document.getElementById("log");
-const bar=document.getElementById("analysisBar");
-let progreso=0;
-let i=0;
+let currentQuestion = 0;
+let respuestas = [];
+let scores = {Analítico:0,Ejecutor:0,Colaborativo:0};
 
-function ejecutar(){
-if(i<pasos.length){
-log.innerHTML+="✓ "+pasos[i]+"<br>";
-progreso+=100/pasos.length;
-bar.style.width=progreso+"%";
-i++;
-setTimeout(ejecutar,650);
-}else{
-document.getElementById("statusTitle").innerText="Perfil Generado Correctamente";
-log.innerHTML+="<br><span style='color:#7b2cff;'>Sistema listo.</span>";
-setTimeout(finalizar,1200);
-}
+function startQuiz(){
+  document.getElementById("loadingScreen").classList.add("hidden");
+  document.getElementById("quizScreen").classList.remove("hidden");
+  showQuestion();
 }
 
-setTimeout(ejecutar,800);
+function showQuestion(){
+  const q = questions[currentQuestion];
+  document.getElementById("questionText").innerText = q.text;
+
+  const container = document.getElementById("optionsContainer");
+  container.innerHTML="";
+
+  q.options.forEach(option=>{
+    const btn = document.createElement("button");
+    btn.className="option";
+    btn.innerText=option.text;
+    btn.onclick=()=>{
+      respuestas.push(option.text);
+      scores[option.type]++;
+      nextQuestion();
+    };
+    container.appendChild(btn);
+  });
 }
 
-function finalizar(){
-let perfil=1;
-if(puntos[2]>puntos[1]&&puntos[2]>puntos[3])perfil=2;
-else if(puntos[3]>puntos[1]&&puntos[3]>puntos[2])perfil=3;
+function nextQuestion(){
+  currentQuestion++;
+  if(currentQuestion<questions.length){
+    showQuestion();
+  }else{
+    finishQuiz();
+  }
+}
 
-localStorage.setItem("perfil",perfil);
-localStorage.setItem("evaluacion_completa","si");
+async function finishQuiz(){
+  document.getElementById("quizScreen").classList.add("hidden");
+  document.getElementById("loadingScreen").classList.remove("hidden");
 
-window.location.href="analisisdashboard.html";
+  let perfilFinal = Object.keys(scores).reduce((a,b)=>scores[a]>scores[b]?a:b);
+
+  const ref = doc(db,"users",currentUser.uid);
+
+  await setDoc(ref,{
+    email:currentUser.email,
+    evaluationCompleted:true,
+    evaluation:{
+      answers:respuestas,
+      scores:scores,
+      profile:perfilFinal,
+      timestamp:new Date()
+    }
+  },{merge:true});
+
+  setTimeout(()=>{
+    window.location.href="analisisdashboard.html";
+  },2000);
 }
 
 </script>
