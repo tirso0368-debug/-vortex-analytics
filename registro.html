@@ -1,32 +1,26 @@
-<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html><html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Resultado Premium</title>
-
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-
-<style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Registro</title><style>
 body{
     margin:0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-    color:white;
+    font-family:Arial, Helvetica, sans-serif;
+    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
-    height:100vh;
+    color:white;
 }
 
 .container{
-    background: rgba(255,255,255,0.08);
-    backdrop-filter: blur(12px);
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(12px);
     padding:40px;
     border-radius:20px;
-    width:360px;
+    width:320px;
     text-align:center;
-    box-shadow:0 0 30px rgba(0,0,0,0.5);
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
 }
 
 h2{
@@ -47,91 +41,43 @@ button{
     padding:12px;
     border:none;
     border-radius:10px;
-    background:linear-gradient(45deg,#00c6ff,#0072ff);
+    background:#4facfe;
     color:white;
-    font-weight:bold;
+    font-size:16px;
     cursor:pointer;
-    transition:0.3s;
+    margin-top:10px;
 }
 
 button:hover{
-    transform:scale(1.05);
+    background:#00c6ff;
 }
+</style></head>
+<body><div class="container"><h2>🔐 Acceso al resultado</h2><form id="loginForm"><input type="text" name="user_name" placeholder="Tu nombre" required><input type="email" name="user_email" placeholder="Tu correo" required><button type="submit">Ver resultado</button>
 
-#resultado{
-    display:none;
-}
-</style>
-</head>
-
-<body>
-
-<div class="container">
-
-    <div id="login">
-        <h2>🔐 Acceso al resultado</h2>
-
-        <input type="text" id="nombre" placeholder="Tu nombre">
-        <input type="email" id="email" placeholder="Tu correo">
-
-        <button onclick="iniciar()">Ver resultado</button>
-    </div>
-
-    <div id="resultado">
-        <h2>🎉 Resultado generado</h2>
-        <p id="mensaje"></p>
-    </div>
-
-</div>
-
-<script>
-
+</form></div><script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script><script>
 (function(){
-emailjs.init("n4uT_9fvDQC9y5eoW");
+    emailjs.init("n4uT_9fvDQC9y5eoW");
 })();
 
-function iniciar(){
+document.getElementById("loginForm").addEventListener("submit", function(e) {
 
-    let nombre = document.getElementById("nombre").value;
-    let email = document.getElementById("email").value;
+    e.preventDefault();
 
-    if(!nombre || !email){
-        alert("Completa los datos");
-        return;
-    }
-
-    document.getElementById("login").style.display="none";
-    document.getElementById("resultado").style.display="block";
-
-    document.getElementById("mensaje").innerHTML =
-        "Hola <b>"+nombre+"</b> ✅<br>Te hemos enviado tu resultado al correo 📩";
-
-    enviarCorreo(nombre,email);
-}
-
-function enviarCorreo(nombre,email){
-
-    let parametros = {
-        user_name: nombre,
-        user_email: email,
-        from_name: "Tirso Gandía"
-    };
-
-    emailjs.send(
+    emailjs.sendForm(
         "service_aksfq65",
-        "template_rb5g2bg",
-        parametros
+        "template_tb274n4",
+        this
     )
-    .then(function(response){
-        console.log("EMAIL ENVIADO", response.status);
-    }, function(error){
-        console.log("ERROR", error);
-        alert("Error enviando correo");
+    .then(function() {
+
+        window.location.href = "resultado.html";
+
+    }, function(error) {
+
+        alert("Error: " + JSON.stringify(error));
+
     });
 
-}
-
-</script>
-
-</body>
+});
+</script></body>
 </html>
