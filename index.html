@@ -1,137 +1,149 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>VORTEX | Performance Intelligence</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>VORTEX — Análisis Académico</title>
-
-<style>
-
-body{
-    margin:0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg,#0f172a,#1e293b,#312e81);
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    color:white;
-}
-
-/* Contenedor principal */
-
-.container{
-    width:90%;
-    max-width:520px;
-    padding:40px;
-    border-radius:20px;
-
-    background: rgba(255,255,255,0.06);
-    backdrop-filter: blur(20px);
-
-    box-shadow:
-        0 10px 40px rgba(0,0,0,0.4),
-        inset 0 0 0 1px rgba(255,255,255,0.05);
-
-    text-align:center;
-
-    animation: aparecer 1s ease;
-}
-
-@keyframes aparecer{
-    from{
-        opacity:0;
-        transform:translateY(20px);
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
-    to{
-        opacity:1;
-        transform:translateY(0);
+
+    body {
+      background: radial-gradient(circle at top, #111827, #000);
+      color: white;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
-}
 
-/* Logo */
+    header {
+      padding: 20px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-.logo{
-    font-size:28px;
-    font-weight:bold;
-    letter-spacing:2px;
-    margin-bottom:10px;
-}
+    .logo {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
 
-/* Subtitulo */
+    .login-btn {
+      padding: 10px 18px;
+      border-radius: 8px;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
 
-.subtitle{
-    opacity:0.8;
-    margin-bottom:30px;
-    line-height:1.5;
-}
+    .login-btn:hover {
+      background: rgba(255,255,255,0.1);
+    }
 
-/* Botón */
+    .hero {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 40px;
+    }
 
-button{
-    background: linear-gradient(135deg,#6366f1,#8b5cf6);
-    border:none;
-    padding:16px 28px;
-    border-radius:12px;
-    font-size:16px;
-    color:white;
-    cursor:pointer;
-    font-weight:600;
-    transition:0.3s;
-}
+    .hero-content {
+      max-width: 800px;
+    }
 
-button:hover{
-    transform:translateY(-2px);
-    box-shadow:0 10px 25px rgba(99,102,241,0.4);
-}
+    h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+      background: linear-gradient(90deg, #6366f1, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-/* Features */
+    p {
+      font-size: 18px;
+      color: #cbd5e1;
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
 
-.features{
-    margin-top:30px;
-    text-align:left;
-    opacity:0.85;
-    font-size:14px;
-}
+    .cta {
+      padding: 16px 36px;
+      font-size: 18px;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(90deg, #6366f1, #8b5cf6);
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
 
-.features div{
-    margin-bottom:8px;
-}
+    .cta:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(139,92,246,0.4);
+    }
 
-</style>
+    .features {
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      padding: 40px;
+      flex-wrap: wrap;
+      color: #94a3b8;
+      font-size: 15px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 13px;
+      color: #64748b;
+    }
+
+  </style>
 </head>
 
 <body>
 
-<div class="container">
+<header>
+  <div class="logo">VORTEX</div>
+  <button class="login-btn" onclick="window.location.href='login.html'">
+    Iniciar sesión
+  </button>
+</header>
 
-    <div class="logo">VORTEX</div>
-
-    <p class="subtitle">
-        Descubre tu perfil académico real mediante análisis conductual avanzado.
-        Obtén un diagnóstico preciso y un plan de mejora personalizado.
+<section class="hero">
+  <div class="hero-content">
+    <h1>Performance Intelligence para estudiantes de alto nivel</h1>
+    <p>
+      VORTEX analiza tu comportamiento académico y genera un plan estratégico
+      personalizado para maximizar tu rendimiento.
     </p>
 
-    <button onclick="empezar()">
-        Empezar Análisis
+    <button class="cta" onclick="window.location.href='evaluacion.html'">
+      Comenzar análisis
     </button>
 
     <div class="features">
-        <div>✔ Análisis inteligente</div>
-        <div>✔ Resultados personalizados</div>
-        <div>✔ Plan de mejora adaptado</div>
+      <div>✔ Análisis conductual avanzado</div>
+      <div>✔ Perfil cognitivo personalizado</div>
+      <div>✔ Plan de mejora accionable</div>
     </div>
+  </div>
+</section>
 
-</div>
-
-<script>
-
-function empezar(){
-    window.location.href = "modulo1.html";
-}
-
-</script>
+<footer>
+  © 2026 VORTEX Analytics. Built for performance.
+</footer>
 
 </body>
 </html>
