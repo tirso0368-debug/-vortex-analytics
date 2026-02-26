@@ -1,49 +1,259 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Evaluación Avanzada | VORTEX</title>
+<meta charset="UTF-8">
+<title>VORTEX | Cognitive Analysis</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+margin:0;
+font-family:Inter, sans-serif;
+background:#0b1020;
+color:white;
+overflow:hidden;
+}
+
+.screen{
+position:absolute;
+width:100%;
+height:100%;
+display:flex;
+justify-content:center;
+align-items:center;
+transition:.6s;
+}
+
+.hidden{
+opacity:0;
+pointer-events:none;
+transform:scale(1.05);
+}
+
+.card{
+width:650px;
+max-width:92%;
+background:#12182f;
+padding:50px;
+border-radius:20px;
+box-shadow:0 0 60px rgba(123,44,255,.3);
+}
+
+.progress{
+height:4px;
+background:#1f2947;
+margin-bottom:35px;
+border-radius:20px;
+overflow:hidden;
+}
+
+.progress-bar{
+height:100%;
+width:0%;
+background:linear-gradient(90deg,#7b2cff,#a855f7);
+transition:.4s;
+}
+
+.option{
+padding:16px;
+margin:12px 0;
+background:#1f2947;
+border-radius:12px;
+cursor:pointer;
+transition:.25s;
+}
+
+.option:hover{
+background:#2d3a66;
+transform:translateY(-2px);
+}
+
+.selected{
+background:#7b2cff !important;
+}
+
+button{
+margin-top:30px;
+padding:14px 26px;
+border:none;
+border-radius:10px;
+background:#7b2cff;
+color:white;
+font-size:15px;
+cursor:pointer;
+transition:.3s;
+}
+
+button:hover{
+background:#9f67ff;
+}
+
+.loader{
+width:60px;
+height:60px;
+border:6px solid rgba(255,255,255,.1);
+border-top:6px solid #7b2cff;
+border-radius:50%;
+animation:spin 1s linear infinite;
+margin-bottom:25px;
+}
+
+@keyframes spin{
+to{transform:rotate(360deg);}
+}
+
+.small{
+opacity:.6;
+font-size:14px;
+margin-top:10px;
+}
+</style>
 </head>
 <body>
 
-<h2>Evaluación Estratégica VORTEX</h2>
-<p>Responde con honestidad. Esto definirá tu sistema personalizado.</p>
+<!-- TEST SCREEN -->
+<div id="test" class="screen">
+<div class="card">
+<div class="progress"><div id="bar" class="progress-bar"></div></div>
+<h2 id="question"></h2>
+<div id="answers"></div>
+<button onclick="next()">Continuar</button>
+</div>
+</div>
 
-<form id="evaluacionForm">
+<!-- LOADING -->
+<div id="loading" class="screen hidden">
+<div class="card" style="text-align:center">
+<div class="loader"></div>
+<h2>Analizando 128 variables cognitivas...</h2>
+<p class="small">Detectando patrones de productividad, energía y foco.</p>
+</div>
+</div>
 
-  <p>1. Cuando estudias normalmente...</p>
-  <select id="p1">
-    <option value="1">Empiezo fuerte pero pierdo ritmo</option>
-    <option value="2">Me cuesta empezar</option>
-    <option value="3">No retengo bien</option>
-  </select>
-
-  <p>2. Tu mayor problema es...</p>
-  <select id="p2">
-    <option value="1">Procrastinación</option>
-    <option value="2">Falta de método</option>
-    <option value="3">Ansiedad</option>
-  </select>
-
-  <br><br>
-  <button type="button" onclick="finalizarEvaluacion()">Desbloquear Dashboard</button>
-
-</form>
+<!-- RESULT -->
+<div id="result" class="screen hidden">
+<div class="card">
+<h1 id="perfilTitulo"></h1>
+<p id="perfilDesc"></p>
+<button onclick="activar()">Activar Sistema Personalizado</button>
+</div>
+</div>
 
 <script>
 
-function finalizarEvaluacion(){
+const preguntas=[
+{
+q:"Cuando enfrentas un proyecto largo...",
+a:[
+{text:"Lo estructuro por fases detalladas",v:1},
+{text:"Trabajo en ráfagas intensas",v:2},
+{text:"Cambio según inspiración",v:3}
+]
+},
+{
+q:"Tu concentración es más fuerte cuando...",
+a:[
+{text:"Tengo un plan claro",v:1},
+{text:"Siento presión",v:2},
+{text:"Estoy motivado emocionalmente",v:3}
+]
+},
+{
+q:"Tu mayor pérdida de rendimiento ocurre por...",
+a:[
+{text:"Desorganización",v:1},
+{text:"Bajadas de disciplina",v:2},
+{text:"Distracciones externas",v:3}
+]
+},
+{
+q:"Aprendes mejor cuando...",
+a:[
+{text:"Hay estructura progresiva",v:1},
+{text:"Hay reto y exigencia",v:2},
+{text:"Hay estímulos visuales y cambio",v:3}
+]
+}
+];
 
-  let r1 = parseInt(document.getElementById("p1").value);
-  let r2 = parseInt(document.getElementById("p2").value);
+let actual=0;
+let puntos={1:0,2:0,3:0};
+let seleccion=null;
 
-  let perfil_profundo = r1 + r2;
+function render(){
+let p=preguntas[actual];
+document.getElementById("question").innerText=p.q;
 
-  localStorage.setItem("perfil_profundo", perfil_profundo);
-  localStorage.setItem("evaluacion_completa", "si");
+let cont=document.getElementById("answers");
+cont.innerHTML="";
 
-  window.location.href = "analisisdashboard.html";
+p.a.forEach(op=>{
+let div=document.createElement("div");
+div.className="option";
+div.innerText=op.text;
+div.onclick=()=>{
+document.querySelectorAll(".option").forEach(o=>o.classList.remove("selected"));
+div.classList.add("selected");
+seleccion=op.v;
+};
+cont.appendChild(div);
+});
+
+document.getElementById("bar").style.width=(actual/preguntas.length)*100+"%";
 }
 
+function next(){
+if(!seleccion){alert("Selecciona una opción");return;}
+puntos[seleccion]++;
+seleccion=null;
+actual++;
+
+if(actual>=preguntas.length){
+analizar();
+return;
+}
+render();
+}
+
+function analizar(){
+document.getElementById("test").classList.add("hidden");
+document.getElementById("loading").classList.remove("hidden");
+
+setTimeout(()=>{
+let perfil=1;
+if(puntos[2]>puntos[1]&&puntos[2]>puntos[3])perfil=2;
+else if(puntos[3]>puntos[1]&&puntos[3]>puntos[2])perfil=3;
+
+localStorage.setItem("perfil",perfil);
+
+mostrarResultado(perfil);
+},3000);
+}
+
+function mostrarResultado(p){
+document.getElementById("loading").classList.add("hidden");
+document.getElementById("result").classList.remove("hidden");
+
+if(p==1){
+document.getElementById("perfilTitulo").innerText="Perfil Estratégico";
+document.getElementById("perfilDesc").innerText="Tu rendimiento se dispara cuando trabajas con estructura clara, planificación y métricas de avance. El sistema VORTEX optimizará tu calendario y enfoque progresivo.";
+}
+else if(p==2){
+document.getElementById("perfilTitulo").innerText="Perfil Productivo Intensivo";
+document.getElementById("perfilDesc").innerText="Tu cerebro responde mejor a presión y bloques de alto rendimiento. Activaremos retos, métricas de intensidad y ciclos optimizados.";
+}
+else{
+document.getElementById("perfilTitulo").innerText="Perfil Creativo Dinámico";
+document.getElementById("perfilDesc").innerText="Necesitas variación estratégica y estímulos cambiantes. El sistema ajustará rotación de tareas y técnicas visuales.";
+}
+}
+
+function activar(){
+window.location.href="analisisdashboard.html";
+}
+
+render();
 </script>
 
 </body>
