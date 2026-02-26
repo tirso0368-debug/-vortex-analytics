@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Evaluación Avanzada | VORTEX</title>
+</head>
+<body>
+
+<h2>Evaluación Estratégica VORTEX</h2>
+<p>Responde con honestidad. Esto definirá tu sistema personalizado.</p>
+
+<form id="evaluacionForm">
+
+  <p>1. Cuando estudias normalmente...</p>
+  <select id="p1">
+    <option value="1">Empiezo fuerte pero pierdo ritmo</option>
+    <option value="2">Me cuesta empezar</option>
+    <option value="3">No retengo bien</option>
+  </select>
+
+  <p>2. Tu mayor problema es...</p>
+  <select id="p2">
+    <option value="1">Procrastinación</option>
+    <option value="2">Falta de método</option>
+    <option value="3">Ansiedad</option>
+  </select>
+
+  <br><br>
+  <button type="button" onclick="finalizarEvaluacion()">Desbloquear Dashboard</button>
+
+</form>
+
+<script>
+
+function finalizarEvaluacion(){
+
+  let r1 = parseInt(document.getElementById("p1").value);
+  let r2 = parseInt(document.getElementById("p2").value);
+
+  let perfil_profundo = r1 + r2;
+
+  localStorage.setItem("perfil_profundo", perfil_profundo);
+  localStorage.setItem("evaluacion_completa", "si");
+
+  window.location.href = "analisisdashboard.html";
+}
+
+</script>
+
+</body>
+</html>
