@@ -93,36 +93,32 @@ line-height:1.6;
 
 </div>
 
-<script>
-function crearCuenta(){
-
-alert("Cuenta creada correctamente 🚀");
-
-// luego iremos al dashboard
-window.location.href = "dashboard.html";
-
-}
-</script>
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
 <script>
 (function(){
-  emailjs.init("vKMNiPqmaCvct9MaR");
+    emailjs.init("vKMNiPqmaCvct9MaR");
 })();
 
 document.getElementById("registro-form").addEventListener("submit", function(event) {
-  event.preventDefault();
-var nombre = document.getElementById("name").value;
-localStorage.setItem("nombreUsuario", nombre);
+    event.preventDefault();
 
-emailjs.send("service_eo3z01f", "template_gs7b0xt", {
-    name: nombre,
-    email: document.getElementById("email").value
-})
-.then(function(response) {
+    var nombre = document.getElementById("name").value;
+    var email = document.getElementById("email").value;
 
-    window.location.href = "dashboard.html";
+    localStorage.setItem("nombreUsuario", nombre);
+    localStorage.setItem("emailUsuario", email);
 
+    emailjs.send("service_eo3z01f", "template_gs7boxt", {
+        name: nombre,
+        email: email
+    })
+    .then(function() {
+        window.location.href = "dashboard.html";
+    }, function(error) {
+        alert("Error al enviar");
+        console.log(error);
+    });
 });
 </script>
 </body>
