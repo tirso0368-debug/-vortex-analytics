@@ -3,104 +3,100 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VORTEX | Análisis Estratégico</title>
+<title>VORTEX | Análisis Personal</title>
 
 <style>
 body{
-  margin:0;
-  font-family:'Segoe UI',sans-serif;
-  background:#0f1117;
-  color:white;
-}
-
-.header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:20px 40px;
-  background:#151822;
-  border-bottom:1px solid #222;
-}
-
-.logo{
-  font-weight:bold;
-  font-size:18px;
-  color:#00ffc8;
-}
-
-.logout{
-  background:#252a36;
-  color:white;
-  border:none;
-  padding:8px 16px;
-  border-radius:8px;
-  cursor:pointer;
-}
-
-.logout:hover{
-  background:#00ffc8;
-  color:black;
+    margin:0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg,#0f172a,#1e293b);
+    color:white;
 }
 
 .container{
-  max-width:900px;
-  margin:60px auto;
-  padding:0 20px;
+    max-width:1100px;
+    margin:auto;
+    padding:40px 20px;
 }
 
 .card{
-  background:#1a1d26;
-  padding:30px;
-  border-radius:20px;
-  box-shadow:0 0 30px rgba(0,255,200,0.1);
-  margin-bottom:30px;
+    background:rgba(255,255,255,0.05);
+    padding:30px;
+    border-radius:20px;
+    backdrop-filter: blur(12px);
+    box-shadow:0 10px 30px rgba(0,0,0,0.4);
+    margin-bottom:30px;
 }
 
 h1{
-  margin-top:0;
+    margin-bottom:10px;
+    font-size:26px;
 }
 
-.highlight{
-  color:#00ffc8;
-  font-weight:bold;
+.stat{
+    font-size:38px;
+    font-weight:bold;
+    margin:15px 0;
+}
+
+.btn{
+    display:inline-block;
+    padding:12px 25px;
+    border-radius:10px;
+    background:#6366f1;
+    color:white;
+    text-decoration:none;
+    font-weight:600;
+    transition:0.3s;
+    cursor:pointer;
+    border:none;
+}
+
+.btn:hover{
+    background:#4f46e5;
 }
 
 .loader{
-  text-align:center;
-  margin-top:150px;
-  font-size:18px;
-  animation:pulse 1.5s infinite;
-}
-
-@keyframes pulse{
-  0%{opacity:0.4;}
-  50%{opacity:1;}
-  100%{opacity:0.4;}
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:#0f172a;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    letter-spacing:1px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">
-  <div class="logo">VORTEX</div>
-  <button class="logout" onclick="cerrarSesion()">Cerrar sesión</button>
+<div id="loader" class="loader">
+Procesando análisis avanzado...
 </div>
 
-<div id="loading" class="loader">
-  Cargando análisis personalizado...
-</div>
+<div class="container" style="display:none;" id="dashboard">
 
-<div id="contenido" class="container" style="display:none;">
-  <div class="card">
-    <h1>Tu Perfil: <span id="perfil" class="highlight"></span></h1>
-    <p id="descripcion"></p>
-  </div>
+    <div class="card">
+        <h1>Tu Perfil Cognitivo</h1>
+        <div id="perfil" class="stat">Cargando...</div>
+    </div>
 
-  <div class="card">
-    <h2>Recomendación Estratégica</h2>
-    <p id="recomendacion"></p>
-  </div>
+    <div class="card">
+        <h1>Nivel de Enfoque</h1>
+        <div id="enfoque" class="stat">--%</div>
+    </div>
+
+    <div class="card">
+        <h1>Estrategia Recomendada</h1>
+        <p id="recomendacion">Generando estrategia personalizada...</p>
+    </div>
+
+    <button class="btn" id="logoutBtn">Cerrar sesión</button>
+
 </div>
 
 <script type="module">
@@ -121,60 +117,49 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-window.cerrarSesion = async function(){
-  await signOut(auth);
-  window.location.href="login.html";
-};
-
 onAuthStateChanged(auth, async (user)=>{
-  if(!user){
-    window.location.href="login.html";
-  }else{
-    const ref = doc(db,"users",user.uid);
-    const snap = await getDoc(ref);
-
-    if(!snap.exists() || !snap.data().evaluationCompleted){
-      window.location.href="evaluacion.html";
-      return;
+    if(!user){
+        window.location.href="index.html";
+        return;
     }
 
-    const data = snap.data().evaluation;
-    const perfil = data.profile;
+    const docRef = doc(db,"usuarios",user.uid);
+    const docSnap = await getDoc(docRef);
 
-    mostrarPerfil(perfil);
-  }
+    let perfil="Equilibrado";
+    let enfoque=75;
+
+    if(docSnap.exists()){
+        const data = docSnap.data();
+        perfil = data.perfil || perfil;
+        enfoque = data.enfoque || enfoque;
+    }
+
+    document.getElementById("perfil").innerText = perfil;
+    document.getElementById("enfoque").innerText = enfoque + "%";
+
+    if(perfil==="Analítico"){
+        document.getElementById("recomendacion").innerText =
+        "Perfil estratégico y lógico. Prioriza planificación estructurada y sesiones profundas sin distracciones.";
+    }
+    else if(perfil==="Creativo"){
+        document.getElementById("recomendacion").innerText =
+        "Perfil creativo e innovador. Usa mapas mentales, colores y aprendizaje visual para maximizar rendimiento.";
+    }
+    else{
+        document.getElementById("recomendacion").innerText =
+        "Perfil equilibrado. Alterna estructura y creatividad para optimizar resultados.";
+    }
+
+    document.getElementById("loader").style.display="none";
+    document.getElementById("dashboard").style.display="block";
 });
 
-function mostrarPerfil(perfil){
-  document.getElementById("loading").style.display="none";
-  document.getElementById("contenido").style.display="block";
-
-  document.getElementById("perfil").innerText = perfil;
-
-  if(perfil==="Analítico"){
-    document.getElementById("descripcion").innerText =
-    "Tienes una mente estratégica, reflexiva y estructurada. Analizas antes de actuar y priorizas precisión.";
-    
-    document.getElementById("recomendacion").innerText =
-    "Optimiza tu rendimiento aplicando bloques profundos de concentración (90 min) y planificación semanal detallada.";
-  }
-
-  if(perfil==="Ejecutor"){
-    document.getElementById("descripcion").innerText =
-    "Eres orientado a la acción. Ejecutas rápido y aprendes sobre la marcha.";
-    
-    document.getElementById("recomendacion").innerText =
-    "Trabaja con objetivos diarios claros y métricas visibles. Usa temporizadores intensivos y seguimiento de progreso.";
-  }
-
-  if(perfil==="Colaborativo"){
-    document.getElementById("descripcion").innerText =
-    "Tu fortaleza está en la conexión y el trabajo en equipo.";
-    
-    document.getElementById("recomendacion").innerText =
-    "Integra grupos de estudio estratégicos y sesiones de explicación activa para maximizar retención.";
-  }
-}
+document.getElementById("logoutBtn").addEventListener("click",()=>{
+    signOut(auth).then(()=>{
+        window.location.href="index.html";
+    });
+});
 </script>
 
 </body>
