@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>VORTEX - Dashboard</title>
+</head>
+
+<body style="margin:0; background:#0b0f2a; color:white; font-family:Arial; text-align:center; padding:40px;">
+
+  <div id="sistemaPersonalizado"></div>
+
+  <script>
+
+    const perfil = localStorage.getItem("perfil");
+    const contenedor = document.getElementById("sistemaPersonalizado");
+
+    // 🔓 SI NO HAY PERFIL → PEDIMOS TEST AVANZADO
+    if (!perfil) {
+
+      contenedor.innerHTML = `
+        <h1>🔓 Desbloquea tu Dashboard Definitivo</h1>
+        <p>Para acceder a tu sistema personalizado necesitas completar el Test Avanzado.</p>
+
+        <button onclick="window.location.href='evaluacion.html'"
+          style="margin-top:20px; padding:15px 25px; background:#7b2cff; color:white; border:none; border-radius:8px; cursor:pointer; font-size:16px;">
+          🚀 Comenzar Test Avanzado
+        </button>
+      `;
+
+    }
+
+    // 📊 SI YA HAY PERFIL → MOSTRAMOS DASHBOARD
+    else {
+
+      contenedor.innerHTML = `
+        <h1>📊 Tu Dashboard Personalizado</h1>
+
+        <div style="margin-top:40px; background:#14183a; padding:30px; border-radius:12px;">
+
+          <h2>🎯 Perfil Detectado: ${perfil}</h2>
+
+          <p style="margin-top:20px;">
+            Este sistema está adaptado según tu análisis avanzado.
+          </p>
+
+          <div style="margin-top:30px; text-align:left; max-width:400px; margin-left:auto; margin-right:auto;">
+            <p>✔️ Plan de estudio personalizado</p>
+            <p>✔️ Técnicas adaptadas a tu perfil</p>
+            <p>✔️ Seguimiento estratégico</p>
+          </div>
+
+          <button onclick="localStorage.removeItem('perfil'); location.reload();"
+            style="margin-top:30px; padding:10px 20px; background:#333; color:white; border:none; border-radius:6px; cursor:pointer;">
+            🔄 Reiniciar perfil
+          </button>
+
+        </div>
+      `;
+    }
+
+  </script>
+
+</body>
+</html>
