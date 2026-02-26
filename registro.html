@@ -3,16 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resultado Premium</title>
 
-<title>Resultado — VORTEX</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
 <style>
 body{
     margin:0;
-    font-family:'Poppins',sans-serif;
-    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
     color:white;
     display:flex;
     justify-content:center;
@@ -21,101 +20,118 @@ body{
 }
 
 .container{
-    background:rgba(255,255,255,0.08);
-    backdrop-filter:blur(15px);
-    border-radius:20px;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(12px);
     padding:40px;
-    width:90%;
-    max-width:500px;
+    border-radius:20px;
+    width:360px;
     text-align:center;
-    box-shadow:0 10px 40px rgba(0,0,0,0.4);
-    animation:fadeIn 1s ease;
+    box-shadow:0 0 30px rgba(0,0,0,0.5);
 }
 
-h1{
-    margin-bottom:10px;
+h2{
+    margin-bottom:20px;
 }
 
-.score{
-    font-size:60px;
-    font-weight:700;
-    margin:20px 0;
-    color:#00ffd5;
-}
-
-.message{
-    font-size:18px;
-    margin-bottom:30px;
-    opacity:0.9;
+input{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border:none;
+    border-radius:10px;
+    outline:none;
 }
 
 button{
-    padding:15px 30px;
-    font-size:18px;
+    width:100%;
+    padding:12px;
     border:none;
-    border-radius:12px;
-    background:linear-gradient(135deg,#667eea,#764ba2);
+    border-radius:10px;
+    background:linear-gradient(45deg,#00c6ff,#0072ff);
     color:white;
+    font-weight:bold;
     cursor:pointer;
     transition:0.3s;
 }
 
 button:hover{
     transform:scale(1.05);
-    box-shadow:0 10px 25px rgba(0,0,0,0.3);
 }
 
-@keyframes fadeIn{
-    from{opacity:0; transform:translateY(20px);}
-    to{opacity:1; transform:translateY(0);}
+#resultado{
+    display:none;
 }
 </style>
-
 </head>
+
 <body>
 
 <div class="container">
 
-    <h1>🚀 Tu Resultado</h1>
+    <div id="login">
+        <h2>🔐 Acceso al resultado</h2>
 
-    <div class="score" id="score">0%</div>
+        <input type="text" id="nombre" placeholder="Tu nombre">
+        <input type="email" id="email" placeholder="Tu correo">
 
-    <div class="message" id="message">
-        Analizando rendimiento...
+        <button onclick="iniciar()">Ver resultado</button>
     </div>
 
-    <button onclick="continuar()">
-        Continuar
-    </button>
+    <div id="resultado">
+        <h2>🎉 Resultado generado</h2>
+        <p id="mensaje"></p>
+    </div>
 
 </div>
 
 <script>
 
-let puntuacion = localStorage.getItem("puntuacion") || 0;
+(function(){
+emailjs.init("n4uT_9fvDQC9y5eoW");
+})();
 
-document.getElementById("score").innerText = puntuacion + "%";
+function iniciar(){
 
-let mensaje = "";
+    let nombre = document.getElementById("nombre").value;
+    let email = document.getElementById("email").value;
 
-if(puntuacion >= 80){
-    mensaje = "🔥 Rendimiento EXCELENTE. Estás en el nivel alto.";
+    if(!nombre || !email){
+        alert("Completa los datos");
+        return;
+    }
+
+    document.getElementById("login").style.display="none";
+    document.getElementById("resultado").style.display="block";
+
+    document.getElementById("mensaje").innerHTML =
+        "Hola <b>"+nombre+"</b> ✅<br>Te hemos enviado tu resultado al correo 📩";
+
+    enviarCorreo(nombre,email);
 }
-else if(puntuacion >= 50){
-    mensaje = "⚡ Buen potencial. Podemos optimizar tu rendimiento.";
-}
-else{
-    mensaje = "📈 Hay mucho margen de mejora. Vamos a desbloquear tu nivel.";
-}
 
-document.getElementById("message").innerText = mensaje;
+function enviarCorreo(nombre,email){
 
-function continuar(){
-    window.location.href = "registro.html";
+    let parametros = {
+        user_name: nombre,
+        user_email: email,
+        from_name: "Tirso Gandía"
+    };
+
+    emailjs.send(
+        "service_aksfq65",
+        "template_rb5g2bg",
+        parametros
+    )
+    .then(function(response){
+        console.log("EMAIL ENVIADO", response.status);
+    }, function(error){
+        console.log("ERROR", error);
+        alert("Error enviando correo");
+    });
+
 }
 
 </script>
 
 </body>
 </html>
-
