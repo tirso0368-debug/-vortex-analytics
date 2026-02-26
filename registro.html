@@ -117,12 +117,16 @@ form.addEventListener("submit", function(e) {
   const email = document.getElementById("email").value;
 
   mensaje.innerHTML = "⏳ Enviando...";
-  mensaje.className = "msg";
+  mensaje.className = "msg"
+  const perfil = localStorage.getItem("perfil_usuario");
+const descripcion = localStorage.getItem("descripcion_usuario");
 
   emailjs.send("service_aksfq65", "template_tb274n4", {
     name: name,
-    email: email
-  })
+    email: email,
+    perfil: perfil,
+    descripcion: descripcion
+})
   .then(function() {
 
     mensaje.innerHTML = "✅ Cuenta creada. Revisa tu correo...";
