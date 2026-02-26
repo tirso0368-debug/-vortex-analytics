@@ -58,12 +58,7 @@ button:hover{
 
 <div class="container">
     <div class="card">
-        <h1>🔒 Panel en preparación</h1>
-        <p>
-        Hemos generado tu análisis inicial.  
-        Para desbloquear tu sistema personalizado necesitas completar
-        una evaluación más profunda.
-        </p>
+       <div id="sistemaPersonalizado"></div> 
 
     <button disabled style="opacity:0.5; cursor:not-allowed;">
 Modo avanzado próximamente
@@ -71,7 +66,33 @@ Modo avanzado próximamente
     </div>
 </div>
     <script>
+const perfil = localStorage.getItem("perfil");
+const contenedor = document.getElementById("sistemaPersonalizado");
 
+if(perfil == 1){
+    contenedor.innerHTML = `
+        <h2>🔥 Perfil 1 — Alto Rendimiento</h2>
+        <p>Estás listo para optimizar tu estudio.</p>
+    `;
+}
+else if(perfil == 2){
+    contenedor.innerHTML = `
+        <h2>⚖️ Perfil 2 — En Desarrollo</h2>
+        <p>Necesitas estructura clara y planificación.</p>
+    `;
+}
+else if(perfil == 3){
+    contenedor.innerHTML = `
+        <h2>🧠 Perfil 3 — Base de disciplina</h2>
+        <p>Vamos a crear hábitos sólidos.</p>
+    `;
+}
+else{
+    contenedor.innerHTML = `
+        <h2>No se detectó perfil</h2>
+        <p>Haz el test primero.</p>
+    `;
+}
 </script>
 
 
