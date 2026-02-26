@@ -95,30 +95,36 @@ line-height:1.6;
 
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
+
 <script>
-(function(){
-    emailjs.init("vKMNiPqmaCvct9MaR");
-})();
+document.addEventListener("DOMContentLoaded", function () {
 
-document.getElementById("registro-form").addEventListener("submit", function(event) {
-    event.preventDefault();
+    (function(){
+        emailjs.init("vKMNiPqmaCvct9MaR");
+    })();
 
-    var nombre = document.getElementById("name").value;
-    var email = document.getElementById("email").value;
+    document.getElementById("registro-form").addEventListener("submit", function(event) {
+        event.preventDefault();
 
-    localStorage.setItem("nombreUsuario", nombre);
-    localStorage.setItem("emailUsuario", email);
+        var nombre = document.getElementById("name").value;
+        var email = document.getElementById("email").value;
 
-    emailjs.send("service_eo3z01f", "template_gs7boxt", {
-        name: nombre,
-        email: email
-    })
-    .then(function() {
-        window.location.href = "dashboard.html";
-    }, function(error) {
-        alert("Error al enviar");
-        console.log(error);
+        localStorage.setItem("nombreUsuario", nombre);
+        localStorage.setItem("emailUsuario", email);
+
+        emailjs.send("service_eo3z01f", "template_gs7boxt", {
+            name: nombre,
+            email: email
+        })
+        .then(function() {
+            window.location.href = "dashboard.html";
+        }, function(error) {
+            alert("Error al enviar");
+            console.log(error);
+        });
+
     });
+
 });
 </script>
 </body>
