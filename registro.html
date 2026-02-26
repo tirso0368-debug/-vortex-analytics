@@ -1,134 +1,108 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8"> 
-<title>VORTEX — Registro</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resultado VORTEX</title>
 
 <style>
 body{
-margin:0;
-font-family:Arial, Helvetica, sans-serif;
-background:linear-gradient(135deg,#0f172a,#1e293b);
-color:white;
-display:flex;
-justify-content:center; 
-align-items:center;
-height:100vh;
+    margin:0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg,#0f172a,#1e293b);
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
 }
 
 .card{
-background:rgba(255,255,255,0.05);
-padding:40px;
-border-radius:20px;
-width:350px;
-backdrop-filter:blur(10px);
-box-shadow:0 0 40px rgba(0,0,0,0.3);
+    background: rgba(255,255,255,0.05);
+    padding:40px;
+    border-radius:20px;
+    text-align:center;
+    width:90%;
+    max-width:400px;
+    box-shadow:0 0 30px rgba(0,0,0,0.4);
 }
 
 h1{
-text-align:center;
-margin-bottom:20px;
+    margin-bottom:10px;
 }
 
-input{
-width:100%;
-padding:12px;
-margin:10px 0;
-border-radius:10px;
-border:none;
-outline:none;
+.nivel{
+    font-size:20px;
+    margin:20px 0;
+    color:#38bdf8;
+    font-weight:bold;
 }
 
 button{
-width:100%;
-padding:14px;
-margin-top:15px;
-border:none;
-border-radius:12px;
-background:linear-gradient(90deg,#6366f1,#06b6d4);
-color:white;
-font-size:16px;
-cursor:pointer;
-}
-
-button:hover{
-opacity:0.9;
-}
-
-.benefits{
-font-size:14px;
-margin-bottom:15px;
-line-height:1.6;
+    padding:15px 25px;
+    border:none;
+    border-radius:10px;
+    background: linear-gradient(90deg,#6366f1,#06b6d4);
+    color:white;
+    font-size:16px;
+    cursor:pointer;
 }
 </style>
-</head>
 
+</head>
 <body>
 
 <div class="card">
 
-<h1>Desbloquea tu perfil VORTEX</h1>
+    <h1>🎯 Resultado VORTEX</h1>
 
-<div class="benefits">
-✅ Guardar tu progreso<br>
-✅ Acceder a tu plan personalizado<br>
-✅ Mejorar tu rendimiento académico
+    <div id="mensaje">Calculando...</div>
+
+    <button onclick="irDashboard()">Entrar al Dashboard</button>
+
 </div>
 
-<form id="registro-form">
 
-<input type="text" id="name" name="name" placeholder="Tu nombre" required>
-
-
-
-<input type="password" name="password" placeholder="Contraseña" required>
-
-<input type="email" id="email" name="email" placeholder="Correo electrónico" required>
-
-<button type="submit">Crear cuenta gratuita</button>
-
-</form>
-
-
+<!-- EmailJS -->
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
 <script>
+
 document.addEventListener("DOMContentLoaded", function () {
 
-    emailjs.init("n4uT_9fvDQC9y5eoW"); // tu public key
+    emailjs.init("n4uT_9fvDQC9y5eoW");
 
-    document.getElementById("registro-form").addEventListener("submit", function(event) {
-        event.preventDefault();
+    localStorage.setItem("nombreUsuario", nombre);
+localStorage.setItem("emailUsuario", email);
 
-        var nombre = document.getElementById("name").value;
-        var email = document.getElementById("email").value;
-        var password = document.getElementById("password").value;
+    let nivel = "Alto rendimiento académico 🚀";
 
-        // Guardar en localStorage
-        localStorage.setItem("nombreUsuario", nombre);
-        localStorage.setItem("emailUsuario", email);
+    document.getElementById("mensaje").innerHTML =
+        "Hola <b>" + nombre + "</b><br><br>Tu nivel actual es:<br><span class='nivel'>" + nivel + "</span>";
 
-        // Enviar email
-        emailjs.send("service_aksfq65", "template_gs7boxt", {
+    if(email !== ""){
+
+        emailjs.send("service_aksfq65","template_gs7boxt",{
             name: nombre,
             email: email,
-            password: password
+            nivel: nivel
         })
-        .then(function(response) {
-            console.log("Email enviado ✅", response);
-            window.location.href = "dashboard.html";
-        }, function(error) {
+        .then(function(){
+            console.log("Email enviado ✅");
+        }, function(error){
             console.log("Error ❌", error);
-            alert("Error al enviar correo");
         });
 
-    });
+    }
 
 });
 
 
+function irDashboard(){
+    window.location.href = "dashboard.html";
+}
 
-<script>
+</script>
 
 </body>
-                                   </html>
+</html>
