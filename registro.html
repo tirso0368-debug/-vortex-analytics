@@ -1,83 +1,165 @@
-<!DOCTYPE html><html lang="es">
+<!DOCTYPE html>
+<html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Registro</title><style>
-body{
-    margin:0;
-    font-family:Arial, Helvetica, sans-serif;
-    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    color:white;
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Registro | Vortex Analytics</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
 }
 
-.container{
-    background:rgba(255,255,255,0.08);
-    backdrop-filter:blur(12px);
-    padding:40px;
-    border-radius:20px;
-    width:320px;
-    text-align:center;
-    box-shadow:0 10px 30px rgba(0,0,0,0.3);
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+color:white;
+}
+
+.card{
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(20px);
+padding:40px;
+border-radius:20px;
+width:350px;
+box-shadow:0 10px 40px rgba(0,0,0,0.3);
+text-align:center;
+animation:fadeIn 1s ease;
+}
+
+@keyframes fadeIn{
+from{opacity:0; transform:translateY(20px);}
+to{opacity:1; transform:translateY(0);}
 }
 
 h2{
-    margin-bottom:20px;
+margin-bottom:20px;
+font-weight:600;
 }
 
 input{
-    width:100%;
-    padding:12px;
-    margin:10px 0;
-    border:none;
-    border-radius:10px;
-    outline:none;
+width:100%;
+padding:14px;
+margin:10px 0;
+border:none;
+border-radius:10px;
+outline:none;
+font-size:14px;
 }
 
 button{
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:10px;
-    background:#4facfe;
-    color:white;
-    font-size:16px;
-    cursor:pointer;
-    margin-top:10px;
+width:100%;
+padding:14px;
+margin-top:10px;
+border:none;
+border-radius:10px;
+background:linear-gradient(90deg,#4facfe,#00f2fe);
+color:white;
+font-weight:600;
+cursor:pointer;
+transition:0.3s;
 }
 
 button:hover{
-    background:#00c6ff;
+transform:scale(1.05);
+box-shadow:0 0 20px rgba(79,172,254,0.6);
 }
-</style></head>
-<body><div class="container"><h2>🔐 Acceso al resultado</h2><form id="loginForm"><input type="text" name="user_name" placeholder="Tu nombre" required><input type="email" name="user_email" placeholder="Tu correo" required><button type="submit">Ver resultado</button>
 
-</form></div><script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script><script>
+.msg{
+margin-top:15px;
+font-size:14px;
+}
+
+.loader{
+display:none;
+margin-top:10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>🎓 Crear cuenta</h2>
+
+<form id="registroForm">
+
+<input type="text" id="nombre" placeholder="Tu nombre" required>
+<input type="email" id="correo" placeholder="Tu correo" required>
+
+<button type="submit">Crear cuenta</button>
+
+<div class="loader" id="loader">⏳ Enviando...</div>
+<div class="msg" id="msg"></div>
+
+</form>
+
+</div>
+
+<script>
+
 (function(){
-    emailjs.init("n4uT_9fvDQC9y5eoW");
+emailjs.init("n4uT_9fvDQC9y5eoW");
 })();
 
-document.getElementById("loginForm").addEventListener("submit", function(e) {
+document.getElementById("registroForm").addEventListener("submit", function(e){
 
-    e.preventDefault();
+e.preventDefault();
 
-    emailjs.sendForm(
-        "service_aksfq65",
-        "template_tb274n4",
-        this
-    )
-    .then(function() {
+const nombre = document.getElementById("nombre").value;
+const correo = document.getElementById("correo").value;
 
-        window.location.href = "resultado.html";
+const loader = document.getElementById("loader");
+const msg = document.getElementById("msg");
 
-    }, function(error) {
+loader.style.display = "block";
+msg.innerHTML = "";
 
-        alert("Error: " + JSON.stringify(error));
+const params = {
+nombre: nombre,
+correo: correo
+};
 
-    });
+emailjs.send("service_aksfq65","template_tb274n4",params)
+
+.then(function(){
+
+loader.style.display = "none";
+msg.innerHTML = "✅ Cuenta creada correctamente";
+
+localStorage.setItem("usuarioNombre", nombre);
+localStorage.setItem("usuarioCorreo", correo);
+
+setTimeout(()=>{
+window.location.href = "resultado.html";
+},1500);
+
+})
+
+.catch(function(error){
+
+loader.style.display = "none";
+msg.innerHTML = "❌ Error al enviar correo";
+console.log(error);
 
 });
-</script></body>
+
+});
+
+</script>
+
+</body>
 </html>
