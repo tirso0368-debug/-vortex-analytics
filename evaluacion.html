@@ -1,171 +1,96 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VORTEX | Evaluación Avanzada</title>
+  <meta charset="UTF-8">
+  <title>VORTEX | Evaluación</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body{
-    margin:0;
-    font-family:'Segoe UI',sans-serif;
-    background:linear-gradient(135deg,#0f172a,#1e293b);
-    color:white;
-}
+  <style>
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "San Francisco", Arial, sans-serif;
+      background: #0f0f0f;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
 
-.container{
-    max-width:900px;
-    margin:auto;
-    padding:40px 20px;
-}
+    .container {
+      width: 90%;
+      max-width: 600px;
+      background: #1c1c1e;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    }
 
-.card{
-    background:rgba(255,255,255,0.05);
-    padding:30px;
-    border-radius:20px;
-    backdrop-filter:blur(12px);
-    box-shadow:0 10px 30px rgba(0,0,0,0.4);
-}
+    h1 {
+      text-align: center;
+      font-weight: 600;
+      margin-bottom: 30px;
+    }
 
-h1{
-    margin-bottom:20px;
-}
+    h3 {
+      margin-top: 30px;
+      font-weight: 500;
+    }
 
-.question{
-    margin-bottom:25px;
-}
+    label {
+      display: block;
+      margin: 10px 0;
+      cursor: pointer;
+      opacity: 0.9;
+    }
 
-button{
-    padding:12px 20px;
-    border:none;
-    border-radius:10px;
-    background:#6366f1;
-    color:white;
-    font-weight:600;
-    cursor:pointer;
-    transition:0.3s;
-}
+    input[type="radio"] {
+      margin-right: 10px;
+    }
 
-button:hover{
-    background:#4f46e5;
-}
+    button {
+      margin-top: 40px;
+      width: 100%;
+      padding: 15px;
+      border-radius: 12px;
+      border: none;
+      background: white;
+      color: black;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
 
-.loader{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:#0f172a;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:20px;
-}
-</style>
+    button:hover {
+      opacity: 0.8;
+    }
+  </style>
 </head>
 
 <body>
 
-<div id="loader" class="loader">
-Verificando sesión...
-</div>
+  <div class="container">
+    <h1>Evaluación VORTEX</h1>
 
-<div class="container" id="contenido" style="display:none;">
+    <h3>1. ¿Cómo tomas decisiones?</h3>
+    <label><input type="radio" name="q1" value="analitico"> Analizo datos antes de actuar</label>
+    <label><input type="radio" name="q1" value="creativo"> Me guío por intuición</label>
 
-<div class="card">
+    <h3>2. ¿Cómo trabajas mejor?</h3>
+    <label><input type="radio" name="q2" value="analitico"> Con estructura clara</label>
+    <label><input type="radio" name="q2" value="creativo"> Improvisando sobre la marcha</label>
 
-<h1>Evaluación Cognitiva VORTEX</h1>
+    <h3>3. ¿Cómo resuelves problemas?</h3>
+    <label><input type="radio" name="q3" value="analitico"> Paso a paso y lógico</label>
+    <label><input type="radio" name="q3" value="creativo"> Buscando ideas nuevas</label>
 
-<div class="question">
-<p>1️⃣ ¿Cómo prefieres estudiar?</p>
-<label><input type="radio" name="q1" value="analitico"> Con planificación estructurada</label><br>
-<label><input type="radio" name="q1" value="creativo"> Con mapas mentales y esquemas visuales</label>
-</div>
+    <button onclick="finalizarTest()">Finalizar evaluación</button>
+  </div>
 
-<div class="question">
-<p>2️⃣ Cuando aprendes algo nuevo:</p>
-<label><input type="radio" name="q2" value="analitico"> Prefiero entender la lógica paso a paso</label><br>
-<label><input type="radio" name="q2" value="creativo"> Prefiero experimentar y probar</label>
-</div>
-
-<div class="question">
-<p>3️⃣ En exámenes:</p>
-<label><input type="radio" name="q3" value="analitico"> Me va mejor con estructura clara</label><br>
-<label><input type="radio" name="q3" value="creativo"> Me adapto improvisando</label>
-</div>
-
-<button onclick="finalizarTest()">Finalizar evaluación</button>
-
-</div>
-</div>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCSa3xZ2iKtvnPaXeNQMluaoa27iiOEyeM",
-  authDomain: "vortex-app-c8b00.firebaseapp.com",
-  projectId: "vortex-app-c8b00",
-  storageBucket: "vortex-app-c8b00.firebasestorage.app",
-  messagingSenderId: "174144803653",
-  appId: "1:174144803653:web:eeb421bd5770ee1f69a42c"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-onAuthStateChanged(auth, (user)=>{
-    if(!user){
-        window.location.href="index.html";
-        return;
-    }
-
-    document.getElementById("loader").style.display="none";
-    document.getElementById("contenido").style.display="block";
-});
-
-window.finalizarTest = async function(){
-
-    const user = auth.currentUser;
-    if(!user){
-        window.location.href="index.html";
-        return;
-    }
-
-    let analitico = 0;
-    let creativo = 0;
-
-    const respuestas = document.querySelectorAll("input[type=radio]:checked");
-
-    respuestas.forEach(r=>{
-        if(r.value==="analitico") analitico++;
-        if(r.value==="creativo") creativo++;
-    });
-
-    let perfil = "Equilibrado";
-    let enfoque = 75;
-
-    if(analitico > creativo){
-        perfil = "Analítico";
-        enfoque = 85;
-    }else if(creativo > analitico){
-        perfil = "Creativo";
-        enfoque = 80;
-    }
-
-    await setDoc(doc(db,"usuarios",user.uid),{
-        perfil: perfil,
-        enfoque: enfoque,
-        fecha: new Date()
-    });
-
-    window.location.href="analisisdashboard.html";
-}
-</script>
+  <!-- MÓDULOS -->
+  <script type="module" src="js/auth.js"></script>
+  <script type="module" src="js/evaluacion.js"></script>
 
 </body>
 </html>
